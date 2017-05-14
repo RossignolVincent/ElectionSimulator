@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionSimulator", "ElectionSimulator\ElectionSimulator.csproj", "{FF96F0FB-F1A5-4D9B-888F-E9363ED9EF18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractLibrary", "AbstractLibrary\AbstractLibrary.csproj", "{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{FF96F0FB-F1A5-4D9B-888F-E9363ED9EF18}.Debug|x86.Build.0 = Debug|x86
 		{FF96F0FB-F1A5-4D9B-888F-E9363ED9EF18}.Release|x86.ActiveCfg = Release|x86
 		{FF96F0FB-F1A5-4D9B-888F-E9363ED9EF18}.Release|x86.Build.0 = Release|x86
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

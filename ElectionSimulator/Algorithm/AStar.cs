@@ -6,7 +6,6 @@ namespace ElectionSimulator
     public class AStar
     {
         private const int DIAGONAL_COST = 14;
-
 		private const int V_H_COST = 10;
 
         private List<Node> openNodes;
@@ -67,13 +66,11 @@ namespace ElectionSimulator
 		private void InitLists()
 		{
             this.openNodes = new List<Node>();
-
             this.closedNodes = new List<Node>();
 		}
 
 		private void ComputeHeuristics()
 		{
-
             for (int y = 0; y < cells.GetLength(0); y++)
 			{
                 for (int x = 0; x < cells.GetLength(1); x++)
@@ -115,7 +112,7 @@ namespace ElectionSimulator
 
 			while (true)
 			{
-                current = GetMinCostNode();
+                current = GetMinCostOpenNode();
                 openNodes.Remove(current);
 
 				if (current == null || current.Equals(target))
@@ -154,7 +151,7 @@ namespace ElectionSimulator
 			return current;
 		}
 
-        private Node GetMinCostNode()
+        private Node GetMinCostOpenNode()
         {
             Node result = null;
 
@@ -169,7 +166,6 @@ namespace ElectionSimulator
 
         private List<Node> GetResult()
 		{
-
 			List<Node> result = null;
 			if (target.GetParent() != null)
 			{
@@ -188,7 +184,6 @@ namespace ElectionSimulator
 
 		private void DisplayCells(List<Node> result)
 		{
-
             for (int y = 0; y < cells.GetLength(0); y++)
 			{
                 for (int x = 0; x < cells.GetLength(1); x++)
