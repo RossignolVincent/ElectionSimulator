@@ -42,8 +42,12 @@
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
     <Compile Include="Algorithm\Node.cs" />
-    <Compile Include="Character\Behavior.cs" />
+    <Compile Include="Character\Behavior\JournalistBehavior.cs" />
+    <Compile Include="Character\Behavior\LeaderBehavior.cs" />
+    <Compile Include="Character\Behavior\ActivistBehavior.cs" />
+    <Compile Include="Character\Behavior\AbstractBehavior.cs" />
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Environement\Position.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
