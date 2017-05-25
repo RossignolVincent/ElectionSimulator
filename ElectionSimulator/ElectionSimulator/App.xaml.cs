@@ -13,5 +13,11 @@ namespace ElectionSimulator
     /// </summary>
     public partial class App : Application
     {
+        public static ElectionViewModel ElectionVM { get; set; }
+
+        public App()
+        {
+            ElectionVM = new ElectionViewModel();
+        }
     }
 }
