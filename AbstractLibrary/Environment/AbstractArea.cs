@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AbstractLibrary.Character;
 using AbstractLibrary.Object;
 
-namespace AbstractLibrary.Factory
+namespace AbstractLibrary.Environment
 {
     public abstract class AbstractArea
     {
@@ -12,7 +12,7 @@ namespace AbstractLibrary.Factory
         public List<AbstractObject> Objects { get; }
         public List<AbstractCharacter> Characters { get; }
 
-        private AbstractArea(string name)
+        protected AbstractArea(string name)
         {
 			this.Name = name;
 			this.Accesses = new List<AbstractAccess>();

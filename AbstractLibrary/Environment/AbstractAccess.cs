@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AbstractLibrary.Factory
+namespace AbstractLibrary.Environment
 {
     public abstract class AbstractAccess
     {

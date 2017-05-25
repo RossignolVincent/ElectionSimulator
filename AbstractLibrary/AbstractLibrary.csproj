@@ -38,12 +38,15 @@
     <Compile Include="Object\AbstractObject.cs" />
     <Compile Include="Character\AbstractCharacter.cs" />
     <Compile Include="Environment\AbstractEnvironment.cs" />
+    <Compile Include="Pattern\IObservable.cs" />
+    <Compile Include="Pattern\IObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Factory\" />
     <Folder Include="Object\" />
     <Folder Include="Character\" />
     <Folder Include="Environment\" />
+    <Folder Include="Pattern\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
