@@ -47,9 +47,15 @@
     <Compile Include="Character\Behavior\ActivistBehavior.cs" />
     <Compile Include="Character\Behavior\AbstractBehavior.cs" />
     <Compile Include="Character\Character.cs" />
-    <Compile Include="Environement\Position.cs" />
+    <Compile Include="Environment\Position.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Environment\AbstractArea.cs" />
+    <Compile Include="Environment\AbstractElectionArea.cs" />
+    <Compile Include="Environment\Building.cs" />
+    <Compile Include="Environment\HQ.cs" />
+    <Compile Include="Environment\PublicPlace.cs" />
+    <Compile Include="PoliticalParty.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractLibrary\AbstractLibrary.csproj">
