@@ -9,7 +9,7 @@ namespace AbstractLibrary.Factory
     {
         public string Title { get; }
 
-        private AbstractFactory()
+        public AbstractFactory()
         {
         }
 

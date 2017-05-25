@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ElectionSimulator
+namespace ElectionLibrary
 {
     public class Node
     {
