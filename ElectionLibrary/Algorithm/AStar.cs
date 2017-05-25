@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ElectionLibrary
+namespace ElectionLibrary.Algorithm
 {
     public class AStar
     {
