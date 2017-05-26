@@ -1,4 +1,4 @@
-﻿using ElectionLibrary.Environement;
+﻿using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character.Behavior
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ElectionLibrary.Environement;
+using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character.Behavior
 {

@@ -1,9 +1,9 @@
 ﻿using System;
-namespace ElectionSimulator.Environment
+namespace ElectionLibrary.Environment
 {
     public class HQ : AbstractArea
     {
-        public HQ(string name) : base(name)
+        public HQ(string name, Position position) : base(name, position)
         {
         }
     }
