@@ -25,7 +25,7 @@ namespace ElectionLibrary.Character
             }
         }
 
-        private bool inBuilding;
+        public bool inBuilding;
 
         public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
@@ -37,27 +37,37 @@ namespace ElectionLibrary.Character
 
         public void NextTurn(AbstractArea area)
         {
+            // OBJECT HERE
+
+
+            // MOVE
+            this.MoveTo(MoveDecision(area));
+        }
+
+        private Position MoveDecision(AbstractArea area)
+        {
             AbstractArea bestMove = area;
 
             foreach (ElectionAccess access in area.Accesses)
             {
                 if (access.EndArea is PublicPlace)
                 {
-                    bestMove = (AbstractArea) access.EndArea;
+                    bestMove = (AbstractArea)access.EndArea;
                     break;
-                } else if (access.EndArea is Building)
+                }
+                else if (access.EndArea is Building)
                 {
-                    bestMove = (AbstractArea) access.EndArea;
+                    bestMove = (AbstractArea)access.EndArea;
                 }
             }
             if (bestMove == area)
             {
                 Random random = new Random();
                 int newStreet = random.Next(area.Accesses.Count);
-                bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
+                bestMove = (AbstractArea)area.Accesses[newStreet].EndArea;
             }
 
-            this.MoveTo(bestMove.position);
+            return bestMove.position;
         }
 
         public bool IsInABuilding()
