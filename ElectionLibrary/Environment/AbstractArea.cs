@@ -1,12 +1,16 @@
 ﻿using System;
 using AbstractLibrary.Environment;
 
-namespace ElectionSimulator.Environment
+namespace ElectionLibrary.Environment
 {
     public abstract class AbstractArea : AbstractLibrary.Environment.AbstractArea
     {
-        public AbstractArea(string name) : base(name)
+
+        public Position position { get;}
+
+        public AbstractArea(string name, Position position) : base(name)
         {
+            this.position = position;
         }
     }
 }

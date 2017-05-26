@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using AbstractLibrary.Pattern;
 
-namespace ElectionSimulator.Environment
+namespace ElectionLibrary.Environment
 {
     public class PublicPlace : AbstractElectionArea, IObservable
     {
         public readonly List<IObserver> Buildings;
 
-        public PublicPlace(List<PoliticalParty> parties, string name) : base(parties, name)
+        public PublicPlace(Opinion opinion, string name, Position position) : base(opinion, name, position)
         {
         }
 

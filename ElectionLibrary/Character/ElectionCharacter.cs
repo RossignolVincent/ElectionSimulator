@@ -1,7 +1,7 @@
 ﻿using System;
 using AbstractLibrary.Factory;
 using AbstractLibrary.Character;
-using ElectionLibrary.Environement;
+using ElectionLibrary.Environment;
 using ElectionLibrary.Character.Behavior;
 
 namespace ElectionLibrary.Character
@@ -28,11 +28,11 @@ namespace ElectionLibrary.Character
 
         private bool inBuilding;
 
-        public ElectionCharacter(string name, Behavior behavior, Position position, int moral) : base(name)
+        public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.behavior = behavior;
             this.position = position;
-            this.moral = moral;
+            this.moral = 100;
             this.inBuilding = false;
         }
 
@@ -51,6 +51,11 @@ namespace ElectionLibrary.Character
         {
             if (this.inBuilding)
                 inBuilding = false;
+        }
+
+        public void MoveTo(Position position)
+        {
+            this.position = position;
         }
     }
 }
