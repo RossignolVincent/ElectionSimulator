@@ -31,14 +31,14 @@ namespace ElectionLibrary.Character
                 foreach (ElectionAccess access in area.Accesses)
                 {
                     if (access.EndArea is PublicPlace &&
-                        this.HaveNotVisited((AbstractElectionArea) access.EndArea))
+                        this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea) access.EndArea;
                         this.EnterBuilding();
                         break;
                     }
                     else if (access.EndArea is Building &&
-                        this.HaveNotVisited((AbstractElectionArea) access.EndArea))
+                        this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea)access.EndArea;
                         this.EnterBuilding();
@@ -60,9 +60,9 @@ namespace ElectionLibrary.Character
             return bestMove.position;
         }
 
-        private bool HaveNotVisited(AbstractElectionArea area)
+        private bool HasNotVisited(AbstractElectionArea area)
         {
-            return visitedElectionAreas.Contains(area);
+            return !visitedElectionAreas.Contains(area);
         }
 
         public bool IsInABuilding()
