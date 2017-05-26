@@ -42,11 +42,15 @@
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
     <Compile Include="Algorithm\Node.cs" />
+    <Compile Include="Character\Activist.cs" />
     <Compile Include="Character\Behavior\JournalistBehavior.cs" />
     <Compile Include="Character\Behavior\LeaderBehavior.cs" />
     <Compile Include="Character\Behavior\ActivistBehavior.cs" />
     <Compile Include="Character\Behavior\AbstractBehavior.cs" />
-    <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\ElectionCharacter.cs" />
+    <Compile Include="Character\PoliticalCharacter.cs" />
+    <Compile Include="Environment\ElectionAccess.cs" />
+    <Compile Include="Environment\Opinion.cs" />
     <Compile Include="Environment\Position.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

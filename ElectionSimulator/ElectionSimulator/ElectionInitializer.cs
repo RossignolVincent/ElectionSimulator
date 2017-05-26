@@ -22,7 +22,6 @@ namespace ElectionSimulator
 
         public ElectionInitializer()
         {
-            int NumberPoliticalParty 
             string MapFile = GetMapFile();
             if (MapFile != null)
             {

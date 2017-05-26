@@ -1,5 +1,6 @@
 ﻿using System;
 using AbstractLibrary.Factory;
+using AbstractLibrary.Environment;
 
 namespace AbstractLibrary.Character
 {

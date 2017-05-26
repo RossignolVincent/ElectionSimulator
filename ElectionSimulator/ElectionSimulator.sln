@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionSimulator", "ElectionSimulator\ElectionSimulator.csproj", "{D3FC2630-9D67-4283-A33D-F324767AD2BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractLibrary", "..\AbstractLibrary\AbstractLibrary.csproj", "{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectionLibrary", "..\ElectionLibrary\ElectionLibrary.csproj", "{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D3FC2630-9D67-4283-A33D-F324767AD2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3FC2630-9D67-4283-A33D-F324767AD2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3FC2630-9D67-4283-A33D-F324767AD2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

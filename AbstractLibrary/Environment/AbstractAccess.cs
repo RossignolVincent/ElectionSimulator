@@ -6,7 +6,7 @@ namespace AbstractLibrary.Environment
         public AbstractArea FirstArea { get; }
         public AbstractArea EndArea { get; }
 
-        private AbstractAccess(AbstractArea firstArea, AbstractArea endArea)
+        public AbstractAccess(AbstractArea firstArea, AbstractArea endArea)
         {
             this.FirstArea = firstArea;
             this.EndArea = endArea;
