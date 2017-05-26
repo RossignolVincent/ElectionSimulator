@@ -57,14 +57,14 @@ namespace ElectionSimulator
                 board.RowDefinitions.Add(new RowDefinition());
             }
 
-            for (int x = 0; x < Map[0].Count; x++)
+            for (int y = 0; y < Map[0].Count; y++)
             {
-                for (int y = 0; y < Map.Count; y++)
+                for (int x = 0; x < Map.Count; x++)
                 {
-                    Image image = LoadOneTexture(Map[x][y]);
+                    Image image = LoadOneTexture(Map[y][x]);
                     board.Children.Add(image);
-                    Grid.SetColumn(image, y);
-                    Grid.SetRow(image, x);
+                    Grid.SetColumn(image, x);
+                    Grid.SetRow(image, y);
                 }
             }
         }

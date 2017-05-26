@@ -118,11 +118,15 @@
     <Resource Include="resource\streets\turns\turn-up-left.png" />
     <Resource Include="resource\streets\turns\turn-up-right.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="resource\streets\tricrosses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="resource\empties\empty2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\streets\tricrosses\tri-left-right-down.png" />
+    <Resource Include="resource\streets\tricrosses\tri-left-up-down.png" />
+    <Resource Include="resource\streets\tricrosses\tri-left-up-right.png" />
+    <Resource Include="resource\streets\tricrosses\tri-up-right-down.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
