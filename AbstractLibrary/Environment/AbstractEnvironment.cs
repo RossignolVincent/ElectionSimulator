@@ -13,7 +13,7 @@ namespace AbstractLibrary.Environment
         public List<AbstractObject> Objects { get; }
         public List<AbstractCharacter> Characters { get; }
 
-        private AbstractEnvironment()
+        protected AbstractEnvironment()
         {
             this.Areas = new List<AbstractArea>();
             this.Accesses = new List<AbstractAccess>();
