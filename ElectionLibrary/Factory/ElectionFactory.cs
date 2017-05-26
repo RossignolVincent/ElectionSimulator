@@ -31,7 +31,7 @@ namespace ElectionLibrary.Factory
 			return null;
 		}
 
-        public AbstractLibrary.Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
+        public ElectionLibrary.Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
         {
             if(opinion == null || position == null)
             {
