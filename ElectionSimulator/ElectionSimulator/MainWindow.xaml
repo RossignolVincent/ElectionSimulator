@@ -41,7 +41,7 @@
             <Button Grid.Column="2" Content="Sauvegarder"></Button>
             <Button Grid.Column="4" Content="Lancer"></Button>
             <Button Grid.Column="5" Content="Mettre en pause"></Button>
-            <Button Grid.Column="6" Content="Tour suivant"></Button>
+            <Button Grid.Column="6" Content="Tour suivant" Click="NextTurn"></Button>
         </Grid>
     </Grid>
 </Window>
