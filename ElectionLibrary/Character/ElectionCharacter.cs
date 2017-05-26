@@ -25,14 +25,11 @@ namespace ElectionLibrary.Character
             }
         }
 
-        public bool inBuilding;
-
         public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.behavior = behavior;
             this.position = position;
             this.moral = 100;
-            this.inBuilding = false;
         }
 
         public void NextTurn(AbstractArea area)
@@ -44,58 +41,7 @@ namespace ElectionLibrary.Character
             this.MoveTo(MoveDecision(area));
         }
 
-        private Position MoveDecision(AbstractArea area)
-        {
-            AbstractArea bestMove = area;
-
-            if (!inBuilding)
-            {
-                foreach (ElectionAccess access in area.Accesses)
-                {
-                    if (access.EndArea is PublicPlace)
-                    {
-                        bestMove = (AbstractArea)access.EndArea;
-                        this.EnterBuilding();
-                        break;
-                    }
-                    else if (access.EndArea is Building)
-                    {
-                        bestMove = (AbstractArea)access.EndArea;
-                        this.EnterBuilding();
-                    }
-                }
-            }
-            else
-            {
-                this.OutBuilding();
-            }
-
-            if (bestMove == area)
-            {
-                Random random = new Random();
-                int newStreet = random.Next(area.Accesses.Count);
-                bestMove = (AbstractArea)area.Accesses[newStreet].EndArea;
-            }
-
-            return bestMove.position;
-        }
-
-        public bool IsInABuilding()
-        {
-            return this.inBuilding;
-        }
-
-        public void EnterBuilding()
-        {
-            if (!this.inBuilding)
-                inBuilding = true;
-        }
-
-        public void OutBuilding()
-        {
-            if (this.inBuilding)
-                inBuilding = false;
-        }
+        public abstract Position MoveDecision(AbstractArea area);
 
         public void MoveTo(Position position)
         {
