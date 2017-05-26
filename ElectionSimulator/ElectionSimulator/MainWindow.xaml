@@ -21,9 +21,13 @@
             <Grid Grid.Column="0">
 
             </Grid>
-            <Grid Grid.Column="1" Name="Board">
 
-            </Grid>
+            <Viewbox Grid.Column="1" Stretch="Uniform">
+                <Grid Name="Board">
+
+                </Grid>
+            </Viewbox>
+            
         </Grid>
         
         <Grid Grid.Row="1">

@@ -151,7 +151,6 @@ namespace ElectionSimulator
         internal void AddBuilding(int i)
         {
             List<PoliticalParty> list = new List<PoliticalParty>();
-            Console.Write(i);
             Areas[i].Add(factory.CreateBuilding(new Opinion(list), new Position(Areas[i].Count, i)));
         }
 

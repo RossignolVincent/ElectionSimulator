@@ -146,8 +146,8 @@ namespace ElectionSimulator
                 image.Source = getStreetTexture();
             else if (a is Building)
                 image.Source = getBuildingTexture();
-            /*else if(a is Empty)
-                    image.Source = getEmptyTexture();*/
+            else if(a is EmptyArea)
+                    image.Source = getEmptyTexture();
             return image;
         }
 
