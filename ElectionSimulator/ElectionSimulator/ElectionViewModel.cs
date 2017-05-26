@@ -157,7 +157,7 @@ namespace ElectionSimulator
 
         internal void AddEmpty(int i)
         {
-            
+            Areas[i].Add(factory.CreateEmptyArea(new Position(Areas[i].Count, i)));
         }
     }
 }
