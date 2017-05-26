@@ -7,8 +7,8 @@
     <ProjectGuid>{CFD1E171-F248-4107-B8D9-EEFA66BFAD68}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>ElectionLibrary</RootNamespace>
+    <AssemblyName>ElectionLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -60,6 +60,7 @@
     <Compile Include="Environment\HQ.cs" />
     <Compile Include="Environment\PublicPlace.cs" />
     <Compile Include="PoliticalParty.cs" />
+    <Compile Include="Environment\Street.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractLibrary\AbstractLibrary.csproj">
