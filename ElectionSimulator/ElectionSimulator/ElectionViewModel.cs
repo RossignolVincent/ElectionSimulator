@@ -51,7 +51,7 @@ namespace ElectionSimulator
             DimensionY = 20;
             Areas = new List<List<AbstractArea>>();
             Characters = new List<ElectionCharacter>();
-            Activist activist = new Activist("activist1", new ActivistBehavior(), new Position(1, 1), new ElectionLibrary.PoliticalParty("FI"));
+            Activist activist = new Activist("activist1", new Position(1, 1), new ElectionLibrary.PoliticalParty("FI"));
             Characters.Add(activist);
         }
 
@@ -124,17 +124,7 @@ namespace ElectionSimulator
         {
             foreach (ElectionCharacter character in Characters)
             {
-                Console.WriteLine(character.position.X);
-                Console.WriteLine(character.position.Y);
-                foreach(List<AbstractArea> list in Areas)
-                {
-                    foreach(AbstractArea area in list)
-                    {
-                        Console.Write(area.Name);
-                    }
-                    Console.WriteLine();
-                }
-                character.NextTurn(Areas[character.position.X][character.position.Y]);
+                character.NextTurn(Areas[character.position.Y][character.position.X]);
             }
         }
 
@@ -167,7 +157,7 @@ namespace ElectionSimulator
 
         internal void AddEmpty(int i)
         {
-            
+            Areas[i].Add(factory.CreateEmptyArea(new Position(Areas[i].Count, i)));
         }
     }
 }

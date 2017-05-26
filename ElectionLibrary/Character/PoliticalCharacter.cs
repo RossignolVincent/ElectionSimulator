@@ -26,28 +26,26 @@ namespace ElectionLibrary.Character
         {
             AbstractArea bestMove = area;
 
-            if (!inBuilding)
+            if (!IsInABuilding())
             {
                 foreach (ElectionAccess access in area.Accesses)
                 {
                     if (access.EndArea is PublicPlace &&
-                        this.HaveNotVisited((AbstractElectionArea) access.EndArea))
+                        this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea) access.EndArea;
-                        this.EnterBuilding();
                         break;
                     }
                     else if (access.EndArea is Building &&
-                        this.HaveNotVisited((AbstractElectionArea) access.EndArea))
+                        this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea)access.EndArea;
-                        this.EnterBuilding();
                     }
                 }
             }
             else
             {
-                this.OutBuilding((AbstractElectionArea) bestMove);
+                this.OutBuilding();
             }
 
             if (bestMove == area)
@@ -56,13 +54,26 @@ namespace ElectionLibrary.Character
                 int newStreet = random.Next(area.Accesses.Count);
                 bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
             }
+            else
+            {
+                EnterBuilding((AbstractElectionArea) bestMove);
+            }
 
             return bestMove.position;
         }
 
-        private bool HaveNotVisited(AbstractElectionArea area)
+        private bool HasNotVisited(AbstractElectionArea area)
         {
-            return visitedElectionAreas.Contains(area);
+
+            foreach (AbstractElectionArea visitedArea in visitedElectionAreas)
+            {
+                if (area.position.X == visitedArea.position.X &&
+                    area.position.Y == visitedArea.position.Y)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool IsInABuilding()
@@ -70,14 +81,14 @@ namespace ElectionLibrary.Character
             return this.inBuilding;
         }
 
-        public void EnterBuilding()
+        public void EnterBuilding(AbstractElectionArea visitedArea)
         {
+            visitedElectionAreas.Add(visitedArea);
             inBuilding = true;
         }
 
-        public void OutBuilding(AbstractElectionArea visitedArea)
+        public void OutBuilding()
         {
-            visitedElectionAreas.Add(visitedArea);
             inBuilding = false;
         }
     }
