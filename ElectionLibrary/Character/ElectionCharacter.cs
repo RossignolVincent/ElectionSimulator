@@ -48,18 +48,28 @@ namespace ElectionLibrary.Character
         {
             AbstractArea bestMove = area;
 
-            foreach (ElectionAccess access in area.Accesses)
+            if (!inBuilding)
             {
-                if (access.EndArea is PublicPlace)
+                foreach (ElectionAccess access in area.Accesses)
                 {
-                    bestMove = (AbstractArea)access.EndArea;
-                    break;
-                }
-                else if (access.EndArea is Building)
-                {
-                    bestMove = (AbstractArea)access.EndArea;
+                    if (access.EndArea is PublicPlace)
+                    {
+                        bestMove = (AbstractArea)access.EndArea;
+                        this.EnterBuilding();
+                        break;
+                    }
+                    else if (access.EndArea is Building)
+                    {
+                        bestMove = (AbstractArea)access.EndArea;
+                        this.EnterBuilding();
+                    }
                 }
             }
+            else
+            {
+                this.OutBuilding();
+            }
+
             if (bestMove == area)
             {
                 Random random = new Random();
