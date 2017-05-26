@@ -50,7 +50,6 @@
     <Compile Include="Character\Behavior\AbstractBehavior.cs" />
     <Compile Include="Character\ElectionCharacter.cs" />
     <Compile Include="Character\PoliticalCharacter.cs" />
-    <Compile Include="EmptyArea.cs" />
     <Compile Include="Environment\ElectionAccess.cs" />
     <Compile Include="Environment\EmptyArea.cs" />
     <Compile Include="Environment\Opinion.cs" />
