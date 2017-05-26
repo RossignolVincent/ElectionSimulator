@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" ShowGridLines="true">
                 <Grid Name="Board">
                     
                 </Grid>

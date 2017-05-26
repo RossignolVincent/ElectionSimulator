@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -63,6 +64,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="ElectionInitializer.cs" />
     <Compile Include="ElectionViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -94,6 +96,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\buildings\building1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\buildings\building2.png" />
+    <Resource Include="resource\buildings\building3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\streets\street-h.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\empties\empty1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\streets\street-m.png" />
+    <Resource Include="resource\streets\street-v.png" />
+    <Resource Include="resource\streets\turns\turn-down-left.png" />
+    <Resource Include="resource\streets\turns\turn-down-right.png" />
+    <Resource Include="resource\streets\turns\turn-up-left.png" />
+    <Resource Include="resource\streets\turns\turn-up-right.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="resource\empties\empty2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\streets\tricrosses\tri-left-right-down.png" />
+    <Resource Include="resource\streets\tricrosses\tri-left-up-down.png" />
+    <Resource Include="resource\streets\tricrosses\tri-left-up-right.png" />
+    <Resource Include="resource\streets\tricrosses\tri-up-right-down.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

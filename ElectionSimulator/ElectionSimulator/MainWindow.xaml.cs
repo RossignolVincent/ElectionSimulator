@@ -31,23 +31,29 @@ namespace ElectionSimulator
             DataContext = App.ElectionVM;
         }
 
+        private void InitBoard()
+        {
+            Board.ColumnDefinitions.Clear();
+            Board.RowDefinitions.Clear();
+            Board.Children.Clear();
+
+            for (int i = 0; i < App.ElectionVM.DimensionX; i++)
+            {
+                Board.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < App.ElectionVM.DimensionY; i++)
+            {
+                Board.RowDefinitions.Add(new RowDefinition());
+            }
+        }
+
         private void StartNewSimulation(object sender, RoutedEventArgs e)
         {
-            Board.Background = new SolidColorBrush(Color.FromArgb(255, 0, 100, 100));
-            /*using (TextFieldParser parser = new TextFieldParser(@"c:\temp\test.csv"))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");
-                while (!parser.EndOfData)
-                {
-                    //Process row
-                    string[] fields = parser.ReadFields();
-                    foreach (string field in fields)
-                    {
-                        //TODO: Process field
-                    }
-                }
-            }*/
+            ElectionInitializer electionInitializer = new ElectionInitializer();
+            electionInitializer.LoadAllTextures(Board);
+            App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
+            App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
         }
     }
 }
