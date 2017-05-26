@@ -49,6 +49,7 @@ namespace ElectionSimulator
         {
             DimensionX = 20;
             DimensionY = 20;
+            RefreshRate = 500;
             Areas = new List<List<AbstractArea>>();
             Characters = new List<ElectionCharacter>();
             Activist activist = new Activist("activist1", new Position(1, 1), new ElectionLibrary.PoliticalParty("FI"));
