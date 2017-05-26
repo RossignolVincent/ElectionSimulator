@@ -51,8 +51,9 @@ namespace ElectionLibrary.Character
             if (bestMove == area)
             {
                 Random random = new Random();
-                int newStreet = random.Next(area.Accesses.Count);
-                bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
+                List<AbstractArea> streets = GetStreets(area.Accesses);
+                int newStreet = random.Next(streets.Count);
+                bestMove = streets[newStreet];
             }
             else
             {
@@ -60,6 +61,19 @@ namespace ElectionLibrary.Character
             }
 
             return bestMove.position;
+        }
+
+        private List<AbstractArea> GetStreets(List<AbstractLibrary.Environment.AbstractAccess> list)
+        {
+            List<AbstractArea> streets = new List<AbstractArea>();
+            foreach (AbstractLibrary.Environment.AbstractAccess access in list)
+            {
+                if (access.EndArea is Street)
+                {
+                    streets.Add((AbstractArea) access.EndArea);
+                }
+            }
+            return streets;
         }
 
         private bool HasNotVisited(AbstractElectionArea area)
