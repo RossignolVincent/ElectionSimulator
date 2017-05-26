@@ -21,9 +21,13 @@
             <Grid Grid.Column="0">
 
             </Grid>
-            <Grid Grid.Column="1" Name="Board">
 
-            </Grid>
+            <Viewbox Grid.Column="1" Stretch="Uniform">
+                <Grid Name="Board">
+
+                </Grid>
+            </Viewbox>
+            
         </Grid>
         
         <Grid Grid.Row="1">
@@ -40,8 +44,8 @@
             <Button Grid.Column="0" Content="Nouveau" Click="StartNewSimulation"></Button>
             <Button Grid.Column="1" Content="Charger"></Button>
             <Button Grid.Column="2" Content="Sauvegarder"></Button>
-            <Button Grid.Column="4" Content="Lancer"></Button>
-            <Button Grid.Column="5" Content="Mettre en pause"></Button>
+            <Button Grid.Column="4" Content="Lancer" Click="PlaySimulation"></Button>
+            <Button Grid.Column="5" Content="Mettre en pause" Click="PauseSimulation"></Button>
             <Button Grid.Column="6" Content="Tour suivant" Click="NextTurn"></Button>
         </Grid>
     </Grid>

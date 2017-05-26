@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,6 +49,8 @@ namespace ElectionSimulator
         {
             InitializeComponent();
             DataContext = App.ElectionVM;
+            dt.Tick += Draw_tick;
+            dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
         }
 
         private void InitBoard()
@@ -64,6 +67,27 @@ namespace ElectionSimulator
             App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
             App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
             RefreshBoard();
+        }
+
+        private void PlaySimulation(object sender, RoutedEventArgs e)
+        {
+            sw.Start();
+            dt.Start();
+            Thread t = new Thread(App.ElectionVM.Play);
+            t.Start();
+        }
+
+        private void Draw_tick(object sender, EventArgs e)
+        {
+            if (sw.IsRunning)
+                RefreshBoard();
+        }
+
+        private void PauseSimulation(object sender, RoutedEventArgs e)
+        {
+            App.ElectionVM.Stop();
+            if (sw.IsRunning)
+                sw.Stop();
         }
 
         private void NextTurn(object sender, RoutedEventArgs e)
@@ -146,8 +170,8 @@ namespace ElectionSimulator
                 image.Source = getStreetTexture();
             else if (a is Building)
                 image.Source = getBuildingTexture();
-            /*else if(a is Empty)
-                    image.Source = getEmptyTexture();*/
+            else if(a is EmptyArea)
+                    image.Source = getEmptyTexture();
             return image;
         }
 

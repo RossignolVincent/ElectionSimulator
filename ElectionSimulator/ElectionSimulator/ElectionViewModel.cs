@@ -49,6 +49,7 @@ namespace ElectionSimulator
         {
             DimensionX = 20;
             DimensionY = 20;
+            RefreshRate = 500;
             Areas = new List<List<AbstractArea>>();
             Characters = new List<ElectionCharacter>();
             Activist activist = new Activist("activist1", new Position(1, 1), new ElectionLibrary.PoliticalParty("FI"));
@@ -151,7 +152,6 @@ namespace ElectionSimulator
         internal void AddBuilding(int i)
         {
             List<PoliticalParty> list = new List<PoliticalParty>();
-            Console.Write(i);
             Areas[i].Add(factory.CreateBuilding(new Opinion(list), new Position(Areas[i].Count, i)));
         }
 
