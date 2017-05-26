@@ -9,7 +9,7 @@ namespace AbstractLibrary.Object
 		public string Name { get; private set; }
 		public AbstractArea Position { get; set; }
 
-        private AbstractObject(string name)
+        protected AbstractObject(string name)
         {
             this.Name = name;
         }

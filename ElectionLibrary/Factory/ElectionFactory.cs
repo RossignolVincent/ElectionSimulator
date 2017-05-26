@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿﻿using System;
 using AbstractLibrary.Environment;
 using AbstractLibrary.Factory;
 using AbstractLibrary.Character;
 using AbstractLibrary.Object;
 using ElectionLibrary.Environment;
+using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Factory
 {
@@ -16,12 +13,6 @@ namespace ElectionLibrary.Factory
         public override AbstractEnvironment CreateEnvironment()
         {
             Console.Write("Create Environment");
-            throw new NotImplementedException();
-        }
-
-        public override AbstractAccess CreateAccess(AbstractLibrary.Environment.AbstractArea startArea, AbstractLibrary.Environment.AbstractArea endArea)
-        {
-            Console.Write("Create Access");
             throw new NotImplementedException();
         }
 
@@ -50,7 +41,7 @@ namespace ElectionLibrary.Factory
             return new Building(opinion, "", position);
         }
 
-        public AbstractLibrary.Environment.AbstractArea CreatePublicPlace(Opinion opinion, Position position)
+        public Environment.AbstractArea CreatePublicPlace(Opinion opinion, Position position)
         {
 			if (opinion == null || position == null)
 			{
@@ -60,7 +51,7 @@ namespace ElectionLibrary.Factory
             return new PublicPlace(opinion, "", position);
         }
 
-        public AbstractLibrary.Environment.AbstractArea CreateStreet(Position position)
+        public Environment.AbstractArea CreateStreet(Position position)
         {
 			if (position == null)
 			{
@@ -70,7 +61,7 @@ namespace ElectionLibrary.Factory
             return new Street("", position);
         }
 
-		public AbstractLibrary.Environment.AbstractArea CreateHQ(Position position)
+		public Environment.AbstractArea CreateHQ(Position position)
 		{
 			if (position == null)
 			{
@@ -78,6 +69,16 @@ namespace ElectionLibrary.Factory
 			}
 
             return new HQ("", position);
+		}
+
+		public Environment.AbstractArea CreateEmptyArea(Position position)
+		{
+			if (position == null)
+			{
+				throw new ArgumentException();
+			}
+
+            return new EmptyArea("", position);
 		}
 
 		/********************************************************************
@@ -88,5 +89,34 @@ namespace ElectionLibrary.Factory
 		{
             return null;
 		}
+
+        public ElectionCharacter CreateActivist(Position position, PoliticalParty party)
+        {
+            if(position == null || party == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return new Activist("", position, party);
+        }
+
+		/********************************************************************
+         *                              ACCESSES                            *
+         ********************************************************************/
+
+		public override AbstractAccess CreateAccess(AbstractLibrary.Environment.AbstractArea startArea, AbstractLibrary.Environment.AbstractArea endArea)
+		{
+            return null;
+		}
+
+        public ElectionAccess CreateElectionAccess(Environment.AbstractArea startArea, Environment.AbstractArea endArea)
+        {
+            if(startArea == null || endArea == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return new ElectionAccess(startArea, endArea);
+        }
 	}
 }

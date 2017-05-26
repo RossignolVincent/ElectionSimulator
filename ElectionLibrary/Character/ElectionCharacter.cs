@@ -27,7 +27,7 @@ namespace ElectionLibrary.Character
 
         public bool inBuilding;
 
-        public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
+        protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.behavior = behavior;
             this.position = position;
