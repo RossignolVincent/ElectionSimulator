@@ -19,7 +19,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="1">
-                <Grid Name="Board">
+                <Grid Name="Board" ShowGridLines="True">
                     
                 </Grid>
             </Grid>
