@@ -64,7 +64,16 @@ namespace ElectionLibrary.Character
 
         private bool HasNotVisited(AbstractElectionArea area)
         {
-            return !visitedElectionAreas.Contains(area);
+
+            foreach (AbstractElectionArea visitedArea in visitedElectionAreas)
+            {
+                if (area.position.X == visitedArea.position.X &&
+                    area.position.Y == visitedArea.position.Y)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool IsInABuilding()
