@@ -22,6 +22,7 @@ namespace ElectionSimulator
 
         public ElectionInitializer()
         {
+            int NumberPoliticalParty 
             string MapFile = GetMapFile();
             if (MapFile != null)
             {
@@ -118,12 +119,30 @@ namespace ElectionSimulator
                     Map.Add(new List<string>());
                     foreach (string field in fields)
                     {
-                        Map[i].Add(field);
+                        AddElement(field, i);
                     }
                     i++;
                 }
             }
             return Map;
+        }
+
+        private void AddElement(string field, int i)
+        {
+            switch (field)
+            {
+                case "S":
+                    App.ElectionVM.AddStreet(i);
+                    break;
+                case "B":
+                    App.ElectionVM.AddBuilding(i);
+                    break;
+                case "E":
+                    App.ElectionVM.AddEmpty(i);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public string GetMapFile()

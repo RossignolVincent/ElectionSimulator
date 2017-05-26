@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using ElectionLibrary.Environment;
 
 namespace ElectionSimulator
 {
@@ -32,10 +33,13 @@ namespace ElectionSimulator
 
         public int RefreshRate { get; set; }
 
+        public List<List<AbstractArea>> Areas { get; set; }
+
         public ElectionViewModel()
         {
             DimensionX = 20;
             DimensionY = 20;
+            Areas = new List<List<AbstractArea>>();
         }
 
         internal void NextTurn()
@@ -61,6 +65,21 @@ namespace ElectionSimulator
         internal void Stop()
         {
             Running = false;
+        }
+
+        internal void AddStreet(int i)
+        {
+            
+        }
+
+        internal void AddBuilding(int i)
+        {
+         
+        }
+
+        internal void AddEmpty(int i)
+        {
+            
         }
     }
 }
