@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
     <Compile Include="Algorithm\Node.cs" />
+    <Compile Include="Character\Journalist.cs" />
     <Compile Include="Character\Activist.cs" />
     <Compile Include="Character\Behavior\JournalistBehavior.cs" />
     <Compile Include="Character\Behavior\LeaderBehavior.cs" />
@@ -49,7 +50,9 @@
     <Compile Include="Character\Behavior\AbstractBehavior.cs" />
     <Compile Include="Character\ElectionCharacter.cs" />
     <Compile Include="Character\PoliticalCharacter.cs" />
+    <Compile Include="EmptyArea.cs" />
     <Compile Include="Environment\ElectionAccess.cs" />
+    <Compile Include="Environment\EmptyArea.cs" />
     <Compile Include="Environment\Opinion.cs" />
     <Compile Include="Environment\Position.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
@@ -61,7 +64,6 @@
     <Compile Include="Environment\PublicPlace.cs" />
     <Compile Include="PoliticalParty.cs" />
     <Compile Include="Environment\Street.cs" />
-    <Compile Include="Environment\EmptyArea.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractLibrary\AbstractLibrary.csproj">

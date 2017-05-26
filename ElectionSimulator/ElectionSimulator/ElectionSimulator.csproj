@@ -135,10 +135,6 @@
     <Resource Include="resource\streets\tricrosses\tri-up-right-down.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AbstractLibrary\AbstractLibrary.csproj">
-      <Project>{2B18B7BE-582F-4494-9576-4F4F1B4E7C20}</Project>
-      <Name>AbstractLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ElectionLibrary\ElectionLibrary.csproj">
       <Project>{cfd1e171-f248-4107-b8d9-eefa66bfad68}</Project>
       <Name>ElectionLibrary</Name>

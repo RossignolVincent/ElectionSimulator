@@ -26,7 +26,7 @@ namespace ElectionLibrary.Character
         {
             AbstractArea bestMove = area;
 
-            if (!inBuilding)
+            if (!IsInABuilding())
             {
                 foreach (ElectionAccess access in area.Accesses)
                 {
@@ -34,20 +34,18 @@ namespace ElectionLibrary.Character
                         this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea) access.EndArea;
-                        this.EnterBuilding();
                         break;
                     }
                     else if (access.EndArea is Building &&
                         this.HasNotVisited((AbstractElectionArea) access.EndArea))
                     {
                         bestMove = (AbstractArea)access.EndArea;
-                        this.EnterBuilding();
                     }
                 }
             }
             else
             {
-                this.OutBuilding((AbstractElectionArea) bestMove);
+                this.OutBuilding();
             }
 
             if (bestMove == area)
@@ -55,6 +53,10 @@ namespace ElectionLibrary.Character
                 Random random = new Random();
                 int newStreet = random.Next(area.Accesses.Count);
                 bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
+            }
+            else
+            {
+                EnterBuilding((AbstractElectionArea) bestMove);
             }
 
             return bestMove.position;
@@ -70,14 +72,14 @@ namespace ElectionLibrary.Character
             return this.inBuilding;
         }
 
-        public void EnterBuilding()
+        public void EnterBuilding(AbstractElectionArea visitedArea)
         {
+            visitedElectionAreas.Add(visitedArea);
             inBuilding = true;
         }
 
-        public void OutBuilding(AbstractElectionArea visitedArea)
+        public void OutBuilding()
         {
-            visitedElectionAreas.Add(visitedArea);
             inBuilding = false;
         }
     }
