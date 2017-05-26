@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AbstractLibrary.Pattern;
+using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
@@ -10,9 +11,17 @@ namespace ElectionLibrary.Environment
         {
         }
 
-        public void Update()
+        public void Update(object o)
         {
+            if(o != null && o is PoliticalCharacter)
+            {
+                ChangeOpinion((PoliticalCharacter) o);
+            }
+        }
 
+        public override void ChangeOpinion(PoliticalCharacter politician)
+		{
+			opinion.InfluenceOpinion(politician.PoliticalParty, politician.Aura, politician.Moral, 1);
         }
     }
 }

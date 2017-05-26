@@ -1,15 +1,18 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
+using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
     public abstract class AbstractElectionArea : AbstractArea
     {
-        private Opinion opinion { get; set; }
+        public Opinion opinion { get; }
 
-        public AbstractElectionArea(Opinion opinion, string name, Position position) : base(name, position)
+        protected AbstractElectionArea(Opinion opinion, string name, Position position) : base(name, position)
         {
             this.opinion = opinion;
         }
+
+        public abstract void ChangeOpinion(PoliticalCharacter politician);
     }
 }

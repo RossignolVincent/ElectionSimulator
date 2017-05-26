@@ -18,28 +18,36 @@ namespace ElectionLibrary.Environment
             }
         }
 
-        public void InfluenceOpinion(PoliticalParty party, int aura, int moral, int nbTurn)
+        public double InfluenceOpinion(PoliticalParty party, int aura, int moral, int nbTurn)
         {
-            double currentPartyOpinion = 0;
-            
             if (opinionList.ContainsKey(party))
-                currentPartyOpinion = opinionList[party];
-
-            double calcul = 10.0; //TODO : Calcule party.opinion +*/- aura +*/- moral +*/- nbTurn;
-            double influencePartyOpinion = currentPartyOpinion + calcul;
-
-            opinionList[party] = influencePartyOpinion;
-
-            List<PoliticalParty> concurrents = getConcurrentParties(party);
-            List<double> newConcurrentsOpinions = getNewConcurrentsOpinions(concurrents.Count, calcul);
-            
-            foreach(PoliticalParty concurrent in concurrents)
             {
-                opinionList[concurrent] = getRandomNumberFromList(newConcurrentsOpinions);
+                double calcul = 10.0; //TODO : Calcule party.opinion +*/- aura +*/- moral +*/- nbTurn
+				UpdateNewOpinion(party, calcul);
+
+                return calcul;
             }
+
+            return -1;
         }
 
-        private double getRandomNumberFromList(List<double> numbers)
+        public void UpdateNewOpinion(PoliticalParty party, double opinionToAdd)
+        {   
+            // Compute new opinion for the party of the politician
+            double influencePartyOpinion = opinionList[party] + opinionToAdd;
+			opinionList[party] = influencePartyOpinion;
+
+            // Compute new opinion for the others parties
+			List<PoliticalParty> concurrents = GetConcurrentParties(party);
+            List<double> newConcurrentsOpinions = GetNewConcurrentsOpinions(concurrents.Count, opinionToAdd);
+
+			foreach (PoliticalParty concurrent in concurrents)
+			{
+				opinionList[concurrent] = GetRandomNumberFromList(newConcurrentsOpinions);
+			}
+        }
+
+        private double GetRandomNumberFromList(List<double> numbers)
         {
             double choosenNumber = numbers[random.Next(numbers.Count)];
             numbers.Remove(choosenNumber);
@@ -47,7 +55,7 @@ namespace ElectionLibrary.Environment
             return choosenNumber;
         }
 
-        private List<double> getNewConcurrentsOpinions(int nbConcurrents, double calcul)
+        private List<double> GetNewConcurrentsOpinions(int nbConcurrents, double calcul)
         {
             int maxRange = (int) calcul;
             int totalOpinions = 0;
@@ -65,7 +73,7 @@ namespace ElectionLibrary.Environment
             return newDecreasedOpinions;
         }
 
-        private List<PoliticalParty> getConcurrentParties(PoliticalParty party)
+        private List<PoliticalParty> GetConcurrentParties(PoliticalParty party)
         {
             List<PoliticalParty> listConcurrent = new List<PoliticalParty>();
             foreach (KeyValuePair<PoliticalParty, double> entry in opinionList)
