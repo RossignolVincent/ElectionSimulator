@@ -13,5 +13,10 @@ namespace ElectionLibrary.Character.Behavior
         {
             throw new NotImplementedException();
         }
+
+        public override int Influence(int moral, int nbTurn)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

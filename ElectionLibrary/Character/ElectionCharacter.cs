@@ -28,11 +28,11 @@ namespace ElectionLibrary.Character
 
         private bool inBuilding;
 
-        public ElectionCharacter(string name, AbstractBehavior behavior, Position position, int moral) : base(name)
+        public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.behavior = behavior;
             this.position = position;
-            this.moral = moral;
+            this.moral = 100;
             this.inBuilding = false;
         }
 

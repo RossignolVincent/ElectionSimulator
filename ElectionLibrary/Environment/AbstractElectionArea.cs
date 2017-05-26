@@ -5,14 +5,11 @@ namespace ElectionLibrary.Environment
 {
     public abstract class AbstractElectionArea : AbstractArea
     {
-        private Dictionary<PoliticalParty, double> OpinionList { get; set; }
+        private Opinion opinion { get; set; }
 
-        public AbstractElectionArea(List<PoliticalParty> parties, string name, Position position) : base(name, position)
+        public AbstractElectionArea(Opinion opinion, string name, Position position) : base(name, position)
         {
-            this.OpinionList = new Dictionary<PoliticalParty, double>();
-            foreach(PoliticalParty party in parties) {
-                this.OpinionList.Add(party, 100/parties.Count);
-            }
+            this.opinion = opinion;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ElectionLibrary.Environment
     {
         public readonly List<IObserver> Buildings;
 
-        public PublicPlace(List<PoliticalParty> parties, string name, Position position) : base(parties, name, position)
+        public PublicPlace(Opinion opinion, string name, Position position) : base(opinion, name, position)
         {
         }
 

@@ -6,13 +6,13 @@ namespace ElectionLibrary.Environment
 {
     public class Building : AbstractElectionArea, IObserver
     {
-        public Building(List<PoliticalParty> parties, string name, Position position) : base(parties, name, position)
+        public Building(Opinion opinion, string name, Position position) : base(opinion, name, position)
         {
         }
 
         public void Update()
         {
-            
+
         }
     }
 }
