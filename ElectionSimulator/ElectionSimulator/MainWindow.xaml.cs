@@ -55,5 +55,16 @@ namespace ElectionSimulator
             App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
             App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
         }
+
+        private void NextTurn(object sender, RoutedEventArgs e)
+        {
+            App.ElectionVM.NextTurn();
+            RefreshBoard();
+        }
+
+        private void RefreshBoard()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
