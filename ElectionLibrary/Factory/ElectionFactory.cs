@@ -40,7 +40,7 @@ namespace ElectionLibrary.Factory
 			return null;
 		}
 
-        public AbstractLibrary.Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
+        public ElectionLibrary.Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
         {
             if(opinion == null || position == null)
             {
@@ -60,7 +60,7 @@ namespace ElectionLibrary.Factory
             return new PublicPlace(opinion, "", position);
         }
 
-        public AbstractLibrary.Environment.AbstractArea CreateStreet(Position position)
+        public ElectionLibrary.Environment.AbstractArea CreateStreet(Position position)
         {
 			if (position == null)
 			{

@@ -18,10 +18,11 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1" ShowGridLines="true">
-                <Grid Name="Board">
-                    
-                </Grid>
+            <Grid Grid.Column="0">
+
+            </Grid>
+            <Grid Grid.Column="1" Name="Board">
+
             </Grid>
         </Grid>
         

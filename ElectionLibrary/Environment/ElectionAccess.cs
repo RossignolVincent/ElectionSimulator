@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Environment
 {
-    class ElectionAccess : AbstractAccess
+    public class ElectionAccess : AbstractAccess
     {
 
         public ElectionAccess(AbstractArea firstArea, AbstractArea endArea) : base(firstArea, endArea)

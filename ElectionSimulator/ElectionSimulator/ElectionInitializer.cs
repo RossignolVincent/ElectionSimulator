@@ -12,12 +12,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls;
+using ElectionLibrary.Environment;
 
 namespace ElectionSimulator
 {
     class ElectionInitializer
     {
-        static Random random = new Random();
         public List<List<string>> Map {get; set;}
 
         public ElectionInitializer()
@@ -25,88 +25,13 @@ namespace ElectionSimulator
             string MapFile = GetMapFile();
             if (MapFile != null)
             {
-                Map = LoadMap(MapFile);
+                LoadMap(MapFile);
+                App.ElectionVM.GenerateAccess();
             }
         }
 
-        List<Uri> Buildings = new List<Uri>(new Uri[] {
-            new Uri("resource/buildings/building1.png", UriKind.Relative),
-            new Uri("resource/buildings/building2.png", UriKind.Relative),
-            new Uri("resource/buildings/building3.png", UriKind.Relative)
-        });
-
-        List<Uri> Streets = new List<Uri>(new Uri[] {
-            new Uri("resource/streets/street-h.png", UriKind.Relative)
-        });
-
-        List<Uri> Empties = new List<Uri>(new Uri[] {
-            new Uri("resource/empties/empty1.png", UriKind.Relative),
-            new Uri("resource/empties/empty2.png", UriKind.Relative)
-        });
-
-
-        public void LoadAllTextures(Grid board)
+        private void LoadMap(string MapFile)
         {
-            for (int i = 0; i < Map[0].Count; i++)
-            {
-                board.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (int i = 0; i < Map.Count; i++)
-            {
-                board.RowDefinitions.Add(new RowDefinition());
-            }
-
-            for (int y = 0; y < Map[0].Count; y++)
-            {
-                for (int x = 0; x < Map.Count; x++)
-                {
-                    Image image = LoadOneTexture(Map[y][x]);
-                    board.Children.Add(image);
-                    Grid.SetColumn(image, x);
-                    Grid.SetRow(image, y);
-                }
-            }
-        }
-
-        private Image LoadOneTexture(string v)
-        {
-            Image image = new Image();
-            switch (v)
-            {
-                case "S":
-                    image.Source = getStreetTexture();
-                    break;
-                case "B":
-                    image.Source = getBuildingTexture();
-                    break;
-                case "E":
-                    image.Source = getEmptyTexture();
-                    break;
-                default:
-                    break;
-            }
-            return image;
-        }
-
-        private ImageSource getEmptyTexture()
-        {
-            return new BitmapImage(Empties[random.Next(Empties.Count)]);
-        }
-
-        private ImageSource getStreetTexture()
-        {
-            return new BitmapImage(Streets[random.Next(Streets.Count)]);
-        }
-
-        private ImageSource getBuildingTexture()
-        {
-            return new BitmapImage(Buildings[random.Next(Buildings.Count)]);
-        }
-
-        private List<List<string>> LoadMap(string MapFile)
-        {
-            List<List<string>> Map = new List<List<string>>();
             using (TextFieldParser parser = new TextFieldParser(MapFile))
             {
                 parser.TextFieldType = FieldType.Delimited;
@@ -115,16 +40,14 @@ namespace ElectionSimulator
                 while (!parser.EndOfData)
                 {
                     string[] fields = parser.ReadFields();
-                    Map.Add(new List<string>());
+                    App.ElectionVM.Areas.Add(new List<AbstractArea>());
                     foreach (string field in fields)
                     {
-                        //AddElement(field, i);
-                        Map[i].Add(field);
+                        AddElement(field, i);
                     }
                     i++;
                 }
             }
-            return Map;
         }
 
         private void AddElement(string field, int i)
