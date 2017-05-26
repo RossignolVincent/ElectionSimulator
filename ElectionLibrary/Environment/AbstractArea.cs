@@ -7,7 +7,7 @@ namespace ElectionLibrary.Environment
     {
         public Position position { get;}
 
-        protected AbstractArea(string name, Position position) : base(name)
+        public AbstractArea(string name, Position position) : base(name)
         {
             this.position = position;
         }

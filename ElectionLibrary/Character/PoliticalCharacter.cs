@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Character
 {
-    public class PoliticalCharacter : ElectionCharacter
+    public abstract class PoliticalCharacter : ElectionCharacter
     {
-        public PoliticalParty politicalParty;
+        public PoliticalParty PoliticalParty { get; }
         public List<AbstractElectionArea> visitedElectionAreas;
         public bool inBuilding;
 
-        public PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
+        protected PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
         {
-            this.politicalParty = politicalParty;
+            this.PoliticalParty = politicalParty;
             this.visitedElectionAreas = new List<AbstractElectionArea>();
             this.inBuilding = false;
         }

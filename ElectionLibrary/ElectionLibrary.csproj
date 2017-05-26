@@ -61,6 +61,7 @@
     <Compile Include="Environment\PublicPlace.cs" />
     <Compile Include="PoliticalParty.cs" />
     <Compile Include="Environment\Street.cs" />
+    <Compile Include="Environment\EmptyArea.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractLibrary\AbstractLibrary.csproj">

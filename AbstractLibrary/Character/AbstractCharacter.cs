@@ -9,7 +9,7 @@ namespace AbstractLibrary.Character
         public string Name { get; private set; }
         public AbstractArea Position { get; set; }
 
-        public AbstractCharacter(string name)
+        protected AbstractCharacter(string name)
         {
             this.Name = name;
         }

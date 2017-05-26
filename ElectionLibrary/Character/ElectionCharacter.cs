@@ -25,11 +25,11 @@ namespace ElectionLibrary.Character
             }
         }
 
-        public ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
+        protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.behavior = behavior;
             this.position = position;
-            this.moral = 100;
+            this.moral = 100;   
         }
 
         public void NextTurn(AbstractArea area)
