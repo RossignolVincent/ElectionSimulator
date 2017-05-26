@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using ElectionLibrary.Environment;
+using ElectionLibrary.Character;
+using ElectionLibrary.Character.Behavior;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace ElectionSimulator
 {
@@ -35,21 +39,24 @@ namespace ElectionSimulator
 
         public List<List<AbstractArea>> Areas { get; set; }
 
+        public List<ElectionCharacter> Characters { get; set; } 
+
         public ElectionViewModel()
         {
             DimensionX = 20;
             DimensionY = 20;
             Areas = new List<List<AbstractArea>>();
+            Characters = new List<ElectionCharacter>();
+            Activist activist = new Activist("activist1", new ActivistBehavior(), new Position(1, 1), new ElectionLibrary.PoliticalParty("FI"));
+            Characters.Add(activist);
         }
 
         internal void NextTurn()
         {
-            /*
-            foreach (Character character in Characters)
+            foreach (ElectionCharacter character in Characters)
             {
-                character.NextTurn(DimensionX, DimensionY);
+                character.NextTurn(Areas[character.position.X][character.position.Y]);
             }
-            */
         }
 
         internal void Play()

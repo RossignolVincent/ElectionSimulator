@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Character
 {
-    class Activist : PoliticalCharacter
+    public class Activist : PoliticalCharacter
     {
         public Activist(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position, politicalParty)
         {

@@ -118,7 +118,8 @@ namespace ElectionSimulator
                     Map.Add(new List<string>());
                     foreach (string field in fields)
                     {
-                        AddElement(field, i);
+                        //AddElement(field, i);
+                        Map[i].Add(field);
                     }
                     i++;
                 }
