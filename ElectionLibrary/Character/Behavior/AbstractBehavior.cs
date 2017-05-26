@@ -4,7 +4,7 @@ namespace ElectionLibrary.Character.Behavior
 {
     public abstract class AbstractBehavior
     {
-        public abstract Position Move();
+        public abstract void NextTurn(AbstractArea area);
         public abstract int Influence(int moral, int nbTurn);
     }
 }

@@ -9,7 +9,7 @@ namespace ElectionLibrary.Character.Behavior
 {
     public class JournalistBehavior : AbstractBehavior
     {
-        public override Position Move()
+        public override void NextTurn(AbstractArea area)
         {
             throw new NotImplementedException();
         }

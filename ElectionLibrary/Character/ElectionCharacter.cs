@@ -1,5 +1,4 @@
 ﻿using System;
-using AbstractLibrary.Factory;
 using AbstractLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character.Behavior;
@@ -8,9 +7,9 @@ namespace ElectionLibrary.Character
 { 
     public abstract class ElectionCharacter : AbstractCharacter 
     {
-        private AbstractBehavior behavior { get; set; }
+        public AbstractBehavior behavior { get; set; }
 
-        private Position position { get; set; }
+        public Position position { get; set; }
 
         private int moral;
         public int Moral 
@@ -34,6 +33,31 @@ namespace ElectionLibrary.Character
             this.position = position;
             this.moral = 100;
             this.inBuilding = false;
+        }
+
+        public void NextTurn(AbstractArea area)
+        {
+            AbstractArea bestMove = area;
+
+            foreach (ElectionAccess access in area.Accesses)
+            {
+                if (access.EndArea is PublicPlace)
+                {
+                    bestMove = (AbstractArea) access.EndArea;
+                    break;
+                } else if (access.EndArea is Building)
+                {
+                    bestMove = (AbstractArea) access.EndArea;
+                }
+            }
+            if (bestMove == area)
+            {
+                Random random = new Random();
+                int newStreet = random.Next(area.Accesses.Count);
+                bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
+            }
+
+            this.MoveTo(bestMove.position);
         }
 
         public bool IsInABuilding()

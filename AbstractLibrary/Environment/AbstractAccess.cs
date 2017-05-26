@@ -3,8 +3,8 @@ namespace AbstractLibrary.Environment
 {
     public abstract class AbstractAccess
     {
-        private AbstractArea FirstArea { get; set; }
-        private AbstractArea EndArea { get; set; }
+        public AbstractArea FirstArea { get; }
+        public AbstractArea EndArea { get; }
 
         private AbstractAccess(AbstractArea firstArea, AbstractArea endArea)
         {
