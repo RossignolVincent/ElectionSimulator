@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using ElectionLibrary.Environment;
+using ElectionLibrary;
 
 namespace ElectionSimulator
 {
@@ -20,12 +21,11 @@ namespace ElectionSimulator
     {
         public List<List<string>> Map {get; set;}
 
-        public ElectionInitializer()
+        public ElectionInitializer(string mapFile, List<PoliticalParty> politicalParties)
         {
-            string MapFile = GetMapFile();
-            if (MapFile != null)
+            if (mapFile != null)
             {
-                LoadMap(MapFile);
+                LoadMap(mapFile);
                 App.ElectionVM.GenerateAccess();
             }
         }
@@ -66,27 +66,6 @@ namespace ElectionSimulator
                 default:
                     break;
             }
-        }
-
-        public string GetMapFile()
-        {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".csv";
-            dlg.Filter = "CSV Files (*.csv)|*.csv";
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                return dlg.FileName;
-            }
-
-            return null;
         }
     }
 }

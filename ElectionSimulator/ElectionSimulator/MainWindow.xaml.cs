@@ -62,11 +62,16 @@ namespace ElectionSimulator
 
         private void StartNewSimulation(object sender, RoutedEventArgs e)
         {
-            ElectionInitializer electionInitializer = new ElectionInitializer();
-            LoadFirstTextures(Board);
-            App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
-            App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
-            RefreshBoard();
+            NewSimulationWindow newSimulationWindow = new NewSimulationWindow();
+            newSimulationWindow.ShowDialog();
+            if (newSimulationWindow.validated)
+            {
+                ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, null);
+                LoadFirstTextures(Board);
+                App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
+                App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
+                RefreshBoard();
+            }
         }
 
         private void PlaySimulation(object sender, RoutedEventArgs e)
