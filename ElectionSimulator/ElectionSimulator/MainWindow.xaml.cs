@@ -51,7 +51,14 @@ namespace ElectionSimulator
             new Uri("resource/hqs/hq-fn.png", UriKind.Relative),
             new Uri("resource/hqs/hq-fi.png", UriKind.Relative),
             new Uri("resource/hqs/hq-lr.png", UriKind.Relative)
-        }); 
+        });
+
+        List<Uri> Activists = new List<Uri>(new Uri[] {
+            new Uri("resource/characters/activists/activist-em.png", UriKind.Relative),
+            new Uri("resource/characters/activists/activist-fn.png", UriKind.Relative),
+            new Uri("resource/characters/activists/activist-fi.png", UriKind.Relative),
+            new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
+        });
 
         public MainWindow()
         {
@@ -120,12 +127,13 @@ namespace ElectionSimulator
 
             foreach (ElectionCharacter character in App.ElectionVM.Characters)
             {
-                Image activist = new Image();
-                BitmapImage activistSource = new BitmapImage(new Uri("resource/characters/activists/activistfi.png", UriKind.Relative));
-                activist.Source = activistSource;
-                Board.Children.Add(activist);
-                Grid.SetColumn(activist, character.position.X);
-                Grid.SetRow(activist, character.position.Y);
+                // Add test for type of character
+                Image characterImage = new Image();
+                BitmapImage characterSource = getActivistTexture(character);
+                characterImage.Source = characterSource;
+                Board.Children.Add(characterImage);
+                Grid.SetColumn(characterImage, character.position.X);
+                Grid.SetRow(characterImage, character.position.Y);
             }
         }
 
@@ -210,6 +218,23 @@ namespace ElectionSimulator
                     return new BitmapImage(HQs[2]);
                 case "Les Républicains":
                     return new BitmapImage(HQs[3]);
+            }
+            return null;
+        }
+
+        private BitmapImage getActivistTexture(ElectionCharacter character)
+        {
+            Activist activist = (Activist)character;
+            switch (activist.PoliticalParty.Name)
+            {
+                case "En Marche":
+                    return new BitmapImage(Activists[0]);
+                case "Front National":
+                    return new BitmapImage(Activists[1]);
+                case "France Insoumise":
+                    return new BitmapImage(Activists[2]);
+                case "Les Républicains":
+                    return new BitmapImage(Activists[3]);
             }
             return null;
         }
