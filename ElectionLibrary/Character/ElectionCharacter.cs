@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using AbstractLibrary.Character;
-using ElectionLibrary.Environment;
 using ElectionLibrary.Character.Behavior;
+using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character
 { 
@@ -31,13 +31,12 @@ namespace ElectionLibrary.Character
         {
             this.Behavior = behavior;
             this.position = position;
-            this.moral = 100;   
+            this.moral = 100;
         }
 
         public void NextTurn(AbstractArea area)
         {
             // OBJECT HERE
-
 
             // MOVE
             this.MoveTo(MoveDecision(area));
