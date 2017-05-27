@@ -183,6 +183,8 @@ namespace ElectionSimulator
 
         internal void NextTurn()
         {
+            GenerateEvents();
+
             foreach (ElectionCharacter character in Characters)
             {
                 AbstractArea currentArea = Areas[character.position.Y][character.position.X];
@@ -191,6 +193,16 @@ namespace ElectionSimulator
 
                 currentArea.RemoveCharacter(character);
                 newArea.AddCharacter(character);
+            }
+
+        }
+
+        private void GenerateEvents()
+        {
+            int randomNumber = MainWindow.random.Next(0, 100);
+            if(randomNumber == 69) // So funny
+            {
+                
             }
         }
 
