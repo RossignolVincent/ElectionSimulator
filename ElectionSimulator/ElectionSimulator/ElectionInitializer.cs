@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using ElectionLibrary.Environment;
 using ElectionLibrary;
+using ElectionLibrary.Parties;
 
 namespace ElectionSimulator
 {
@@ -26,7 +27,6 @@ namespace ElectionSimulator
             if (mapFile != null)
             {
                 LoadMap(mapFile);
-                App.ElectionVM.GenerateAccess();
             }
         }
 

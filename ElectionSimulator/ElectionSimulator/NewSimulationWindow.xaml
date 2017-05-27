@@ -18,11 +18,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label      Grid.Column="0" Grid.Row="0">Nombre de mouvements</Label>
-        <ListBox    Grid.Column="1" Grid.Row="0" SelectionMode="Multiple" SelectionChanged="PartiesSelectionChanged">
-            <ListBoxItem>Front National</ListBoxItem>
-            <ListBoxItem>France Insoumise</ListBoxItem>
-            <ListBoxItem>En Marche !</ListBoxItem>
-            <ListBoxItem>Les Républicains</ListBoxItem>
+        <ListBox    Grid.Column="1" Grid.Row="0" SelectionMode="Multiple" Name="PoliticalParties">
+
         </ListBox>
         <Label      Grid.Column="0" Grid.Row="1">Carte (format .csv)</Label>
         <Button     Grid.Column="1" Grid.Row="1" Content="Explorer" Click="GetFile"></Button>

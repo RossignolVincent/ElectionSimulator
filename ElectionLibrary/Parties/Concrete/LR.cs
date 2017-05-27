@@ -8,16 +8,9 @@ namespace ElectionLibrary.Parties.Concrete
 {
     public class LR : PoliticalParty
     {
-
-        public override PoliticalParty Instance()
+        public LR()
         {
-            if (instance == null)
-            {
-                instance = new LR();
-                name = "Les Républicains";
-            }
-
-            return instance;
+            Name = "Les Républicains";
         }
     }
 }

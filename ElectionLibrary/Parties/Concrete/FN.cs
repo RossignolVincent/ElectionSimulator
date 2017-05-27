@@ -8,16 +8,9 @@ namespace ElectionLibrary.Parties.Concrete
 {
     public class FN : PoliticalParty
     {
-
-        public override PoliticalParty Instance()
+        public FN()
         {
-            if (instance == null)
-            {
-                instance = new FI();
-                name = "Front National";
-            }
-
-            return instance;
+            Name = "Front National";
         }
     }
 }

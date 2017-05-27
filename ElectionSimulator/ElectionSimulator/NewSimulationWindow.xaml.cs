@@ -1,7 +1,10 @@
 ﻿using ElectionLibrary;
+using ElectionLibrary.Parties;
+using ElectionLibrary.Parties.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,11 +30,19 @@ namespace ElectionSimulator
         public NewSimulationWindow()
         {
             InitializeComponent();
-        }
 
-        private void PartiesSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
+            Parties = new List<PoliticalParty>();
+
+            var PartiesList = typeof(PoliticalParty).Assembly.GetTypes()
+                .Where(t => t.Namespace == "ElectionLibrary.Parties.Concrete").ToList();
+
+            foreach (var obj in PartiesList)
+            {
+                ListBoxItem lbi = new ListBoxItem();
+                lbi.Name = obj.Name;
+                lbi.Content = obj.Name;
+                PoliticalParties.Items.Add(lbi);
+            }
         }
 
         private void GetFile(object sender, RoutedEventArgs e)
@@ -62,6 +73,31 @@ namespace ElectionSimulator
 
         private void Validate(object sender, RoutedEventArgs e)
         {
+            foreach (ListBoxItem item in PoliticalParties.SelectedItems)
+            {
+                /*Assembly assembly = typeof(PoliticalParty).Assembly;
+                PoliticalParty party = (PoliticalParty) Activator.CreateInstance(assembly.GetType(item.Name));
+                Parties.Add(party);*/
+                switch (item.Name)
+                {
+                    case "EM":
+                        EM EnMarche = new EM();
+                        Parties.Add(EnMarche);
+                        break;
+                    case "FI":
+                        FI FranceInsoumise = new FI();
+                        Parties.Add(FranceInsoumise);
+                        break;
+                    case "FN":
+                        FN FrontNational = new FN();
+                        Parties.Add(FrontNational);
+                        break;
+                    case "LR":
+                        LR LesRepublicains = new LR();
+                        Parties.Add(LesRepublicains);
+                        break;
+                }
+            }
             validated = true;
             Close();
         }

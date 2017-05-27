@@ -20,7 +20,7 @@ namespace ElectionLibrary
 	    }
 
         public override string ToString() {
-            return "(" + Pos.X + "," + Pos.y + ")";
+            return "(" + Pos.X + "," + Pos.Y + ")";
         }
     }
 }

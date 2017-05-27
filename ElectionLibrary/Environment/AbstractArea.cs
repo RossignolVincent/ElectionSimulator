@@ -1,5 +1,4 @@
 ﻿using System;
-using AbstractLibrary.Environment;
 
 namespace ElectionLibrary.Environment
 {
@@ -7,7 +6,7 @@ namespace ElectionLibrary.Environment
     {
         public Position position { get;}
 
-        public AbstractArea(string name, Position position) : base(name)
+        protected AbstractArea(string name, Position position) : base(name)
         {
             this.position = position;
         }

@@ -8,16 +8,9 @@ namespace ElectionLibrary.Parties.Concrete
 {
     public class EM : PoliticalParty
     {
-
-        public override PoliticalParty Instance()
+        public EM()
         {
-            if (instance == null)
-            {
-                instance = new FI();
-                name = "En Marche";
-            }
-
-            return instance;
+            Name = "En Marche";
         }
     }
 }

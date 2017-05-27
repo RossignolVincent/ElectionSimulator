@@ -1,5 +1,6 @@
 ﻿using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
+using ElectionLibrary.Parties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace ElectionSimulator
     {
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
-        static Random random = new Random();
+        public static Random random = new Random();
         List<List<Image>> map = new List<List<Image>>();
 
         List<Uri> Buildings = new List<Uri>(new Uri[] {
@@ -44,6 +45,13 @@ namespace ElectionSimulator
             new Uri("resource/empties/empty1.png", UriKind.Relative),
             new Uri("resource/empties/empty2.png", UriKind.Relative)
         });
+
+        List<Uri> HQs = new List<Uri>(new Uri[] {
+            new Uri("resource/hqs/hq-em.png", UriKind.Relative),
+            new Uri("resource/hqs/hq-fn.png", UriKind.Relative),
+            new Uri("resource/hqs/hq-fi.png", UriKind.Relative),
+            new Uri("resource/hqs/hq-lr.png", UriKind.Relative)
+        }); 
 
         public MainWindow()
         {
@@ -66,10 +74,13 @@ namespace ElectionSimulator
             newSimulationWindow.ShowDialog();
             if (newSimulationWindow.validated)
             {
-                ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, null);
+                ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, newSimulationWindow.Parties);
+                App.ElectionVM.Parties = newSimulationWindow.Parties;
+                App.ElectionVM.GenerateAccessAndHQs();
                 LoadFirstTextures(Board);
                 App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
                 App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
+                App.ElectionVM.GenerateCharacters();
                 RefreshBoard();
             }
         }
@@ -171,13 +182,36 @@ namespace ElectionSimulator
         private Image LoadOneTexture(AbstractArea a)
         {
             Image image = new Image();
+
             if (a is Street)
                 image.Source = getStreetTexture();
             else if (a is Building)
                 image.Source = getBuildingTexture();
-            else if(a is EmptyArea)
-                    image.Source = getEmptyTexture();
+            else if (a is EmptyArea)
+                image.Source = getEmptyTexture();
+            else if (a is HQ)
+            {
+                HQ hq = (HQ)a;
+                image.Source = getHQTexture(hq.Party);
+            }
+                
             return image;
+        }
+
+        private ImageSource getHQTexture(PoliticalParty party)
+        {
+            switch (party.Name)
+            {
+                case "En Marche":
+                    return new BitmapImage(HQs[0]);
+                case "Front National":
+                    return new BitmapImage(HQs[1]);
+                case "France Insoumise":
+                    return new BitmapImage(HQs[2]);
+                case "Les Républicains":
+                    return new BitmapImage(HQs[3]);
+            }
+            return null;
         }
 
         private ImageSource getEmptyTexture()

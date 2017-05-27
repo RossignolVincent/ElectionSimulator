@@ -144,7 +144,12 @@
       <Name>ElectionLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="resource\hqs\hq-em.png" />
+    <Resource Include="resource\hqs\hq-fi.png" />
+    <Resource Include="resource\hqs\hq-fn.png" />
+    <Resource Include="resource\hqs\hq-lr.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="resource\characters\activists\activistfi.png" />
   </ItemGroup>

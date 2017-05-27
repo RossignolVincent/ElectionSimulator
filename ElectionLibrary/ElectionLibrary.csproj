@@ -55,20 +55,32 @@
     <Compile Include="Environment\Opinion.cs" />
     <Compile Include="Environment\Position.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
+    <Compile Include="Parties\Concrete\EM.cs" />
+    <Compile Include="Parties\Concrete\FI.cs" />
+    <Compile Include="Parties\Concrete\FN.cs" />
+    <Compile Include="Parties\Concrete\LR.cs" />
+    <Compile Include="Parties\PoliticalParty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Environment\AbstractArea.cs" />
     <Compile Include="Environment\AbstractElectionArea.cs" />
     <Compile Include="Environment\Building.cs" />
     <Compile Include="Environment\HQ.cs" />
     <Compile Include="Environment\PublicPlace.cs" />
-    <Compile Include="PoliticalParty.cs" />
     <Compile Include="Environment\Street.cs" />
+    <Compile Include="Character\State\PoliticalCharacterState.cs" />
+    <Compile Include="Character\State\InStreetState.cs" />
+    <Compile Include="Character\State\InElectionAreaState.cs" />
+    <Compile Include="Character\State\IsGoingBackToHQState.cs" />
+    <Compile Include="Character\State\InHQState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractLibrary\AbstractLibrary.csproj">
       <Project>{2b18b7be-582f-4494-9576-4f4f1b4e7c20}</Project>
       <Name>AbstractLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Character\State\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
