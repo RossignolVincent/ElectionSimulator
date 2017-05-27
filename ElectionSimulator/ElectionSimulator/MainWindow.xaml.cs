@@ -159,12 +159,12 @@ namespace ElectionSimulator
 
             for (int i = 0; i < poll.Result.opinionList.Count; i++)
             {
-                Event.ColumnDefinitions.Add(new ColumnDefinition());
+                Event.RowDefinitions.Add(new RowDefinition());
             }
 
             for (int i = 0; i < 2; i++)
             {
-                Event.RowDefinitions.Add(new RowDefinition());
+                Event.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
             int j = 0;
@@ -173,13 +173,13 @@ namespace ElectionSimulator
                 Label partyName = new Label();
                 partyName.Content = party.Name;
                 Label percent = new Label();
-                percent.Content = poll.Result.opinionList[party] + " %";
+                percent.Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %";
                 Event.Children.Add(partyName);
                 Event.Children.Add(percent);
-                Grid.SetRow(partyName, 0);
-                Grid.SetRow(percent, 1);
-                Grid.SetColumn(partyName, j);
-                Grid.SetColumn(percent, j);
+                Grid.SetRow(partyName, j);
+                Grid.SetRow(percent, j);
+                Grid.SetColumn(partyName, 0);
+                Grid.SetColumn(percent, 1);
                 j++;
             }
         }
