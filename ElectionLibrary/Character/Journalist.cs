@@ -1,10 +1,7 @@
-﻿using ElectionLibrary.Character.Behavior;
+﻿﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ElectionLibrary.Character
 {
@@ -35,6 +32,16 @@ namespace ElectionLibrary.Character
             }
 
             return bestMove.position;
+        }
+
+        public override void Rest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Tired()
+        {
+            throw new NotImplementedException();
         }
     }
 }

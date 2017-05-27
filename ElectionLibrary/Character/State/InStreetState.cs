@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character.State
@@ -39,7 +39,12 @@ namespace ElectionLibrary.Character.State
             }
             else
             {
-                politician.VisitedElectionAreas.Add((AbstractElectionArea) bestMove);
+                politician.VisitedElectionAreas.Enqueue((AbstractElectionArea) bestMove);
+                if(politician.VisitedElectionAreas.Count > 15)
+                {
+                    politician.VisitedElectionAreas.Dequeue();
+                }
+
                 politician.State = new InElectionAreaState();
             }
 

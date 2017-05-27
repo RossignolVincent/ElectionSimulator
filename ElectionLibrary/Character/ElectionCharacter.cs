@@ -7,6 +7,8 @@ namespace ElectionLibrary.Character
 { 
     public abstract class ElectionCharacter : AbstractCharacter 
     {
+        protected static int INIT_MORAL = 10;
+
         public AbstractBehavior Behavior { get; set; }
 
         public Position position { get; set; }
@@ -31,7 +33,7 @@ namespace ElectionLibrary.Character
         {
             this.Behavior = behavior;
             this.position = position;
-            this.moral = 100;
+            this.moral = INIT_MORAL;
         }
 
         public void NextTurn(AbstractArea area)
@@ -48,5 +50,9 @@ namespace ElectionLibrary.Character
         {
             this.position = position;
         }
+
+        public abstract void Rest();
+
+        public abstract void Tired();
     }
 }

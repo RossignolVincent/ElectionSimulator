@@ -1,4 +1,4 @@
-﻿﻿﻿using ElectionLibrary.Character.Behavior;
+﻿﻿﻿﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
@@ -12,13 +12,13 @@ namespace ElectionLibrary.Character
     {
 		public PoliticalParty PoliticalParty { get; }
 		public PoliticalCharacterState State { get; set; }
-        public List<AbstractElectionArea> VisitedElectionAreas { get; }
+        public Queue<AbstractElectionArea> VisitedElectionAreas { get; }
         public Stack<Position> PathToHQ { get; set; }
 
         protected PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
         {
             PoliticalParty = politicalParty;
-            VisitedElectionAreas = new List<AbstractElectionArea>();
+            VisitedElectionAreas = new Queue<AbstractElectionArea>();
             State = new InHQState();
             PathToHQ = null;
         }
@@ -52,5 +52,20 @@ namespace ElectionLibrary.Character
 
             return PathToHQ;
         }
+
+        public override void Rest()
+        {
+            Moral = INIT_MORAL;
+        }
+
+		public override void Tired()
+		{
+			Moral--;
+
+			if (Moral <= 0)
+			{
+                State = new IsGoingBackToHQState();
+			}
+		}
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character.State
@@ -26,9 +26,12 @@ namespace ElectionLibrary.Character.State
             else
             {
                 street = GetRandomStreet(area);
-            }
-			
+			}
+
 			politician.State = new InStreetState();
+
+            // Get tired
+            politician.Tired();
             return street.position;
         }
     }
