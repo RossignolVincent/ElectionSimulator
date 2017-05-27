@@ -61,7 +61,7 @@ namespace ElectionLibrary.Environment
 
 			foreach (PoliticalParty concurrent in concurrents)
 			{
-				opinionList[concurrent] = GetRandomNumberFromList(newConcurrentsOpinions);
+				opinionList[concurrent] = opinionList[concurrent] - GetRandomNumberFromList(newConcurrentsOpinions);
 			}
         }
 

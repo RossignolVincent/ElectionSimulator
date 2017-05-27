@@ -62,10 +62,10 @@ namespace ElectionLibrary.Character
 		{
 			Moral--;
 
-			if (Moral <= 0)
+			/*if (Moral <= 0)
 			{
                 State = new IsGoingBackToHQState();
-			}
+			}*/
 		}
     }
 }
