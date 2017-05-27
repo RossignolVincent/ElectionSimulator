@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using AbstractLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character.Behavior;
@@ -7,9 +7,11 @@ namespace ElectionLibrary.Character
 { 
     public abstract class ElectionCharacter : AbstractCharacter 
     {
-        public AbstractBehavior behavior { get; set; }
+        public AbstractBehavior Behavior { get; set; }
 
         public Position position { get; set; }
+
+        public int Aura { get; set; }
 
         private int moral;
         public int Moral 
@@ -27,7 +29,7 @@ namespace ElectionLibrary.Character
 
         protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
-            this.behavior = behavior;
+            this.Behavior = behavior;
             this.position = position;
             this.moral = 100;   
         }

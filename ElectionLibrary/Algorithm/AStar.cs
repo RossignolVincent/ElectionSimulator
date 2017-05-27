@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Algorithm
 {
@@ -18,11 +19,11 @@ namespace ElectionLibrary.Algorithm
 
         private bool isComputed;
 
-		public AStar(int startX, int startY, int targetX, int targetY, int[,] cells)
+        public AStar(Position start, Position target, int[,] cells)
 		{
 			this.cells = ConvertArray(cells);
-			this.start = this.cells[startY, startX];
-			this.target = this.cells[targetY, targetX];
+            this.start = this.cells[start.Y, start.X];
+			this.target = this.cells[target.Y, target.X];
 			this.isComputed = false;
 
 			InitLists();
@@ -30,11 +31,22 @@ namespace ElectionLibrary.Algorithm
 			DisplayCells(null);
 		}
 
-		public AStar(int startX, int startY, int targetX, int targetY, Node[,] cells)
+		public AStar(Position start, Position target, Node[,] cells)
 		{
 			this.cells = cells;
-			this.start = this.cells[startY, startX];
-			this.target = this.cells[targetY, targetX];
+            this.start = this.cells[start.Y, start.X];
+			this.target = this.cells[target.Y, target.X];
+			this.isComputed = false;
+
+			InitLists();
+			ComputeHeuristics();
+		}
+
+		public AStar(Position start, Position target, List<List<AbstractArea>> cells)
+		{
+            this.cells = ConvertArray(cells);
+			this.start = this.cells[start.Y, start.X];
+			this.target = this.cells[target.Y, target.X];
 			this.isComputed = false;
 
 			InitLists();
@@ -63,6 +75,28 @@ namespace ElectionLibrary.Algorithm
 			return outputs;
 		}
 
+        public static Node[,] ConvertArray(List<List<AbstractArea>> inputs)
+        {
+            Node[,] outputs = new Node[inputs.Count, inputs[0].Count];
+
+            for (int y = 0; y < inputs.Count; y++)
+            {
+                for (int x = 0; x < inputs[0].Count; x++)
+                {
+                    if(inputs[y][x] is Street)
+                    {
+                        outputs[y, x] = new Node(x, y);
+                    }
+                    else
+                    {
+                        outputs[y, x] = null;
+                    }
+                }
+            }
+
+            return outputs;
+        }
+
 		private void InitLists()
 		{
             this.openNodes = new List<Node>();
@@ -77,7 +111,7 @@ namespace ElectionLibrary.Algorithm
 				{
 					if (cells[y, x] != null)
 					{
-                        cells[y, x].SetHeuristicCost(Math.Abs(start.GetX() - y) + Math.Abs(target.GetY() - x));
+                        cells[y, x].HeuristicCost = Math.Abs(start.Pos.X - y) + Math.Abs(target.Pos.Y - x);
 					}
 				}
 			}
@@ -90,13 +124,13 @@ namespace ElectionLibrary.Algorithm
 				return;
 			}
 
-			int newFinalCost = neighbour.GetHeuristicCost() + cost;
+			int newFinalCost = neighbour.HeuristicCost + cost;
 			bool inOpen = openNodes.Contains(neighbour);
 
-			if (!inOpen || (neighbour.GetFinalCost() > 0 && neighbour.GetFinalCost() > newFinalCost))
+			if (!inOpen || (neighbour.FinalCost > 0 && neighbour.FinalCost > newFinalCost))
 			{
-				neighbour.SetFinalCost(newFinalCost);
-				neighbour.SetParent(current);
+				neighbour.FinalCost = newFinalCost;
+				neighbour.Parent = current;
 
 				if (!inOpen)
 				{
@@ -123,27 +157,27 @@ namespace ElectionLibrary.Algorithm
 
 				// Compute neighbours
 				// left
-				if (current.GetX() > 0)
+				if (current.Pos.X > 0)
 				{
-					UpdateNeighbour(current, cells[current.GetY(), current.GetX() - 1], current.GetFinalCost() + V_H_COST);
+					UpdateNeighbour(current, cells[current.Pos.Y, current.Pos.X - 1], current.FinalCost + V_H_COST);
 				}
 
 				// right
-                if (current.GetX() + 1 < cells.GetLength(0))
+                if (current.Pos.X + 1 < cells.GetLength(0))
 				{
-					UpdateNeighbour(current, cells[current.GetY(), current.GetX() + 1], current.GetFinalCost() + V_H_COST);
+                    UpdateNeighbour(current, cells[current.Pos.Y, current.Pos.X + 1], current.FinalCost + V_H_COST);
 				}
 
 				// top
-				if (current.GetY() > 0)
+				if (current.Pos.Y > 0)
 				{
-					UpdateNeighbour(current, cells[current.GetY() - 1, current.GetX()], current.GetFinalCost() + V_H_COST);
+                    UpdateNeighbour(current, cells[current.Pos.Y - 1, current.Pos.X], current.FinalCost + V_H_COST);
 				}
 
 				// bottom
-                if (current.GetY() + 1 < cells.GetLength(1))
+                if (current.Pos.Y + 1 < cells.GetLength(1))
 				{
-					UpdateNeighbour(current, cells[current.GetY() + 1, current.GetX()], current.GetFinalCost() + V_H_COST);
+                    UpdateNeighbour(current, cells[current.Pos.Y + 1, current.Pos.X], current.FinalCost + V_H_COST);
 				}
 			}
 
@@ -156,7 +190,7 @@ namespace ElectionLibrary.Algorithm
             Node result = null;
 
             foreach(Node node in openNodes) {
-                if (result == null || result.GetFinalCost() > node.GetFinalCost()) {
+                if (result == null || result.FinalCost > node.FinalCost) {
                     result = node;
                 }
             }
@@ -164,23 +198,41 @@ namespace ElectionLibrary.Algorithm
             return result;
         }
 
-        private List<Node> GetResult()
+        public List<Node> GetResult()
 		{
 			List<Node> result = null;
-			if (target.GetParent() != null)
+			if (target.Parent != null)
 			{
 				result = new List<Node>();
 				result.Add(target);
-				Node current = target.GetParent();
+				Node current = target.Parent;
 				while (current != null)
 				{
 					result.Add(current);
-					current = current.GetParent();
+					current = current.Parent;
 				}
 			}
 
 			return result;
 		}
+
+        public Stack<Position> GetPath()
+        {
+            Stack<Position> result = null;
+			if (target.Parent != null)
+			{
+                result = new Stack<Position>();
+                result.Push(target.Pos);
+				Node current = target.Parent;
+				while (current != null)
+				{
+                    result.Push(current.Pos);
+					current = current.Parent;
+				}
+			}
+
+			return result;
+        }
 
 		private void DisplayCells(List<Node> result)
 		{

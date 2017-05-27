@@ -12,7 +12,7 @@ namespace ElectionLibrary.Character
     {
         public Activist(string name, Position position, PoliticalParty politicalParty) : base(name, null, position, politicalParty)
         {
-            this.behavior = new ActivistBehavior();
+            this.Behavior = new ActivistBehavior();
         }
     }
 }

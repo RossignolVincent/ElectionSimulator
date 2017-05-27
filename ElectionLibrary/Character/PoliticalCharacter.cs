@@ -1,11 +1,9 @@
-﻿using ElectionLibrary.Character.Behavior;
+﻿﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using ElectionLibrary.Algorithm;
 
 namespace ElectionLibrary.Character
 {
@@ -14,12 +12,15 @@ namespace ElectionLibrary.Character
         public PoliticalParty PoliticalParty { get; }
         public List<AbstractElectionArea> visitedElectionAreas;
         public bool inBuilding;
+        private bool isGoingBackToHQ;
+        private Stack<Position> pathToHQ;
 
         protected PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
         {
             this.PoliticalParty = politicalParty;
             this.visitedElectionAreas = new List<AbstractElectionArea>();
             this.inBuilding = false;
+            isGoingBackToHQ = false;
         }
 
         public override Position MoveDecision(AbstractArea area)
@@ -51,8 +52,9 @@ namespace ElectionLibrary.Character
             if (bestMove == area)
             {
                 Random random = new Random();
-                int newStreet = random.Next(area.Accesses.Count);
-                bestMove = (AbstractArea) area.Accesses[newStreet].EndArea;
+                List<AbstractArea> streets = GetStreets(area.Accesses);
+                int newStreet = random.Next(streets.Count);
+                bestMove = streets[newStreet];
             }
             else
             {
@@ -60,6 +62,19 @@ namespace ElectionLibrary.Character
             }
 
             return bestMove.position;
+        }
+
+        private List<AbstractArea> GetStreets(List<AbstractLibrary.Environment.AbstractAccess> list)
+        {
+            List<AbstractArea> streets = new List<AbstractArea>();
+            foreach (AbstractLibrary.Environment.AbstractAccess access in list)
+            {
+                if (access.EndArea is Street)
+                {
+                    streets.Add((AbstractArea) access.EndArea);
+                }
+            }
+            return streets;
         }
 
         private bool HasNotVisited(AbstractElectionArea area)
@@ -90,6 +105,26 @@ namespace ElectionLibrary.Character
         public void OutBuilding()
         {
             inBuilding = false;
+        }
+
+        public Position GoBackToHQ(Position HQPosition, List<List<AbstractArea>> grid)
+        {
+            if(!isGoingBackToHQ)
+            {
+                AStar aStar = new AStar(position, HQPosition, grid);
+                aStar.Compute();
+                pathToHQ = aStar.GetPath();
+
+                isGoingBackToHQ = true;
+            }
+
+            if(pathToHQ.Count() == 0)
+            {
+                isGoingBackToHQ = false;
+                return null;
+            }
+
+            return pathToHQ.Pop();
         }
     }
 }
