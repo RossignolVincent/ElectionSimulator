@@ -151,7 +151,12 @@
     <Resource Include="resource\hqs\hq-lr.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resource\characters\activists\activistfi.png" />
+    <Resource Include="resource\characters\activists\activist-fi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\characters\activists\activist-em.png" />
+    <Resource Include="resource\characters\activists\activist-fn.png" />
+    <Resource Include="resource\characters\activists\activist-lr.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

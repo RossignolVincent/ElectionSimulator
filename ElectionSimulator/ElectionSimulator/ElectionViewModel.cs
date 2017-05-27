@@ -56,24 +56,24 @@ namespace ElectionSimulator
             Areas = new List<List<AbstractArea>>();
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
-            //Activist activist = new Activist("activist1", new Position(1, 1), new PoliticalParty("FI"));
-            //Characters.Add(activist);
         }
 
         internal void GenerateCharacters()
         {
             foreach(PoliticalParty party in Parties)
             {
-                Position HQPosition = findHQ(party);
+                HQ hq = findHQ(party);
+                
                 for(int i = 0; i < 4; i++)
                 {
-                    Activist activist = (Activist)factory.CreateActivist(HQPosition, party);
+                    Activist activist = (Activist)factory.CreateActivist(hq.position, party);
                     Characters.Add(activist);
+                    hq.AddCharacter(activist);
                 }
             }
         }
 
-        private Position findHQ(PoliticalParty party)
+        private HQ findHQ(PoliticalParty party)
         {
             foreach (List<AbstractArea> areaList in Areas)
             {
@@ -83,7 +83,7 @@ namespace ElectionSimulator
                     {
                         HQ hq = (HQ)area;
                         if (hq.Party == party)
-                            return hq.position;
+                            return hq;
                     }
                 }
             }
@@ -183,9 +183,26 @@ namespace ElectionSimulator
 
         internal void NextTurn()
         {
+            GenerateEvents();
+
             foreach (ElectionCharacter character in Characters)
             {
-                character.NextTurn(Areas[character.position.Y][character.position.X]);
+                AbstractArea currentArea = Areas[character.position.Y][character.position.X];
+                character.NextTurn(currentArea);
+                AbstractArea newArea = Areas[character.position.Y][character.position.X];
+
+                currentArea.RemoveCharacter(character);
+                newArea.AddCharacter(character);
+            }
+
+        }
+
+        private void GenerateEvents()
+        {
+            int randomNumber = MainWindow.random.Next(0, 100);
+            if(randomNumber == 69) // So funny
+            {
+                
             }
         }
 
