@@ -31,6 +31,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Event\AbstractEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factory\AbstractFactory.cs" />
     <Compile Include="Environment\AbstractAccess.cs" />
@@ -41,12 +42,6 @@
     <Compile Include="Pattern\IObservable.cs" />
     <Compile Include="Pattern\IObserver.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factory\" />
-    <Folder Include="Object\" />
-    <Folder Include="Character\" />
-    <Folder Include="Environment\" />
-    <Folder Include="Pattern\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

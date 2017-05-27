@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using ElectionLibrary.Factory;
 using ElectionLibrary;
 using ElectionLibrary.Parties;
+using ElectionLibrary.Event;
 
 namespace ElectionSimulator
 {
@@ -99,15 +100,7 @@ namespace ElectionSimulator
 
         private void GenerateHQs()
         {
-            List<Building> buildings = new List<Building>();
-            foreach (List<AbstractArea> areaList in Areas)
-            {
-                foreach (AbstractArea area in areaList)
-                {
-                    if(area is Building)
-                        buildings.Add((Building) area);
-                }
-            }
+            List<Building> buildings = GetBuildings();
 
             foreach (PoliticalParty party in Parties)
             {
@@ -197,13 +190,46 @@ namespace ElectionSimulator
 
         }
 
+        private List<Building> GetBuildings()
+        {
+            List<Building> buildings = new List<Building>();
+            foreach (List<AbstractArea> areaList in Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    if (area is Building)
+                        buildings.Add((Building)area);
+                }
+            }
+
+            return buildings;
+        }
+       
+
         private void GenerateEvents()
         {
             int randomNumber = MainWindow.random.Next(0, 100);
             if(randomNumber == 69) // So funny
             {
-                
+                List<Building> buildings = GetBuildings();
+                List<Opinion> opinions = GetOpinions(buildings);
+                Poll poll = new Poll();
+                Opinion result = poll.Result(opinions);
+                foreach (PoliticalParty party in result.opinionList.Keys)
+                {
+                    Console.WriteLine(party + " : " + result.opinionList[party]);
+                }
             }
+        }
+
+        private List<Opinion> GetOpinions(List<Building> buildings)
+        {
+            List<Opinion> opinions = new List<Opinion>();
+            foreach(Building building in buildings)
+            {
+                opinions.Add(building.opinion);
+            }
+            return opinions;
         }
 
         internal void Play()
@@ -228,8 +254,7 @@ namespace ElectionSimulator
 
         internal void AddBuilding(int i)
         {
-            List<PoliticalParty> list = new List<PoliticalParty>();
-            Areas[i].Add(factory.CreateBuilding(new Opinion(list), new Position(Areas[i].Count, i)));
+            Areas[i].Add(factory.CreateBuilding(new Opinion(Parties), new Position(Areas[i].Count, i)));
         }
 
         internal void AddEmpty(int i)

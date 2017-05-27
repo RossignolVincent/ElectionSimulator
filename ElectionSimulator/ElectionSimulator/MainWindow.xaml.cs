@@ -81,8 +81,8 @@ namespace ElectionSimulator
             newSimulationWindow.ShowDialog();
             if (newSimulationWindow.validated)
             {
-                ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, newSimulationWindow.Parties);
                 App.ElectionVM.Parties = newSimulationWindow.Parties;
+                ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, newSimulationWindow.Parties);
                 App.ElectionVM.GenerateAccessAndHQs();
                 LoadFirstTextures(Board);
                 App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;

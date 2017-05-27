@@ -54,6 +54,9 @@
     <Compile Include="Environment\EmptyArea.cs" />
     <Compile Include="Environment\Opinion.cs" />
     <Compile Include="Environment\Position.cs" />
+    <Compile Include="Event\Article.cs" />
+    <Compile Include="Event\ElectionEvent.cs" />
+    <Compile Include="Event\Poll.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
     <Compile Include="Parties\Concrete\EM.cs" />
     <Compile Include="Parties\Concrete\FI.cs" />
@@ -79,9 +82,7 @@
       <Name>AbstractLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Character\State\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
