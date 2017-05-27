@@ -49,6 +49,8 @@ namespace ElectionSimulator
 
         public List<PoliticalParty> Parties { get; set; }
 
+        public ElectionEvent Event { get; set; }
+
         public ElectionViewModel()
         {
             DimensionX = 20;
@@ -57,6 +59,7 @@ namespace ElectionSimulator
             Areas = new List<List<AbstractArea>>();
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
+            Event = null;
         }
 
         internal void GenerateCharacters()
@@ -209,16 +212,13 @@ namespace ElectionSimulator
         private void GenerateEvents()
         {
             int randomNumber = MainWindow.random.Next(0, 100);
-            if(randomNumber == 69) // So funny
+            if(randomNumber == 1) // So funny
             {
                 List<Building> buildings = GetBuildings();
                 List<Opinion> opinions = GetOpinions(buildings);
                 Poll poll = new Poll();
-                Opinion result = poll.Result(opinions);
-                foreach (PoliticalParty party in result.opinionList.Keys)
-                {
-                    Console.WriteLine(party + " : " + result.opinionList[party]);
-                }
+                poll.GenerateResult(opinions);
+                Event = poll;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
+using ElectionLibrary.Event;
 using ElectionLibrary.Parties;
 using System;
 using System.Collections.Generic;
@@ -134,6 +135,52 @@ namespace ElectionSimulator
                 Board.Children.Add(characterImage);
                 Grid.SetColumn(characterImage, character.position.X);
                 Grid.SetRow(characterImage, character.position.Y);
+            }
+
+            if(App.ElectionVM.Event != null)
+            {
+                if(App.ElectionVM.Event is Poll)
+                {
+                    ShowEvent();
+                }
+                App.ElectionVM.Stop();
+                if (sw.IsRunning)
+                    sw.Stop();
+            }
+        }
+
+        private void ShowEvent()
+        {
+            Event.ColumnDefinitions.Clear();
+            Event.RowDefinitions.Clear();
+            Event.Children.Clear();
+
+            Poll poll = (Poll)App.ElectionVM.Event;
+
+            for (int i = 0; i < poll.Result.opinionList.Count; i++)
+            {
+                Event.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                Event.RowDefinitions.Add(new RowDefinition());
+            }
+
+            int j = 0;
+            foreach (PoliticalParty party in poll.Result.opinionList.Keys)
+            {
+                Label partyName = new Label();
+                partyName.Content = party.Name;
+                Label percent = new Label();
+                percent.Content = poll.Result.opinionList[party] + " %";
+                Event.Children.Add(partyName);
+                Event.Children.Add(percent);
+                Grid.SetRow(partyName, 0);
+                Grid.SetRow(percent, 1);
+                Grid.SetColumn(partyName, j);
+                Grid.SetColumn(percent, j);
+                j++;
             }
         }
 

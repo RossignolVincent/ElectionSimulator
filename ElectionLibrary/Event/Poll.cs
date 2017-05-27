@@ -10,11 +10,13 @@ namespace ElectionLibrary.Event
 {
     public class Poll : ElectionEvent
     {
+        public Opinion Result { get; set; }
+
         public Poll()
         {
         }
 
-        public Opinion Result(List<Opinion> opinions)
+        public void GenerateResult(List<Opinion> opinions)
         {
             int countOpininons = opinions.Count;
 
@@ -39,7 +41,7 @@ namespace ElectionLibrary.Event
                 result.opinionList[party] = result.opinionList[party] / countOpininons;
             }
 
-            return result;
+            Result = result;
         }
     }
 }
