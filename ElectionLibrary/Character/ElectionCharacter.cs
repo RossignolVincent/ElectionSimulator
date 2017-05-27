@@ -2,12 +2,13 @@
 using AbstractLibrary.Character;
 using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
+using System.Collections.Generic;
 
 namespace ElectionLibrary.Character
 { 
     public abstract class ElectionCharacter : AbstractCharacter 
     {
-        protected static int INIT_MORAL = 10;
+        protected static int INIT_MORAL = 25;
 
         public AbstractBehavior Behavior { get; set; }
 
@@ -36,15 +37,15 @@ namespace ElectionLibrary.Character
             this.moral = INIT_MORAL;
         }
 
-        public void NextTurn(AbstractArea area)
+        public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)
         {
             // OBJECT HERE
 
             // MOVE
-            this.MoveTo(MoveDecision(area));
+            this.MoveTo(MoveDecision(area, areas));
         }
 
-        public abstract Position MoveDecision(AbstractArea area);
+        public abstract Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas);
 
         public void MoveTo(Position position)
         {

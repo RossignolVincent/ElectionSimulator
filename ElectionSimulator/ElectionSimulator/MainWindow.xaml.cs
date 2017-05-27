@@ -146,6 +146,7 @@ namespace ElectionSimulator
                 App.ElectionVM.Stop();
                 if (sw.IsRunning)
                     sw.Stop();
+                App.ElectionVM.Event = null;
             }
         }
 

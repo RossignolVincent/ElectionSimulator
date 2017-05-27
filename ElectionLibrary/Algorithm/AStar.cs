@@ -83,7 +83,7 @@ namespace ElectionLibrary.Algorithm
             {
                 for (int x = 0; x < inputs[0].Count; x++)
                 {
-                    if(inputs[y][x] is Street)
+                    if(inputs[y][x] is Street || inputs[y][x] is HQ)
                     {
                         outputs[y, x] = new Node(x, y);
                     }

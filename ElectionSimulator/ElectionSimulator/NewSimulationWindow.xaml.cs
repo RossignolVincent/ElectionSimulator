@@ -81,19 +81,19 @@ namespace ElectionSimulator
                 switch (item.Name)
                 {
                     case "EM":
-                        EM EnMarche = new EM();
+                        EM EnMarche = new EM(null);
                         Parties.Add(EnMarche);
                         break;
                     case "FI":
-                        FI FranceInsoumise = new FI();
+                        FI FranceInsoumise = new FI(null);
                         Parties.Add(FranceInsoumise);
                         break;
                     case "FN":
-                        FN FrontNational = new FN();
+                        FN FrontNational = new FN(null);
                         Parties.Add(FrontNational);
                         break;
                     case "LR":
-                        LR LesRepublicains = new LR();
+                        LR LesRepublicains = new LR(null);
                         Parties.Add(LesRepublicains);
                         break;
                 }

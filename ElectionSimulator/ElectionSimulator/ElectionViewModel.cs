@@ -108,7 +108,9 @@ namespace ElectionSimulator
             foreach (PoliticalParty party in Parties)
             {
                 Position HQPosition = buildings[MainWindow.random.Next(buildings.Count)].position;
-                Areas[HQPosition.Y][HQPosition.X] = factory.CreateHQ(HQPosition, party);
+                HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
+                Areas[HQPosition.Y][HQPosition.X] = hq;
+                party.HQ = hq;
             }
         }
 
@@ -184,7 +186,7 @@ namespace ElectionSimulator
             foreach (ElectionCharacter character in Characters)
             {
                 AbstractArea currentArea = Areas[character.position.Y][character.position.X];
-                character.NextTurn(currentArea);
+                character.NextTurn(currentArea, Areas);
                 AbstractArea newArea = Areas[character.position.Y][character.position.X];
 
                 currentArea.RemoveCharacter(character);

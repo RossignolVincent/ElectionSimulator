@@ -14,6 +14,7 @@ namespace ElectionLibrary.Character
 		public PoliticalCharacterState State { get; set; }
         public Queue<AbstractElectionArea> VisitedElectionAreas { get; }
         public Stack<Position> PathToHQ { get; set; }
+        private List<List<AbstractArea>> areas;
 
         protected PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
         {
@@ -23,8 +24,11 @@ namespace ElectionLibrary.Character
             PathToHQ = null;
         }
 
-        public override Position MoveDecision(AbstractArea area)
+        public override Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas)
         {
+            if (this.areas == null)
+                this.areas = areas;
+
             return State.Handle(this, area);
         }
 
@@ -42,15 +46,11 @@ namespace ElectionLibrary.Character
 			return false;
 		}
 
-        public Stack<Position> GetPathToHQ(Position HQPosition, List<List<AbstractArea>> grid)
+        public void SetPathToHQ()
         {
-			AStar aStar = new AStar(position, HQPosition, grid);
+			AStar aStar = new AStar(position, PoliticalParty.HQ.position, areas);
 			aStar.Compute();
 			PathToHQ = aStar.GetPath();
-
-			State = new IsGoingBackToHQState();
-
-            return PathToHQ;
         }
 
         public override void Rest()
@@ -62,10 +62,10 @@ namespace ElectionLibrary.Character
 		{
 			Moral--;
 
-			/*if (Moral <= 0)
+			if (Moral <= 0)
 			{
                 State = new IsGoingBackToHQState();
-			}*/
+			}
 		}
     }
 }

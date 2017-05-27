@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectionLibrary.Environment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ElectionLibrary.Parties.Concrete
 {
     public class FN : PoliticalParty
     {
-        public FN()
+        public FN(HQ hq) : base(hq)
         {
             Name = "Front National";
         }

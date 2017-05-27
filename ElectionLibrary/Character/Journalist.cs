@@ -11,7 +11,7 @@ namespace ElectionLibrary.Character
         {
         }
 
-        public override Position MoveDecision(AbstractArea area)
+        public override Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas)
         {
             AbstractArea bestMove = area;
             List<AbstractArea> streetList= new List<AbstractArea>();
