@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ElectionLibrary.Parties;
+using System;
 using System.Collections.Generic;
 
 namespace ElectionLibrary.Environment
 {
     public class Opinion
     {
-        private readonly Dictionary<PoliticalParty, double> opinionList;
+        public Dictionary<PoliticalParty, double> opinionList;
 
         private static readonly Random random = new Random();
 
@@ -16,6 +17,23 @@ namespace ElectionLibrary.Environment
             {
                 opinionList.Add(party, 100 / parties.Count);
             }
+        }
+
+        public Dictionary<PoliticalParty, double> GetPartiesOpinions()
+        {
+            return opinionList;
+        }
+
+        public List<PoliticalParty> GetParties()
+        {
+            List<PoliticalParty> parties = new List<PoliticalParty>();
+
+            foreach (PoliticalParty party in opinionList.Keys)
+            {
+                parties.Add(party);
+            }
+
+            return parties;
         }
 
         public double InfluenceOpinion(PoliticalParty party, int aura, int moral, int nbTurn)
