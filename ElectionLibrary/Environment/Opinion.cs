@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectionLibrary.Parties;
+using System;
 using System.Collections.Generic;
 
 namespace ElectionLibrary.Environment

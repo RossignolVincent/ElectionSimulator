@@ -1,9 +1,10 @@
-﻿﻿using ElectionLibrary.Character.Behavior;
+﻿﻿﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
 using ElectionLibrary.Algorithm;
 using ElectionLibrary.Character.State;
+using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Character
 {

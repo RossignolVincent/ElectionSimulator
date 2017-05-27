@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectionSimulator"
         mc:Ignorable="d"
-        Title="NewSimulationWindow" Height="300" Width="300">
+        Title="NewSimulationWindow" Height="400" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0">Nombre de mouvements</Label>
-        <ComboBox Grid.Column="1"></ComboBox>
-        <Button Grid.Column="1" Grid.Row="2" Content="Valider"></Button>
+        <Label      Grid.Column="0" Grid.Row="0">Nombre de mouvements</Label>
+        <ListBox    Grid.Column="1" Grid.Row="0" SelectionMode="Multiple" Name="PoliticalParties">
+
+        </ListBox>
+        <Label      Grid.Column="0" Grid.Row="1">Carte (format .csv)</Label>
+        <Button     Grid.Column="1" Grid.Row="1" Content="Explorer" Click="GetFile"></Button>
+        <Button     Grid.Column="1" Grid.Row="3" Content="Valider" Click="Validate"></Button>
     </Grid>
 </Window>

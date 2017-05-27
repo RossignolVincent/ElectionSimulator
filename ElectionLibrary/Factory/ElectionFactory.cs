@@ -5,6 +5,7 @@ using AbstractLibrary.Character;
 using AbstractLibrary.Object;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
+using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Factory
 {
@@ -61,14 +62,14 @@ namespace ElectionLibrary.Factory
             return new Street("", position);
         }
 
-		public Environment.AbstractArea CreateHQ(Position position)
+		public Environment.AbstractArea CreateHQ(Position position, PoliticalParty party)
 		{
-			if (position == null)
+            if (position == null || party == null)
 			{
 				throw new ArgumentException();
 			}
 
-            return new HQ("", position);
+            return new HQ("", position, party);
 		}
 
 		public Environment.AbstractArea CreateEmptyArea(Position position)
