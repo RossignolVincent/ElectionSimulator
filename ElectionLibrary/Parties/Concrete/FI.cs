@@ -8,16 +8,9 @@ namespace ElectionLibrary.Parties.Concrete
 {
     public class FI : PoliticalParty
     {
-
-        public override PoliticalParty Instance()
+        public FI()
         {
-            if (instance == null)
-            {
-                instance = new FI();
-                name = "France Insoumise";
-            }
-
-            return instance;
+            Name = "France Insoumise";
         }
     }
 }
