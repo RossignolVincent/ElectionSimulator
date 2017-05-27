@@ -36,9 +36,10 @@ namespace ElectionLibrary.Character.State
             if(bestMove == area)
             {
                 bestMove = GetRandomStreet(area);
-            } else
+            }
+            else
             {
-                politician.VisitedElectionAreas.Add((AbstractElectionArea) area);
+                politician.VisitedElectionAreas.Add((AbstractElectionArea) bestMove);
                 politician.State = new InElectionAreaState();
             }
 

@@ -11,6 +11,7 @@ namespace ElectionLibrary.Character.State
 
         public override Position Handle(PoliticalCharacter politician, AbstractArea area)
         {
+            politician.State = new InStreetState();
             return GetRandomStreet(area).position;
         }
     }
