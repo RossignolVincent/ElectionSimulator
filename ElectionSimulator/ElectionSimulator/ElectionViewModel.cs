@@ -185,7 +185,12 @@ namespace ElectionSimulator
         {
             foreach (ElectionCharacter character in Characters)
             {
-                character.NextTurn(Areas[character.position.Y][character.position.X]);
+                AbstractArea currentArea = Areas[character.position.Y][character.position.X];
+                character.NextTurn(currentArea);
+                AbstractArea newArea = Areas[character.position.Y][character.position.X];
+
+                currentArea.RemoveCharacter(character);
+                newArea.AddCharacter(character);
             }
         }
 
