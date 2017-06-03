@@ -33,6 +33,21 @@ namespace ElectionSimulator
             }
         }
 
+        private string status;
+
+        public string Status
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
         public Boolean Running { get; set; }
 
         public int DimensionX;
@@ -53,6 +68,7 @@ namespace ElectionSimulator
 
         public ElectionViewModel()
         {
+            ApplicationTitle = "Election Simulator";
             DimensionX = 20;
             DimensionY = 20;
             RefreshRate = 500;
@@ -237,6 +253,7 @@ namespace ElectionSimulator
         internal void Play()
         {
             Running = true;
+            Status = "Running";
             while (Running)
             {
                 Thread.Sleep(RefreshRate);
@@ -247,6 +264,7 @@ namespace ElectionSimulator
         internal void Stop()
         {
             Running = false;
+            Status = "Paused";
         }
 
         internal void AddStreet(int i)

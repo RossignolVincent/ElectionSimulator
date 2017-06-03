@@ -18,8 +18,17 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Name="Event">
-
+            
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Name="Event" Grid.Row="0"></Grid>
+                <Grid Grid.Row="2">
+                    <Label Content="{Binding Status}"></Label>
+                </Grid>
             </Grid>
 
             <Viewbox Grid.Column="1" Stretch="Uniform">
