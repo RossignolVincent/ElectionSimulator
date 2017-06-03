@@ -75,7 +75,7 @@ namespace ElectionSimulator
             new Uri("resource/streets/turns/turn-down-left.png", UriKind.Relative),
             new Uri("resource/streets/turns/turn-down-right.png", UriKind.Relative),
             new Uri("resource/streets/turns/turn-up-left.png", UriKind.Relative),
-            new Uri("resource/streets/turns/turn-down-right.png", UriKind.Relative)
+            new Uri("resource/streets/turns/turn-up-right.png", UriKind.Relative)
         });
 
         List<Uri> Tricrosses = new List<Uri>(new Uri[] {
@@ -229,6 +229,10 @@ namespace ElectionSimulator
                     return getTricrosses(acceses);
                 case 2:
                     return getTurn(acceses);
+                case 1:
+                    if (acceses.left == true || acceses.right == true)
+                        return new BitmapImage(Streets[1]);
+                    return new BitmapImage(Streets[2]);
             }
             return null;
         }

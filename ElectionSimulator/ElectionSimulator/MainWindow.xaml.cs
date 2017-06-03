@@ -31,12 +31,23 @@ namespace ElectionSimulator
         Stopwatch sw = new Stopwatch();
         TextureLoader tl = new TextureLoader(App.ElectionVM);
 
+        List<Label> DetailsLabels = new List<Label>();
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = App.ElectionVM;
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
+            initDetailsLabels();
+            
+        }
+
+        private void initDetailsLabels()
+        {
+            DetailsLabels.Add(PositionLabel);
+            DetailsLabels.Add(TypeAreaLabel);
+            DetailsLabels.Add(CharactersLabel);
         }
 
         private void InitBoard()
@@ -153,6 +164,64 @@ namespace ElectionSimulator
                 Grid.SetColumn(percent, 1);
                 j++;
             }
+        }
+
+        private void ShowDetails(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2) // for double-click, remove this condition if only want single click
+            {
+                var point = Mouse.GetPosition(Board);
+
+                int row = 0;
+                int col = 0;
+                double accumulatedHeight = 0.0;
+                double accumulatedWidth = 0.0;
+
+                // calc row mouse was over
+                foreach (var rowDefinition in Board.RowDefinitions)
+                {
+                    accumulatedHeight += rowDefinition.ActualHeight;
+                    if (accumulatedHeight >= point.Y)
+                        break;
+                    row++;
+                }
+
+                // calc col mouse was over
+                foreach (var columnDefinition in Board.ColumnDefinitions)
+                {
+                    accumulatedWidth += columnDefinition.ActualWidth;
+                    if (accumulatedWidth >= point.X)
+                        break;
+                    col++;
+                }
+
+                printDetails(row, col);
+                setDetailsLabelsVisible();
+            }
+        }
+
+        private void setDetailsLabelsVisible()
+        {
+            foreach(Label label in DetailsLabels)
+            {
+                label.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void printDetails(int row, int col)
+        {
+            AbstractArea area = App.ElectionVM.Areas[row][col];
+
+            Position.Content = row + ", " + col;
+
+            TypeArea.Content = area.GetType().Name;
+
+            Characters.Items.Clear();
+            foreach(ElectionCharacter character in area.Characters)
+            {
+                Characters.Items.Add(character.GetType().Name);
+            }
+            Characters.Visibility = Visibility.Visible;
         }
     }
 }
