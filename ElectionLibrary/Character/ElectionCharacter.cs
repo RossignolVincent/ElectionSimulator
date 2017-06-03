@@ -41,17 +41,29 @@ namespace ElectionLibrary.Character
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)
         {
             // OBJECT HERE
+            if(area.Objects.Count > 0)
+            {
+
+            }
+
+            // CHARACTERS INTERACTION
+            if (area.Characters.Count > 1)
+            {
+                ComputeCharactersInteraction(area.Characters);
+            }
 
             // MOVE
             this.MoveTo(MoveDecision(area, areas));
         }
 
-        public abstract Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas);
-
         public void MoveTo(Position position)
         {
             this.position = position;
         }
+
+        protected abstract void ComputeCharactersInteraction(List<AbstractCharacter> characters);
+
+        public abstract Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas);
 
         public abstract void Rest();
 

@@ -1,7 +1,8 @@
-﻿﻿using ElectionLibrary.Character.Behavior;
+﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
+using AbstractLibrary.Character;
 
 namespace ElectionLibrary.Character
 {
@@ -33,13 +34,18 @@ namespace ElectionLibrary.Character
 
             return bestMove.Position;
         }
-
+    
         public override void Rest()
         {
             throw new NotImplementedException();
         }
 
         public override void Tired()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ComputeCharactersInteraction(List<AbstractCharacter> characters)
         {
             throw new NotImplementedException();
         }
