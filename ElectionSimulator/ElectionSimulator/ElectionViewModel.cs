@@ -123,7 +123,7 @@ namespace ElectionSimulator
 
             foreach (PoliticalParty party in Parties)
             {
-                Position HQPosition = buildings[MainWindow.random.Next(buildings.Count)].Position;
+                Position HQPosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;
@@ -229,7 +229,7 @@ namespace ElectionSimulator
 
         private void GenerateEvents()
         {
-            int randomNumber = MainWindow.random.Next(0, 100);
+            int randomNumber = TextureLoader.random.Next(0, 100);
             if(randomNumber == 1) // So funny
             {
                 List<Building> buildings = GetBuildings();
