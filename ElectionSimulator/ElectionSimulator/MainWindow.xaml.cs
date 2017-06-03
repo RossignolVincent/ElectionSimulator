@@ -39,7 +39,23 @@ namespace ElectionSimulator
         });
 
         List<Uri> Streets = new List<Uri>(new Uri[] {
-            new Uri("resource/streets/street-h.png", UriKind.Relative)
+            new Uri("resource/streets/street-m.png", UriKind.Relative),
+            new Uri("resource/streets/street-h.png", UriKind.Relative),
+            new Uri("resource/streets/street-v.png", UriKind.Relative)
+        });
+
+        List<Uri> Turns = new List<Uri>(new Uri[] {
+            new Uri("resource/streets/turns/turn-down-left.png", UriKind.Relative),
+            new Uri("resource/streets/turns/turn-down-right.png", UriKind.Relative),
+            new Uri("resource/streets/turns/turn-up-left.png", UriKind.Relative),
+            new Uri("resource/streets/turns/turn-down-right.png", UriKind.Relative)
+        });
+
+        List<Uri> Tricrosses = new List<Uri>(new Uri[] {
+            new Uri("resource/streets/tricrosses/tri-left-right-down.png", UriKind.Relative),
+            new Uri("resource/streets/tricrosses/tri-left-up-down.png", UriKind.Relative),
+            new Uri("resource/streets/tricrosses/tri-left-up-right.png", UriKind.Relative),
+            new Uri("resource/streets/tricrosses/tri-up-right-down.png", UriKind.Relative)
         });
 
         List<Uri> Empties = new List<Uri>(new Uri[] {
@@ -60,6 +76,36 @@ namespace ElectionSimulator
             new Uri("resource/characters/activists/activist-fi.png", UriKind.Relative),
             new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
         });
+
+        struct Accesses {
+            public bool left;
+            public bool right;
+            public bool top;
+            public bool bottom;
+
+            public static implicit operator Accesses(bool boolean)
+            {
+                return new Accesses() { left = boolean, right = boolean, top = boolean, bottom = boolean };
+            }
+
+            public int getCount()
+            {
+                int count = 0;
+                if (left)
+                    count++;
+
+                if (right)
+                    count++;
+
+                if (top)
+                    count++;
+
+                if (bottom)
+                    count++;
+
+                return count;
+            }
+        }
 
         public MainWindow()
         {
@@ -240,7 +286,7 @@ namespace ElectionSimulator
             Image image = new Image();
 
             if (a is Street)
-                image.Source = getStreetTexture();
+                image.Source = getStreetTexture(a);
             else if (a is Building)
                 image.Source = getBuildingTexture();
             else if (a is EmptyArea)
@@ -292,9 +338,72 @@ namespace ElectionSimulator
             return new BitmapImage(Empties[random.Next(Empties.Count)]);
         }
 
-        private ImageSource getStreetTexture()
+        private ImageSource getStreetTexture(AbstractArea a)
         {
-            return new BitmapImage(Streets[random.Next(Streets.Count)]);
+            Accesses acceses = generateAccesses(a);
+            switch (acceses.getCount())
+            {
+                case 4:
+                    return new BitmapImage(Streets[0]);
+                case 3:
+                    return getTricrosses(acceses);
+                case 2:
+                    return getTurn(acceses);
+            }
+            return null;
+        }
+
+        private ImageSource getTurn(Accesses acceses)
+        {
+            if (acceses.bottom == true && acceses.left == true)
+                return new BitmapImage(Turns[0]);
+            if (acceses.bottom == true && acceses.right == true)
+                return new BitmapImage(Turns[1]);
+            if (acceses.top == true && acceses.left == true)
+                return new BitmapImage(Turns[2]);
+            if (acceses.top == true && acceses.right == true)
+                return new BitmapImage(Turns[3]);
+            if (acceses.top == true && acceses.bottom == true)
+                return new BitmapImage(Streets[2]);
+            if (acceses.left == true && acceses.right == true)
+                return new BitmapImage(Streets[1]);
+            return null;
+        }
+
+        private ImageSource getTricrosses(Accesses acceses)
+        {
+            if (acceses.top == false)
+                return new BitmapImage(Tricrosses[0]);
+            if (acceses.right == false)
+                return new BitmapImage(Tricrosses[1]);
+            if (acceses.bottom == false)
+                return new BitmapImage(Tricrosses[2]);
+            if (acceses.left == false)
+                return new BitmapImage(Tricrosses[3]);
+            return null;
+        }
+
+        private Accesses generateAccesses(AbstractArea a)
+        {
+            Accesses accesses = new Accesses();
+            foreach (ElectionAccess access in a.Accesses)
+            {
+                AbstractArea first = (AbstractArea) access.FirstArea;
+                AbstractArea end = (AbstractArea)access.EndArea;
+                if(first is Street && end is Street)
+                {
+                    if (first.Position.X < end.Position.X)
+                        accesses.right = true;
+                    if (first.Position.X > end.Position.X)
+                        accesses.left = true;
+                    if (first.Position.Y > end.Position.Y)
+                        accesses.top = true;
+                    if (first.Position.Y < end.Position.Y)
+                        accesses.bottom = true;
+                }
+                
+            }
+            return accesses;
         }
 
         private ImageSource getBuildingTexture()

@@ -70,7 +70,7 @@ namespace ElectionSimulator
                 
                 for(int i = 0; i < 4; i++)
                 {
-                    Activist activist = (Activist)factory.CreateActivist(hq.position, party);
+                    Activist activist = (Activist)factory.CreateActivist(hq.Position, party);
                     Characters.Add(activist);
                     hq.AddCharacter(activist);
                 }
@@ -107,7 +107,7 @@ namespace ElectionSimulator
 
             foreach (PoliticalParty party in Parties)
             {
-                Position HQPosition = buildings[MainWindow.random.Next(buildings.Count)].position;
+                Position HQPosition = buildings[MainWindow.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;

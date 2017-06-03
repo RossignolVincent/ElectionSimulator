@@ -31,7 +31,7 @@ namespace ElectionLibrary.Character
                 bestMove = (AbstractArea)streetList[newStreet];
             }
 
-            return bestMove.position;
+            return bestMove.Position;
         }
 
         public override void Rest()

@@ -4,11 +4,11 @@ namespace ElectionLibrary.Environment
 {
     public abstract class AbstractArea : AbstractLibrary.Environment.AbstractArea
     {
-        public Position position { get;}
+        public Position Position { get;}
 
         protected AbstractArea(string name, Position position) : base(name)
         {
-            this.position = position;
+            this.Position = position;
         }
     }
 }

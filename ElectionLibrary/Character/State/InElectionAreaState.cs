@@ -32,7 +32,7 @@ namespace ElectionLibrary.Character.State
 
             // Get tired
             politician.Tired();
-            return street.position;
+            return street.Position;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ElectionLibrary.Character.State
         {
             politician.Rest();
             politician.State = new InStreetState();
-            return GetRandomStreet(area).position;
+            return GetRandomStreet(area).Position;
         }
     }
 }

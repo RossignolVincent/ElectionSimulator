@@ -36,8 +36,8 @@ namespace ElectionLibrary.Character
 		{
 			foreach (AbstractElectionArea visitedArea in VisitedElectionAreas)
 			{
-				if (area.position.X == visitedArea.position.X
-					&& area.position.Y == visitedArea.position.Y)
+				if (area.Position.X == visitedArea.Position.X
+					&& area.Position.Y == visitedArea.Position.Y)
 				{
 					return true;
 				}
@@ -48,7 +48,7 @@ namespace ElectionLibrary.Character
 
         public void SetPathToHQ()
         {
-			AStar aStar = new AStar(position, PoliticalParty.HQ.position, areas);
+			AStar aStar = new AStar(position, PoliticalParty.HQ.Position, areas);
 			aStar.Compute();
 			PathToHQ = aStar.GetPath();
         }

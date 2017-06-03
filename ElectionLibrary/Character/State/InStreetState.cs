@@ -48,7 +48,7 @@ namespace ElectionLibrary.Character.State
                 politician.State = new InElectionAreaState();
             }
 
-			return bestMove.position;
+			return bestMove.Position;
         }
     }
 }
