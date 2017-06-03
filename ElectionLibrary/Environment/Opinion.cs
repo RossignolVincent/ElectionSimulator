@@ -1,4 +1,5 @@
-﻿using ElectionLibrary.Parties;
+﻿using ElectionLibrary.Character;
+using ElectionLibrary.Parties;
 using System;
 using System.Collections.Generic;
 
@@ -38,22 +39,52 @@ namespace ElectionLibrary.Environment
 
         public double InfluenceOpinion(PoliticalParty party, int aura, int moral, int nbTurn)
         {
-            if (opinionList.ContainsKey(party))
+            if (!opinionList.ContainsKey(party))
             {
-                double calcul = 10.0; //TODO : Calcule party.opinion +*/- aura +*/- moral +*/- nbTurn
-				UpdateNewOpinion(party, calcul);
-
-                return calcul;
+                throw new InvalidOperationException();
             }
 
-            return -1;
+            double calcul = 0;
+
+            if (opinionList[party] < 100) {
+                // Get the maximum percentage of opinion to add to the party : if current opinion of the building is 25%, max is 7.5%, if 50%, max is 5%, etc 
+                double maxPercentage = (100 - opinionList[party]) / 5;
+
+                // Get the percentage of moral the character has : if 20/25, then percentage is 80% (and moralPercentage is 80)
+                double moralPercentage = (moral / ElectionCharacter.INIT_MORAL) * 100;
+
+                // Add a little random in the game. Pick a number betwen 0 and 100
+                double pickedNumber = random.Next(0, 100);
+                if (pickedNumber >= moralPercentage)
+                {
+                    // If the picked number is greater than the moralPercentage, the maximum percentage is multiplied by the moralPercentage divided by 100
+                    // If moralPercentage is 80, then maxPercentage is multiplied by 0.8
+                    maxPercentage *= moralPercentage / 100;
+                }
+
+                // Finally, add the half of the aura to the maximum percentage, if it will not exceed 100%
+                double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
+                calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
+
+                if (calcul < 0)
+                {
+                    throw new ArithmeticException();
+                }
+
+                UpdateNewOpinion(party, calcul);
+            }
+            else
+            {
+                Console.WriteLine(party + " => " + opinionList[party]);
+            }
+
+            return calcul;
         }
 
-        public void UpdateNewOpinion(PoliticalParty party, double opinionToAdd)
+        private void UpdateNewOpinion(PoliticalParty party, double opinionToAdd)
         {   
             // Compute new opinion for the party of the politician
-            double influencePartyOpinion = opinionList[party] + opinionToAdd;
-			opinionList[party] = influencePartyOpinion;
+			opinionList[party] += opinionToAdd;
 
             // Compute new opinion for the others parties
 			List<PoliticalParty> concurrents = GetConcurrentParties(party);

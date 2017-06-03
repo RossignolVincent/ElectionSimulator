@@ -220,49 +220,49 @@ namespace ElectionSimulator
 
         private ImageSource getStreetTexture(AbstractArea a)
         {
-            Accesses acceses = generateAccesses(a);
-            switch (acceses.getCount())
+            Accesses accesses = generateAccesses(a);
+            switch (accesses.getCount())
             {
                 case 4:
                     return new BitmapImage(Streets[0]);
                 case 3:
-                    return getTricrosses(acceses);
+                    return getTricrosses(accesses);
                 case 2:
-                    return getTurn(acceses);
+                    return getTurn(accesses);
                 case 1:
-                    if (acceses.left == true || acceses.right == true)
+                    if (accesses.left == true || accesses.right == true)
                         return new BitmapImage(Streets[1]);
                     return new BitmapImage(Streets[2]);
             }
             return null;
         }
 
-        private ImageSource getTurn(Accesses acceses)
+        private ImageSource getTurn(Accesses accesses)
         {
-            if (acceses.bottom == true && acceses.left == true)
+            if (accesses.bottom == true && accesses.left == true)
                 return new BitmapImage(Turns[0]);
-            if (acceses.bottom == true && acceses.right == true)
+            if (accesses.bottom == true && accesses.right == true)
                 return new BitmapImage(Turns[1]);
-            if (acceses.top == true && acceses.left == true)
+            if (accesses.top == true && accesses.left == true)
                 return new BitmapImage(Turns[2]);
-            if (acceses.top == true && acceses.right == true)
+            if (accesses.top == true && accesses.right == true)
                 return new BitmapImage(Turns[3]);
-            if (acceses.top == true && acceses.bottom == true)
+            if (accesses.top == true && accesses.bottom == true)
                 return new BitmapImage(Streets[2]);
-            if (acceses.left == true && acceses.right == true)
+            if (accesses.left == true && accesses.right == true)
                 return new BitmapImage(Streets[1]);
             return null;
         }
 
-        private ImageSource getTricrosses(Accesses acceses)
+        private ImageSource getTricrosses(Accesses accesses)
         {
-            if (acceses.top == false)
+            if (accesses.top == false)
                 return new BitmapImage(Tricrosses[0]);
-            if (acceses.right == false)
+            if (accesses.right == false)
                 return new BitmapImage(Tricrosses[1]);
-            if (acceses.bottom == false)
+            if (accesses.bottom == false)
                 return new BitmapImage(Tricrosses[2]);
-            if (acceses.left == false)
+            if (accesses.left == false)
                 return new BitmapImage(Tricrosses[3]);
             return null;
         }
