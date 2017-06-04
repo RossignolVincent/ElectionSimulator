@@ -104,6 +104,11 @@ namespace ElectionSimulator
             new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
         });
 
+        List<Uri> PublicPlaces = new List<Uri>(new Uri[] {
+            new Uri("resource/public-places/public-place1.png", UriKind.Relative),
+            new Uri("resource/public-places/public-place2.png", UriKind.Relative)
+        });
+
         public ElectionViewModel electionViewModel;
 
         public TextureLoader(ElectionViewModel electionViewModel)
@@ -147,6 +152,8 @@ namespace ElectionSimulator
                 image.Source = getBuildingTexture();
             else if (a is EmptyArea)
                 image.Source = getEmptyTexture();
+            else if (a is PublicPlace)
+                image.Source = getPublicPlaceTexture();
             else if (a is HQ)
             {
                 HQ hq = (HQ)a;
@@ -216,6 +223,12 @@ namespace ElectionSimulator
         private ImageSource getEmptyTexture()
         {
             return new BitmapImage(Empties[random.Next(Empties.Count)]);
+        }
+
+
+        private ImageSource getPublicPlaceTexture()
+        {
+            return new BitmapImage(PublicPlaces[random.Next(PublicPlaces.Count)]);
         }
 
         private ImageSource getStreetTexture(AbstractArea a)

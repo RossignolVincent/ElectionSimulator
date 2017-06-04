@@ -114,6 +114,7 @@ namespace ElectionSimulator
         internal void GenerateAccessAndHQs()
         {
             GenerateHQs();
+            GeneratePublicPlaces();
             GenerateAccess();
         }
 
@@ -127,6 +128,20 @@ namespace ElectionSimulator
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;
+            }
+        }
+
+        private void GeneratePublicPlaces()
+        {
+            List<Building> buildings = GetBuildings();
+
+            int numberPublicPlaces = buildings.Count / 20;
+
+            for(int i = 0; i < numberPublicPlaces; i++)
+            {
+                Position PublicPlacePosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
+                PublicPlace publicPlace = (PublicPlace)factory.CreatePublicPlace(new Opinion(Parties), PublicPlacePosition);
+                Areas[PublicPlacePosition.Y][PublicPlacePosition.X] = publicPlace;
             }
         }
 
@@ -197,6 +212,7 @@ namespace ElectionSimulator
 
         internal void NextTurn()
         {
+            Status = "Simulation en cours !";
             GenerateEvents();
 
             foreach (ElectionCharacter character in Characters)

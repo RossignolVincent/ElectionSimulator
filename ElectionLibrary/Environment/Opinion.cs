@@ -65,7 +65,7 @@ namespace ElectionLibrary.Environment
                 // Finally, add the half of the aura to the maximum percentage, if it will not exceed 100%
                 //double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
                 //calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
-
+                calcul = maxPercentage;
                 if (calcul < 0)
                 {
                     throw new ArithmeticException();
