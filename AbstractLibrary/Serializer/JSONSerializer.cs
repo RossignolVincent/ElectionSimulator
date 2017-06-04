@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AbstractLibrary.Serializer
 {
-    class JSONSerializer : ISerializer<String>
+    public class JSONSerializer : ISerializer<String>
     {
 
         public object Deserialize(string data)

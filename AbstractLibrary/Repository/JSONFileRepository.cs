@@ -9,7 +9,7 @@ using AbstractLibrary.Serializer;
 
 namespace AbstractLibrary.Repository
 {
-    class JSONFileRepository : FileRepository
+    public class JSONFileRepository : FileRepository
     {
         public JSONSerializer Serializer { get; }
 
@@ -18,21 +18,24 @@ namespace AbstractLibrary.Repository
             this.Serializer = new JSONSerializer();
         }
 
-        public new void Write(object data)
+        public override void Write(object data)
         {
             String json = this.Serializer.Serialize(data);
+            Console.WriteLine(json);
             base.Write(json);
         }
 
-        public new void Append(object data)
+        public override void Append(object data)
         {
             String json = this.Serializer.Serialize(data);
+            Console.WriteLine(json);
             base.Append(json);
         }
 
-        public new object Read()
+        public override object Read()
         {
             String json = base.Read().ToString();
+            Console.WriteLine(json);
             return this.Serializer.Deserialize(json);
         }
     }

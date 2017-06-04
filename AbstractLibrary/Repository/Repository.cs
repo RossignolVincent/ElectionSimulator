@@ -20,22 +20,22 @@ namespace AbstractLibrary.Repository
             this.Reader = Reader;
         }
 
-        public void Write(object data)
+        public virtual void Write(object data)
         {
             Appender.Write(data);
         }
 
-        public void Append(object data)
+        public virtual void Append(object data)
         {
             Appender.Append(data);
         }
 
-        public void Clear(object data)
+        public virtual void Clear(object data)
         {
             Appender.Clear();
         }
 
-        public object Read()
+        public virtual object Read()
         {
             return Reader.Read();
         }

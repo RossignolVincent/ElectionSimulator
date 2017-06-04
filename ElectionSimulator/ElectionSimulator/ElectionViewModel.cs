@@ -71,6 +71,7 @@ namespace ElectionSimulator
                 for(int i = 0; i < 4; i++)
                 {
                     Activist activist = (Activist)factory.CreateActivist(hq.position, party);
+                    activist.Name = "Activist-" + activist.PoliticalParty.ToString() + "_" + i;
                     Characters.Add(activist);
                     hq.AddCharacter(activist);
                 }
@@ -243,6 +244,8 @@ namespace ElectionSimulator
                 NextTurn();
             }
         }
+
+
 
         internal void Stop()
         {

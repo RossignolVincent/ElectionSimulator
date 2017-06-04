@@ -4,9 +4,9 @@ using AbstractLibrary.Environment;
 
 namespace AbstractLibrary.Character
 {
-    public abstract class AbstractCharacter
+    public abstract class AbstractCharacter : IDomain
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public AbstractArea Position { get; set; }
 
         protected AbstractCharacter(string name)

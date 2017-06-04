@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AbstractLibrary.Repository
 {
-    class FileRepository : Repository
+    public class FileRepository : Repository
     {
         public new FileAppender Appender;
         public new FileReader Reader;

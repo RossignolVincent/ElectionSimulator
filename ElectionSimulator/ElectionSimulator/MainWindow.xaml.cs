@@ -1,4 +1,11 @@
-﻿using ElectionLibrary.Character;
+﻿using AbstractLibrary.Adapter;
+using AbstractLibrary.Character;
+using AbstractLibrary.Entity;
+using AbstractLibrary.Environment;
+using AbstractLibrary.Repository;
+using AbstractLibrary.Repository.Appender;
+using AbstractLibrary.Repository.Reader;
+using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Event;
 using ElectionLibrary.Parties;
@@ -27,6 +34,7 @@ namespace ElectionSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const String SAVE_PATH = "save.json";
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
         public static Random random = new Random();
@@ -60,6 +68,7 @@ namespace ElectionSimulator
             new Uri("resource/characters/activists/activist-fi.png", UriKind.Relative),
             new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
         });
+
 
         public MainWindow()
         {
@@ -99,6 +108,21 @@ namespace ElectionSimulator
             dt.Start();
             Thread t = new Thread(App.ElectionVM.Play);
             t.Start();
+        }
+
+        private void SaveSimulation(object sender, RoutedEventArgs e)
+        {
+            FileAppender appender = new FileAppender(SAVE_PATH);
+            FileReader reader = new FileReader(SAVE_PATH);
+            JSONFileRepository repository = new JSONFileRepository(appender, reader);
+            List<AbstractCharacterEntity> characters = App.ElectionVM.Characters.ConvertAll(x => (AbstractCharacterEntity) new AbstractCharacterAdapter().ToEntity(x));
+            repository.Write(characters);
+            Console.WriteLine("Saved");
+        }
+
+        private void LoadSimulation(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Loaded");
         }
 
         private void Draw_tick(object sender, EventArgs e)
@@ -235,7 +259,7 @@ namespace ElectionSimulator
             }
         }
 
-        private Image LoadOneTexture(AbstractArea a)
+        private Image LoadOneTexture(ElectionLibrary.Environment.AbstractArea a)
         {
             Image image = new Image();
 

@@ -8,7 +8,7 @@ using System.IO;
 namespace AbstractLibrary.Repository.Appender
 {
 
-    class FileAppender : IAppender
+    public class FileAppender : IAppender
     {
         public String Path { get; set; }
 
