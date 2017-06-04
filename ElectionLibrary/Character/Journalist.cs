@@ -68,7 +68,7 @@ namespace ElectionLibrary.Character
 
         public void Interview(PoliticalCharacter politician)
         {
-            int diffMoralPercentage = (politician.Moral / INIT_MORAL - Moral / INIT_MORAL) * 100 / 2;
+            int diffMoralPercentage = (int) ((double)politician.Moral / INIT_MORAL - (double)Moral / INIT_MORAL) * 100 / 2;
             int diffAura = politician.Aura - Aura;
             Random random = new Random();
             int pickedNumber = random.Next(100);

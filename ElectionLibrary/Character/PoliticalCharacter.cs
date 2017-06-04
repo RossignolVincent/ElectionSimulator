@@ -96,7 +96,7 @@ namespace ElectionLibrary.Character
             PoliticalCharacter moreAura = (Aura > opponent.Aura) ? this : opponent;
 
             int diffAura = Math.Abs(Aura - opponent.Aura);
-            int diffMoral = (Moral / INIT_MORAL - opponent.Moral / INIT_MORAL) * 100 / 2;
+            int diffMoral = (int) ((double)Moral / INIT_MORAL - (double)opponent.Moral / INIT_MORAL) * 100 / 2;
 
             // The politician with more Aura could try multiple times to win
             for (int i = 0; i < diffAura + 1; i++)
@@ -122,7 +122,7 @@ namespace ElectionLibrary.Character
             if (looser.Moral < 0)
                 looser.Moral = 0;
 
-            Console.WriteLine("Débat : " + winner.PoliticalParty.Name + " bat (" + (1 + diffMoral) + ")" + looser.PoliticalParty.Name);
+            //Console.WriteLine("Débat : " + winner.PoliticalParty.Name + " bat (" + (1 + diffMoral) + ")" + looser.PoliticalParty.Name);
 
             //winner.AddRandomAura();
         }
