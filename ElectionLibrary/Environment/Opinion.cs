@@ -51,7 +51,7 @@ namespace ElectionLibrary.Environment
                 double maxPercentage = (100 - opinionList[party]) / 10;
 
                 // Get the percentage of moral the character has : if 20/25, then percentage is 80% (and moralPercentage is 80)
-                double moralPercentage = (moral / ElectionCharacter.INIT_MORAL) * 100;
+                double moralPercentage = ((double)moral / ElectionCharacter.INIT_MORAL) * 100;
 
                 // Add a little random in the game. Pick a number betwen 0 and 100
                 double pickedNumber = random.Next(0, 100);
@@ -59,13 +59,19 @@ namespace ElectionLibrary.Environment
                 {
                     // If the picked number is greater than the moralPercentage, the maximum percentage is multiplied by the moralPercentage divided by 100
                     // If moralPercentage is 80, then maxPercentage is multiplied by 0.8
-                    maxPercentage *= moralPercentage / 100;
+                    calcul = maxPercentage * (moralPercentage / 100);
+                }
+                else
+                {
+                    calcul = maxPercentage;
                 }
 
                 // Finally, add the half of the aura to the maximum percentage, if it will not exceed 100%
                 //double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
                 //calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
-                calcul = maxPercentage;
+
+                Console.WriteLine(maxPercentage + " : " + calcul);
+
                 if (calcul < 0)
                 {
                     throw new ArithmeticException();
@@ -82,44 +88,34 @@ namespace ElectionLibrary.Environment
         }
 
         private void UpdateNewOpinion(PoliticalParty party, double opinionToAdd)
-        {   
+        {
             // Compute new opinion for the party of the politician
-			opinionList[party] += opinionToAdd;
+            opinionList[party] += opinionToAdd;
 
             // Compute new opinion for the others parties
-			List<PoliticalParty> concurrents = GetConcurrentParties(party);
-            List<double> newConcurrentsOpinions = GetNewConcurrentsOpinions(concurrents.Count, opinionToAdd);
+            List<PoliticalParty> concurrents = GetRepresentativeConcurrentsList(party);
 
-			foreach (PoliticalParty concurrent in concurrents)
-			{
-				opinionList[concurrent] = opinionList[concurrent] - GetRandomNumberFromList(newConcurrentsOpinions);
-			}
-        }
-
-        private double GetRandomNumberFromList(List<double> numbers)
-        {
-            double choosenNumber = numbers[random.Next(numbers.Count)];
-            numbers.Remove(choosenNumber);
-
-            return choosenNumber;
-        }
-
-        private List<double> GetNewConcurrentsOpinions(int nbConcurrents, double calcul)
-        {
-            int maxRange = (int) calcul;
-            int totalOpinions = 0;
-            List<double> newDecreasedOpinions = new List<double>();
-
-            for (int i = 0; i < nbConcurrents - 1; i++)
+            if(concurrents.Count == 0)
             {
-                int nb = random.Next(0, maxRange);
-                newDecreasedOpinions.Add(nb);
-                maxRange = maxRange - nb;
-                totalOpinions += nb;
+                return;
             }
-            newDecreasedOpinions.Add(calcul - totalOpinions);
+            
+            double remainingOpinionToRemove = opinionToAdd;
 
-            return newDecreasedOpinions;
+            while (remainingOpinionToRemove > 0)
+            {
+                PoliticalParty concurrent = concurrents[random.Next(concurrents.Count)];
+                double opinionToRemove = (remainingOpinionToRemove < 1) ? remainingOpinionToRemove : random.Next((int)remainingOpinionToRemove + 1);
+
+                // Check current opinion for the concurrent. Do not remove more than it.
+                if(opinionToRemove > opinionList[concurrent])
+                {
+                    opinionToRemove = opinionList[concurrent];
+                }
+
+                opinionList[concurrent]     -= opinionToRemove;
+                remainingOpinionToRemove    -= opinionToRemove;
+            }
         }
 
         private List<PoliticalParty> GetConcurrentParties(PoliticalParty party)
@@ -134,6 +130,22 @@ namespace ElectionLibrary.Environment
             }
 
             return listConcurrent;
+        }
+
+        private List<PoliticalParty> GetRepresentativeConcurrentsList(PoliticalParty party)
+        {
+            List<PoliticalParty> result = new List<PoliticalParty>();
+            List<PoliticalParty> concurrents = GetConcurrentParties(party);
+
+            foreach (PoliticalParty concurrent in concurrents)
+            {
+                for(int i=0; i<opinionList[concurrent]; i++)
+                {
+                    result.Add(concurrent);
+                }
+            }
+
+            return result;
         }
     }
 }

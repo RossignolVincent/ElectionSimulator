@@ -240,7 +240,6 @@ namespace ElectionSimulator
                 AbstractElectionArea electionArea = (AbstractElectionArea) area;
                 foreach (KeyValuePair<PoliticalParty, double> opinion in electionArea.opinion.opinionList)
                 {
-                    Console.WriteLine(opinion.Key.Name, opinion.Value);
                     simpleOpinions.Add(new SimpleOpinion(opinion.Key.Name, opinion.Value));
                 }
                 Opinions.ItemsSource = simpleOpinions;
