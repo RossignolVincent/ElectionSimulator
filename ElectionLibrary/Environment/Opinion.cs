@@ -48,7 +48,7 @@ namespace ElectionLibrary.Environment
 
             if (opinionList[party] < 100) {
                 // Get the maximum percentage of opinion to add to the party : if current opinion of the building is 25%, max is 7.5%, if 50%, max is 5%, etc 
-                double maxPercentage = (100 - opinionList[party]) / 5;
+                double maxPercentage = (100 - opinionList[party]) / 10;
 
                 // Get the percentage of moral the character has : if 20/25, then percentage is 80% (and moralPercentage is 80)
                 double moralPercentage = (moral / ElectionCharacter.INIT_MORAL) * 100;
@@ -63,8 +63,8 @@ namespace ElectionLibrary.Environment
                 }
 
                 // Finally, add the half of the aura to the maximum percentage, if it will not exceed 100%
-                double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
-                calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
+                //double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
+                //calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
 
                 if (calcul < 0)
                 {
