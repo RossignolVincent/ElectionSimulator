@@ -122,7 +122,9 @@ namespace ElectionLibrary.Character
             if (looser.Moral < 0)
                 looser.Moral = 0;
 
-            winner.AddRandomAura();
+            Console.WriteLine("Débat : " + winner.PoliticalParty.Name + " bat (" + (1 + diffMoral) + ")" + looser.PoliticalParty.Name);
+
+            //winner.AddRandomAura();
         }
 
         public override void Rest()

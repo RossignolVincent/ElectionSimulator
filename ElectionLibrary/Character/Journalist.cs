@@ -78,14 +78,14 @@ namespace ElectionLibrary.Character
                 // The politician wins
                 politician.Moral += (1 + diffMoralPercentage / 10);
                 Moral -= (1 + diffMoralPercentage / 10);
-                politician.AddRandomAura();
+                //politician.AddRandomAura();
             }
             else
             {
                 // The journalist wins
                 Moral += (1 + diffMoralPercentage / 10);
                 politician.Moral -= (1 + diffMoralPercentage / 10);
-                AddRandomAura();
+                //AddRandomAura();
             }
         }
     }

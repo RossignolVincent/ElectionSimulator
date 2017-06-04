@@ -72,15 +72,18 @@ namespace ElectionLibrary.Character
                 if (pickedNumber < 96) // 6% chance to get 1 extra Aura
                 {
                     Aura += 1;
+                    Console.WriteLine("Aura + 1 pour " + ((PoliticalCharacter) this).PoliticalParty.Name);
                 }
                 else if(pickedNumber < 99) // 3% chance to get 2 extra Aura
                 {
                     Aura += 2;
+                    Console.WriteLine("Aura + 2 pour " + ((PoliticalCharacter)this).PoliticalParty.Name);
                 }
                 else // 1% chance to get 3 extra Aura and get max of Moral
                 {
                     Aura += 3;
                     Moral = INIT_MORAL;
+                    Console.WriteLine("Aura + 3  et Moral au max pour " + ((PoliticalCharacter)this).PoliticalParty.Name);
                 }
             }
         }
