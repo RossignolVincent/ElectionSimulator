@@ -31,6 +31,7 @@ namespace ElectionSimulator
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
         TextureLoader tl = new TextureLoader(App.ElectionVM);
+        Dictionary<Journalist, BitmapImage> journalistImages;
 
         List<Label> DetailsLabels = new List<Label>();
 
@@ -40,6 +41,7 @@ namespace ElectionSimulator
             DataContext = App.ElectionVM;
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
+            journalistImages = new Dictionary<Journalist, BitmapImage>();
             initDetailsLabels();
             
         }
@@ -109,13 +111,27 @@ namespace ElectionSimulator
 
             foreach (ElectionCharacter character in App.ElectionVM.Characters)
             {
-                // Add test for type of character
                 Image characterImage = new Image();
-                BitmapImage characterSource = tl.getCharacterTexture(character);
+                BitmapImage characterSource;
+                if (character is Journalist)
+                {
+                    if (journalistImages.TryGetValue((Journalist) character, out characterSource))
+                    {
+                        characterImage.Source = characterSource;
+                    } else
+                    {
+                        characterSource = tl.getCharacterTexture(character);
+                        journalistImages.Add((Journalist)character, characterSource);
+                    }
+                } else
+                {
+                    characterSource = tl.getCharacterTexture(character); 
+                }
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
                 Grid.SetColumn(characterImage, character.position.X);
                 Grid.SetRow(characterImage, character.position.Y);
+
             }
 
             if(App.ElectionVM.Event != null)
@@ -228,7 +244,14 @@ namespace ElectionSimulator
 
             Position.Content = row + ", " + col;
 
-            TypeArea.Content = area.GetType().Name;
+            if(area is HQ)
+            {
+                TypeArea.Content = area.GetType().Name+" "+ ((HQ)area).Party.Name;
+            } else
+            {
+                TypeArea.Content = area.GetType().Name;
+            }
+            
 
             Characters.ItemsSource = area.Characters;
             Characters.Visibility = Visibility.Visible;
