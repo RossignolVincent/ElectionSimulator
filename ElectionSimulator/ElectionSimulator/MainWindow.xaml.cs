@@ -153,6 +153,8 @@ namespace ElectionSimulator
             Event.RowDefinitions.Clear();
             Event.Children.Clear();
 
+            EventLabel.Visibility = Visibility.Visible;
+
             Poll poll = (Poll)App.ElectionVM.Event;
 
             for (int i = 0; i < poll.Result.opinionList.Count; i++)
@@ -252,7 +254,6 @@ namespace ElectionSimulator
                 TypeArea.Content = area.GetType().Name;
             }
             
-
             Characters.ItemsSource = area.Characters;
             Characters.Visibility = Visibility.Visible;
 
