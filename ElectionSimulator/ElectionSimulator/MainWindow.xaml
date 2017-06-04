@@ -18,25 +18,44 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="6*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Name="Event" Grid.Row="0"></Grid>
-                <Grid Grid.Row="2">
+                <Grid Name="Event" Grid.Row="0" Background="#E5847A"></Grid>
+                <Grid Name="Details" Grid.Row="1" Background="#A8B2CD">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Visibility="Hidden" Name="PositionLabel">Position</Label>
+                    <Label Grid.Row="0" Grid.Column="1" Name="Position"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Visibility="Hidden" Name="TypeAreaLabel">Type de case</Label>
+                    <Label Grid.Row="1" Grid.Column="1" Name="TypeArea"></Label>
+                    <Label Grid.Row="2" Grid.Column="0" Visibility="Hidden" Name="CharactersLabel">Personnages</Label>
+                    <ListBox Grid.Row="2" Grid.Column="1" Visibility="Hidden" Name="Characters"></ListBox>
+                </Grid>
+                
+                <Grid Grid.Row="2" Background="#FCF2A5">
                     <Label Content="{Binding Status}"></Label>
                 </Grid>
             </Grid>
 
-            <Viewbox Grid.Column="1" Stretch="Uniform">
-                <Grid Name="Board">
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
+                <Viewbox Grid.Column="1" Stretch="Uniform">
+                    <Grid Name="Board" Background="Transparent" PreviewMouseLeftButtonDown="ShowDetails">
 
-                </Grid>
-            </Viewbox>
-            
+                    </Grid>
+                </Viewbox>
+            </Border>
+
         </Grid>
         
         <Grid Grid.Row="1">

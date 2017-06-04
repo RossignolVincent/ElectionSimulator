@@ -253,7 +253,7 @@ namespace ElectionSimulator
         internal void Play()
         {
             Running = true;
-            Status = "Running";
+            Status = "Simulation en cours !";
             while (Running)
             {
                 Thread.Sleep(RefreshRate);
@@ -264,7 +264,7 @@ namespace ElectionSimulator
         internal void Stop()
         {
             Running = false;
-            Status = "Paused";
+            Status = "Simulation en pause ...";
         }
 
         internal void AddStreet(int i)

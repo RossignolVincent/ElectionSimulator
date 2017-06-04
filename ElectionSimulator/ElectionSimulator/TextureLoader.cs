@@ -229,6 +229,10 @@ namespace ElectionSimulator
                     return getTricrosses(accesses);
                 case 2:
                     return getTurn(accesses);
+                case 1:
+                    if (accesses.left == true || accesses.right == true)
+                        return new BitmapImage(Streets[1]);
+                    return new BitmapImage(Streets[2]);
             }
             return null;
         }
