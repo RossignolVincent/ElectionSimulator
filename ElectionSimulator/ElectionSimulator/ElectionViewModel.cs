@@ -80,7 +80,9 @@ namespace ElectionSimulator
 
         internal void GenerateCharacters()
         {
-            foreach(PoliticalParty party in Parties)
+            List<Street> streets = GetStreets();
+
+            foreach (PoliticalParty party in Parties)
             {
                 HQ hq = findHQ(party);
                 
@@ -91,6 +93,17 @@ namespace ElectionSimulator
                     hq.AddCharacter(activist);
                 }
             }
+
+            foreach(PoliticalParty party in Parties)
+            {
+                Journalist journalist = (Journalist)factory.CreateJournalist(getRandomStreetPosition(streets));
+                Characters.Add(journalist);
+            }
+        }
+
+        private Position getRandomStreetPosition(List<Street> streets)
+        {
+            return streets[TextureLoader.random.Next(streets.Count)].Position;
         }
 
         private HQ findHQ(PoliticalParty party)
@@ -240,6 +253,21 @@ namespace ElectionSimulator
             }
 
             return buildings;
+        }
+
+        private List<Street> GetStreets()
+        {
+            List<Street> streets = new List<Street>();
+            foreach (List<AbstractArea> areaList in Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    if (area is Street)
+                        streets.Add((Street)area);
+                }
+            }
+
+            return streets;
         }
        
 

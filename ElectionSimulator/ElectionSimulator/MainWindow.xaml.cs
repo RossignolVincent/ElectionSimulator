@@ -111,7 +111,7 @@ namespace ElectionSimulator
             {
                 // Add test for type of character
                 Image characterImage = new Image();
-                BitmapImage characterSource = tl.getActivistTexture(character);
+                BitmapImage characterSource = tl.getCharacterTexture(character);
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
                 Grid.SetColumn(characterImage, character.position.X);
@@ -240,7 +240,6 @@ namespace ElectionSimulator
                 AbstractElectionArea electionArea = (AbstractElectionArea) area;
                 foreach (KeyValuePair<PoliticalParty, double> opinion in electionArea.opinion.opinionList)
                 {
-                    Console.WriteLine(opinion.Key.Name, opinion.Value);
                     simpleOpinions.Add(new SimpleOpinion(opinion.Key.Name, opinion.Value));
                 }
                 Opinions.ItemsSource = simpleOpinions;
