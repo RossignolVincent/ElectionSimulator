@@ -18,6 +18,8 @@ namespace ElectionSimulator
 {
     public class ElectionViewModel : BaseViewModel
     {
+        private static ElectionViewModel instance;
+
         private string applicationTitle;
 
         public string ApplicationTitle
@@ -66,7 +68,7 @@ namespace ElectionSimulator
 
         public ElectionEvent Event { get; set; }
 
-        public ElectionViewModel()
+        private ElectionViewModel()
         {
             ApplicationTitle = "Election Simulator";
             DimensionX = 20;
@@ -76,6 +78,16 @@ namespace ElectionSimulator
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
             Event = null;
+        }
+
+        public static ElectionViewModel GetInstance()
+        {
+            if(instance == null)
+            {
+                instance = new ElectionViewModel();
+            }
+
+            return instance;
         }
 
         internal void GenerateCharacters()
@@ -152,10 +164,79 @@ namespace ElectionSimulator
 
             for(int i = 0; i < numberPublicPlaces; i++)
             {
-                Position PublicPlacePosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
-                PublicPlace publicPlace = (PublicPlace)factory.CreatePublicPlace(new Opinion(Parties), PublicPlacePosition);
-                Areas[PublicPlacePosition.Y][PublicPlacePosition.X] = publicPlace;
+                Position publicPlacePosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
+                PublicPlace publicPlace = (PublicPlace)factory.CreatePublicPlace(new Opinion(Parties), publicPlacePosition);
+                Areas[publicPlacePosition.Y][publicPlacePosition.X] = publicPlace;
+
+                List<Building> neighbours = GetCloseBuilding(publicPlace);
+                foreach(Building building in neighbours)
+                {
+                    publicPlace.Attach(building);
+                }
             }
+        }
+
+        private List<Building> GetCloseBuilding(PublicPlace publicPlace)
+        {
+            List<Building> result = new List<Building>();
+            int x = publicPlace.Position.X;
+            int y = publicPlace.Position.Y;
+            
+            // Area up
+            if (y > 0 && Areas[y - 1][x] is Building)
+            {
+                result.Add((Building)Areas[y - 1][x]);
+            }
+
+            // Area down
+            if (y + 1 < Areas.Count && Areas[y + 1][x] is Building)
+            {
+                result.Add((Building)Areas[y + 1][x]);
+            }
+
+            if (x > 0)
+            {
+                // Area left up
+                if (y > 0 && Areas[y - 1][x - 1] is Building)
+                {
+                    result.Add((Building) Areas[y - 1][x - 1]);
+                }
+
+                // Area left
+                if (Areas[y][x - 1] is Building)
+                {
+                    result.Add((Building)Areas[y][x - 1]);
+                }
+
+                // Area left down
+                if (y + 1 < Areas.Count && Areas[y + 1][x - 1] is Building)
+                {
+                    result.Add((Building)Areas[y + 1][x - 1]);
+                }
+            }
+
+            if (x + 1 < Areas[y].Count)
+            {
+                // Area right up
+                if (y > 0 && Areas[y - 1][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y - 1][x + 1]);
+                }
+
+                // Area right
+                if (Areas[y][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y][x + 1]);
+                }
+
+                // Area right down
+                if (y + 1 < Areas.Count && Areas[y + 1][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y + 1][x + 1]);
+                }
+            }
+
+            return result;
         }
 
         internal void GenerateAccess()
