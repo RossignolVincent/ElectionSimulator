@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ElectionSimulator"
         mc:Ignorable="d"
         Title="Election Simulator" Height="600" Width="800">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>
@@ -29,7 +30,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
@@ -39,8 +41,23 @@
                     <Label Grid.Row="0" Grid.Column="1" Name="Position"></Label>
                     <Label Grid.Row="1" Grid.Column="0" Visibility="Hidden" Name="TypeAreaLabel">Type de case</Label>
                     <Label Grid.Row="1" Grid.Column="1" Name="TypeArea"></Label>
-                    <Label Grid.Row="2" Grid.Column="0" Visibility="Hidden" Name="CharactersLabel">Personnages</Label>
-                    <ListBox Grid.Row="2" Grid.Column="1" Visibility="Hidden" Name="Characters"></ListBox>
+                    <ListView Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden" Name="Characters">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Role" DisplayMemberBinding="{Binding Role}" />
+                                <GridViewColumn Header="Moral" DisplayMemberBinding="{Binding Moral}" />
+                                <GridViewColumn Header="Aura" DisplayMemberBinding="{Binding Aura}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView Grid.Row="3" Grid.ColumnSpan="2" Visibility="Hidden" Name="Opinions">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Pourcentage" DisplayMemberBinding="{Binding Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
                 
                 <Grid Grid.Row="2" Background="#FCF2A5">

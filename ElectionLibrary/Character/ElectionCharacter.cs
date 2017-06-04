@@ -16,6 +16,8 @@ namespace ElectionLibrary.Character
 
         public int Aura { get; set; }
 
+        public string Role { get; }
+
         private int moral;
         public int Moral 
         {
@@ -36,6 +38,7 @@ namespace ElectionLibrary.Character
             this.position = position;
             this.moral = INIT_MORAL;
             this.Aura = 2;
+            this.Role = GetType().Name;
         }
 
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)

@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace ElectionSimulator
 {
@@ -47,7 +48,6 @@ namespace ElectionSimulator
         {
             DetailsLabels.Add(PositionLabel);
             DetailsLabels.Add(TypeAreaLabel);
-            DetailsLabels.Add(CharactersLabel);
         }
 
         private void InitBoard()
@@ -208,20 +208,52 @@ namespace ElectionSimulator
             }
         }
 
+        struct SimpleOpinion
+        {
+            public String Name { get; set; }
+            public double Value { get; set; }
+
+            public SimpleOpinion (String name, double value)
+            {
+                Name = name;
+                Value = value;
+            }
+        }
+
         private void printDetails(int row, int col)
         {
             AbstractArea area = App.ElectionVM.Areas[row][col];
+
+            clearLists();
 
             Position.Content = row + ", " + col;
 
             TypeArea.Content = area.GetType().Name;
 
-            Characters.Items.Clear();
-            foreach(ElectionCharacter character in area.Characters)
-            {
-                Characters.Items.Add(character.GetType().Name);
-            }
+            Characters.ItemsSource = area.Characters;
             Characters.Visibility = Visibility.Visible;
+
+            Opinions.Visibility = Visibility.Hidden;
+            List<SimpleOpinion> simpleOpinions = new List<SimpleOpinion>();
+            if(area is AbstractElectionArea)
+            {
+                AbstractElectionArea electionArea = (AbstractElectionArea) area;
+                foreach (KeyValuePair<PoliticalParty, double> opinion in electionArea.opinion.opinionList)
+                {
+                    Console.WriteLine(opinion.Key.Name, opinion.Value);
+                    simpleOpinions.Add(new SimpleOpinion(opinion.Key.Name, opinion.Value));
+                }
+                Opinions.ItemsSource = simpleOpinions;
+                Opinions.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void clearLists()
+        {
+            Characters.ItemsSource = null;
+            Characters.Items.Clear();
+            Opinions.ItemsSource = null;
+            Opinions.Items.Clear();
         }
     }
 }

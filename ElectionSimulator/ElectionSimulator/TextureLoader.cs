@@ -285,7 +285,6 @@ namespace ElectionSimulator
                     if (first.Position.Y < end.Position.Y)
                         accesses.bottom = true;
                 }
-
             }
             return accesses;
         }
