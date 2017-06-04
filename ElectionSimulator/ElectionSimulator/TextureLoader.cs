@@ -87,7 +87,9 @@ namespace ElectionSimulator
 
         List<Uri> Empties = new List<Uri>(new Uri[] {
             new Uri("resource/empties/empty1.png", UriKind.Relative),
-            new Uri("resource/empties/empty2.png", UriKind.Relative)
+            new Uri("resource/empties/empty2.png", UriKind.Relative),
+            new Uri("resource/empties/empty3.png", UriKind.Relative),
+            new Uri("resource/empties/empty4.png", UriKind.Relative)
         });
 
         List<Uri> HQs = new List<Uri>(new Uri[] {
@@ -102,6 +104,11 @@ namespace ElectionSimulator
             new Uri("resource/characters/activists/activist-fn.png", UriKind.Relative),
             new Uri("resource/characters/activists/activist-fi.png", UriKind.Relative),
             new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
+        });
+
+        List<Uri> Journalists = new List<Uri>(new Uri[] {
+            new Uri("resource/characters/journalists/journalist1.png", UriKind.Relative),
+            new Uri("resource/characters/journalists/journalist2.png", UriKind.Relative)
         });
 
         List<Uri> PublicPlaces = new List<Uri>(new Uri[] {
@@ -203,19 +210,26 @@ namespace ElectionSimulator
             return null;
         }
 
-        public BitmapImage getActivistTexture(ElectionCharacter character)
+        public BitmapImage getCharacterTexture(ElectionCharacter character)
         {
-            Activist activist = (Activist)character;
-            switch (activist.PoliticalParty.Name)
+            if(character is Activist)
             {
-                case "En Marche":
-                    return new BitmapImage(Activists[0]);
-                case "Front National":
-                    return new BitmapImage(Activists[1]);
-                case "France Insoumise":
-                    return new BitmapImage(Activists[2]);
-                case "Les Républicains":
-                    return new BitmapImage(Activists[3]);
+                Activist activist = (Activist) character;
+                switch (activist.PoliticalParty.Name)
+                {
+                    case "En Marche":
+                        return new BitmapImage(Activists[0]);
+                    case "Front National":
+                        return new BitmapImage(Activists[1]);
+                    case "France Insoumise":
+                        return new BitmapImage(Activists[2]);
+                    case "Les Républicains":
+                        return new BitmapImage(Activists[3]);
+                }
+
+            } else if (character is Journalist)
+            {
+                return new BitmapImage(Journalists[random.Next(Journalists.Count)]);
             }
             return null;
         }

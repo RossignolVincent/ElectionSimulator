@@ -163,5 +163,15 @@
     <Resource Include="resource\public-places\public-place1.png" />
     <Resource Include="resource\public-places\public-place2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\characters\journalists\journalist1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\characters\journalists\journalist2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\empties\empty3.png" />
+    <Resource Include="resource\empties\empty4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

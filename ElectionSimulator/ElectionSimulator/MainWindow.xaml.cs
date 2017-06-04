@@ -111,7 +111,7 @@ namespace ElectionSimulator
             {
                 // Add test for type of character
                 Image characterImage = new Image();
-                BitmapImage characterSource = tl.getActivistTexture(character);
+                BitmapImage characterSource = tl.getCharacterTexture(character);
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
                 Grid.SetColumn(characterImage, character.position.X);

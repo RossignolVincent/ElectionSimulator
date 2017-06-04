@@ -6,6 +6,7 @@ using AbstractLibrary.Object;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
 using ElectionLibrary.Parties;
+using ElectionLibrary.Character.Behavior;
 
 namespace ElectionLibrary.Factory
 {
@@ -82,11 +83,11 @@ namespace ElectionLibrary.Factory
             return new EmptyArea("", position);
 		}
 
-		/********************************************************************
+        /********************************************************************
          *                           CHARACTERS                             *
          ********************************************************************/
 
-		public override AbstractCharacter CreateCharacter()
+        public override AbstractCharacter CreateCharacter()
 		{
             return null;
 		}
@@ -101,11 +102,20 @@ namespace ElectionLibrary.Factory
             return new Activist("", position, party);
         }
 
-		/********************************************************************
+
+        public Journalist CreateJournalist(Position position)
+        {
+            if (position == null)
+                throw new ArgumentException();
+
+            return new Journalist("", new JournalistBehavior(), position);
+        }
+
+        /********************************************************************
          *                              ACCESSES                            *
          ********************************************************************/
 
-		public override AbstractAccess CreateAccess(AbstractLibrary.Environment.AbstractArea startArea, AbstractLibrary.Environment.AbstractArea endArea)
+        public override AbstractAccess CreateAccess(AbstractLibrary.Environment.AbstractArea startArea, AbstractLibrary.Environment.AbstractArea endArea)
 		{
             return null;
 		}
