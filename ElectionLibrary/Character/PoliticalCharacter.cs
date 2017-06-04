@@ -83,8 +83,8 @@ namespace ElectionLibrary.Character
             }
             else if(journalists.Count > 0) // Then Interview
             {
-                int pickedNumber = random.Next(politicians.Count);
-                Interview(journalists[pickedNumber]);
+                int pickedNumber = random.Next(journalists.Count);
+                journalists[pickedNumber].Interview(this);
             }
         }
 
@@ -121,11 +121,8 @@ namespace ElectionLibrary.Character
             looser.Moral -= (1 + diffMoral);
             if (looser.Moral < 0)
                 looser.Moral = 0;
-        }
 
-        protected void Interview(Journalist journalist)
-        {
-
+            winner.AddRandomAura();
         }
 
         public override void Rest()

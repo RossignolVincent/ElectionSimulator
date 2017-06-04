@@ -61,6 +61,30 @@ namespace ElectionLibrary.Character
             this.position = position;
         }
 
+        public void AddRandomAura()
+        {
+            Random random = new Random();
+            int pickedNumber = random.Next(100);
+
+            // 10% chance to get more Aura
+            if(pickedNumber >= 90)
+            {
+                if (pickedNumber < 96) // 6% chance to get 1 extra Aura
+                {
+                    Aura += 1;
+                }
+                else if(pickedNumber < 99) // 3% chance to get 2 extra Aura
+                {
+                    Aura += 2;
+                }
+                else // 1% chance to get 3 extra Aura and get max of Moral
+                {
+                    Aura += 3;
+                    Moral = INIT_MORAL;
+                }
+            }
+        }
+
         protected abstract void ComputeCharactersInteraction(List<AbstractCharacter> characters);
 
         public abstract Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas);
