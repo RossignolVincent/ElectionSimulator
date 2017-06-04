@@ -25,45 +25,54 @@
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Name="Event" Grid.Row="0" Background="#E5847A"></Grid>
-                <Grid Name="Details" Grid.Row="1" Background="#A8B2CD">
+                
+                <Grid Grid.Row="0" Background="#E5847A">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Visibility="Hidden" Name="PositionLabel">Position</Label>
-                    <Label Grid.Row="0" Grid.Column="1" Name="Position"></Label>
-                    <Label Grid.Row="1" Grid.Column="0" Visibility="Hidden" Name="TypeAreaLabel">Type de case</Label>
-                    <Label Grid.Row="1" Grid.Column="1" Name="TypeArea"></Label>
-                    <ListView Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden" Name="Characters">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Role" DisplayMemberBinding="{Binding Role}" />
-                                <GridViewColumn Header="Moral" DisplayMemberBinding="{Binding Moral}" />
-                                <GridViewColumn Header="Aura" DisplayMemberBinding="{Binding Aura}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView Grid.Row="3" Grid.ColumnSpan="2" Visibility="Hidden" Name="Opinions">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="Pourcentage" DisplayMemberBinding="{Binding Value}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <Label Visibility="Hidden" Name="EventLabel">Résultat du scrutin :</Label>
+                    <Grid Grid.Row="1" Name="Event"></Grid>
                 </Grid>
+                <Grid Name="Details" Grid.Row="1" Background="#A8B2CD">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Visibility="Hidden" Name="PositionLabel">Position</Label>
+                        <Label Grid.Row="0" Grid.Column="1" Name="Position"></Label>
+                        <Label Grid.Row="1" Grid.Column="0" Visibility="Hidden" Name="TypeAreaLabel">Type de case</Label>
+                        <Label Grid.Row="1" Grid.Column="1" Name="TypeArea"></Label>
+                        <ListView Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden" Name="Characters">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Role" DisplayMemberBinding="{Binding Role}" />
+                                    <GridViewColumn Header="Parti" DisplayMemberBinding="{Binding PoliticalParty.Name}" />
+                                    <GridViewColumn Header="Moral" DisplayMemberBinding="{Binding Moral}" />
+                                    <GridViewColumn Header="Aura" DisplayMemberBinding="{Binding Aura}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView Grid.Row="3" Grid.ColumnSpan="2" Visibility="Hidden" Name="Opinions">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Name}" />
+                                    <GridViewColumn Header="Pourcentage" DisplayMemberBinding="{Binding Value}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 
-                <Grid Grid.Row="2" Background="#FCF2A5">
-                    <Label Content="{Binding Status}"></Label>
+                    <Grid Grid.Row="2" Background="#FCF2A5">
+                        <Label Content="{Binding Status}"></Label>
+                    </Grid>
                 </Grid>
-            </Grid>
 
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
                 <Viewbox Grid.Column="1" Stretch="Uniform">
