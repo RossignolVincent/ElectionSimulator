@@ -115,12 +115,7 @@ namespace ElectionLibrary.Character
 
             // Update moral
             winner.Moral += (1 + diffMoral);
-            if (winner.Moral > INIT_MORAL)
-                winner.Moral = INIT_MORAL;
-
             looser.Moral -= (1 + diffMoral);
-            if (looser.Moral < 0)
-                looser.Moral = 0;
 
             //Console.WriteLine("Débat : " + winner.PoliticalParty.Name + " bat (" + (1 + diffMoral) + ")" + looser.PoliticalParty.Name);
 

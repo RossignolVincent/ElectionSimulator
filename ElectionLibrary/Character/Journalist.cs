@@ -72,7 +72,7 @@ namespace ElectionLibrary.Character
             int diffAura = politician.Aura - Aura;
             Random random = new Random();
             int pickedNumber = random.Next(100);
-
+            
             if (pickedNumber < 50 + diffAura * 10 + diffMoralPercentage / 2)
             {
                 // The politician wins

@@ -70,7 +70,7 @@ namespace ElectionLibrary.Environment
                 //double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
                 //calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
 
-                Console.WriteLine(maxPercentage + " : " + calcul);
+                //Console.WriteLine(maxPercentage + " : " + calcul);
 
                 if (calcul < 0)
                 {
