@@ -60,6 +60,9 @@ namespace ElectionSimulator
 
         private void StartNewSimulation(object sender, RoutedEventArgs e)
         {
+            NewSimulationButton.IsEnabled = false;
+            LoadSimulationButton.IsEnabled = false;
+            SaveSimulationButton.IsEnabled = false;
             NewSimulationWindow newSimulationWindow = new NewSimulationWindow();
             newSimulationWindow.ShowDialog();
             if (newSimulationWindow.validated)
@@ -144,6 +147,11 @@ namespace ElectionSimulator
                 if (poll.Type == Poll.PollType.End)
                 {
                     EventLabel.Content = "Résultat du scrutin :";
+                    PlaySimulationButton.IsEnabled = false;
+                    PauseSimulationButton.IsEnabled = false;
+                    NextTurnButton.IsEnabled = false;
+                    ResultWindow resultWindow = new ResultWindow(poll);
+                    resultWindow.ShowDialog();
                 }
                 else if (poll.Type == Poll.PollType.Poll)
                 {
@@ -165,10 +173,14 @@ namespace ElectionSimulator
                 int j = 0;
                 foreach (PoliticalParty party in poll.Result.opinionList.Keys)
                 {
-                    Label partyName = new Label();
-                    partyName.Content = party.Name;
-                    Label percent = new Label();
-                    percent.Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %";
+                    Label partyName = new Label()
+                    {
+                        Content = party.Name
+                    };
+                    Label percent = new Label()
+                    {
+                        Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %"
+                    };
                     Event.Children.Add(partyName);
                     Event.Children.Add(percent);
                     Grid.SetRow(partyName, j);
@@ -178,12 +190,6 @@ namespace ElectionSimulator
                     j++;
                 }
 
-                if (poll.Type == Poll.PollType.End)
-                {
-                    PlaySimulationButton.IsEnabled = false;
-                    PauseSimulationButton.IsEnabled = false;
-                    NextTurnButton.IsEnabled = false;
-                }
             }
 
 

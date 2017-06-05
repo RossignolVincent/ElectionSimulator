@@ -32,6 +32,7 @@ namespace ElectionSimulator
 
         private void LoadMap(string MapFile)
         {
+            App.ElectionVM.Areas.Clear();
             using (TextFieldParser parser = new TextFieldParser(MapFile))
             {
                 parser.TextFieldType = FieldType.Delimited;
