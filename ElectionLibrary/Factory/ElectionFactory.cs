@@ -103,7 +103,7 @@ namespace ElectionLibrary.Factory
         }
 
 
-        public Journalist CreateJournalist(Position position)
+        public ElectionCharacter CreateJournalist(Position position)
         {
             if (position == null)
                 throw new ArgumentException();
@@ -111,7 +111,7 @@ namespace ElectionLibrary.Factory
             return new Journalist("", position);
         }
 
-        public Leader CreateLeader(Position position, PoliticalParty party)
+        public ElectionCharacter CreateLeader(Position position, PoliticalParty party)
         {
             if (position == null || party == null)
             {

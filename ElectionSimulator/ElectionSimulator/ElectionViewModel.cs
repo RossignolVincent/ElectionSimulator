@@ -22,7 +22,6 @@ namespace ElectionSimulator
         private static ElectionViewModel instance;
 
         private string applicationTitle;
-
         public string ApplicationTitle
         {
             get
@@ -37,7 +36,6 @@ namespace ElectionSimulator
         }
 
         private string status;
-
         public string Status
         {
             get
@@ -70,6 +68,8 @@ namespace ElectionSimulator
         public List<PoliticalParty> Parties { get; set; }
 
         public ElectionEvent Event { get; set; }
+
+        public Media media;
 
         private ElectionViewModel()
         {
@@ -106,26 +106,23 @@ namespace ElectionSimulator
             {
                 HQ hq = FindHQ(party);
                 
+                // Add 4 activists for each Party
                 for(int i = 0; i < 4; i++)
                 {
                     Activist activist = (Activist)factory.CreateActivist(hq.Position, party);
                     Characters.Add(activist);
                     hq.AddCharacter(activist);
                 }
-            }
 
-            foreach(PoliticalParty party in Parties)
-            {
+                // Add one Leader for each Party
+                Characters.Add(factory.CreateLeader(hq.Position, party));
+
+                // Add one Journalist  for each Party
                 Journalist journalist = (Journalist)factory.CreateJournalist(GetRandomStreetPosition(streets));
                 Characters.Add(journalist);
             }
 
-            foreach(PoliticalParty party in Parties)
-            {
-                HQ hq = FindHQ(party);
-                Leader leader = (Leader)factory.CreateLeader(hq.Position, party);
-                Characters.Add(leader);
-            }
+            media = Media.GetInstance(Characters);
         }
 
         private Position GetRandomStreetPosition(List<Street> streets)

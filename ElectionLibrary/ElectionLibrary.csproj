@@ -57,6 +57,7 @@
     <Compile Include="Environment\Position.cs" />
     <Compile Include="Event\Article.cs" />
     <Compile Include="Event\ElectionEvent.cs" />
+    <Compile Include="Event\Media.cs" />
     <Compile Include="Event\Poll.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
     <Compile Include="Parties\Concrete\EM.cs" />

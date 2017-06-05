@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace AbstractLibrary.Pattern
 {
-    public interface IObservable
+    public interface IObservable<T>
     {
-        void Attach(IObserver observer);
-        void Detach(IObserver observer);
-        void Notify();
+        void Attach(IObserver<T> observer);
+        void Detach(IObserver<T> observer);
+        void Notify(T obj);
     }
 }

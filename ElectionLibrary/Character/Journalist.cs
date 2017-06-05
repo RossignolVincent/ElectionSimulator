@@ -1,17 +1,23 @@
 ﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
-using System;
 using System.Collections.Generic;
 using AbstractLibrary.Character;
 using ElectionLibrary.Character.State;
+using AbstractLibrary.Pattern;
+using ElectionLibrary.Event;
 
 namespace ElectionLibrary.Character
 {
-    public class Journalist : ElectionCharacter
+    public class Journalist : ElectionCharacter, IObservable<Article>
     {
+        private readonly List<IObserver<Article>> medias;
+        private System.Random random;
+
         public Journalist(string name, Position position) : base(name, new JournalistBehavior(), position)
         {
             this.State = new InStreetState();
+            medias = new List<IObserver<Article>>();
+            random = new System.Random();
         }
 
         public override Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas)
@@ -21,18 +27,15 @@ namespace ElectionLibrary.Character
     
         public override void Rest()
         {
-            throw new NotImplementedException();
         }
 
         public override void Tired()
         {
-            throw new NotImplementedException();
         }
 
         protected override void ComputeCharactersInteraction(List<AbstractCharacter> characters)
         {
             List<PoliticalCharacter> politicians = new List<PoliticalCharacter>();
-            Random random = new Random();
 
             foreach (ElectionCharacter character in characters)
             {
@@ -54,8 +57,8 @@ namespace ElectionLibrary.Character
         {
             int diffMoralPercentage = (int) ((double)politician.Moral / INIT_MORAL - (double)Moral / INIT_MORAL) * 100 / 2;
             int diffAura = politician.Aura - Aura;
-            Random random = new Random();
             int pickedNumber = random.Next(100);
+            Article article;
             
             if (pickedNumber < 50 + diffAura * 10 + diffMoralPercentage / 2)
             {
@@ -63,6 +66,7 @@ namespace ElectionLibrary.Character
                 politician.Moral += (1 + diffMoralPercentage / 10);
                 Moral -= (1 + diffMoralPercentage / 10);
                 //politician.AddRandomAura();
+                article = new Article(politician.PoliticalParty, true);
             }
             else
             {
@@ -70,6 +74,27 @@ namespace ElectionLibrary.Character
                 Moral += (1 + diffMoralPercentage / 10);
                 politician.Moral -= (1 + diffMoralPercentage / 10);
                 //AddRandomAura();
+                article = new Article(politician.PoliticalParty, false);
+            }
+
+            Notify(article);
+        }
+
+        public void Attach(IObserver<Article> observer)
+        {
+            medias.Add(observer);
+        }
+
+        public void Detach(IObserver<Article> observer)
+        {
+            medias.Remove(observer);
+        }
+
+        public void Notify(Article article)
+        {
+            foreach(IObserver<Article> observer in medias)
+            {
+                observer.Update(article);
             }
         }
     }

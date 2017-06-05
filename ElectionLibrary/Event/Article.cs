@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Event
 {
-    class Article : ElectionEvent
+    public class Article : ElectionEvent
     {
-        public Article()
-        {
+        public PoliticalParty Party { get; set; }
 
+        public bool IsPositive { get; set; }
+
+        public Article(PoliticalParty party, bool isPositive)
+        {
+            Party = party;
+            IsPositive = isPositive;
         }
     }
 }
