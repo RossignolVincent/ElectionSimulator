@@ -12,8 +12,6 @@ namespace ElectionSimulator
 {
     public class ElectionViewModel : BaseViewModel, IObservable<ElectionEvent>
     {
-        private static ElectionViewModel instance;
-
         private string applicationTitle;
         public string ApplicationTitle
         {
@@ -61,12 +59,12 @@ namespace ElectionSimulator
         public List<PoliticalParty> Parties { get; set; }
 
         public ElectionEvent Event { get; set; }
-
+        
         public List<IObserver<ElectionEvent>> medias;
 
         public Media media;
-
-        private ElectionViewModel()
+        
+        public ElectionViewModel()
         {
             ApplicationTitle = "Election Simulator";
             DimensionX = 20;
@@ -82,16 +80,6 @@ namespace ElectionSimulator
         internal void OnWindowClosing(object sender, CancelEventArgs e)
         {
             Stop();
-        }
-
-        public static ElectionViewModel GetInstance()
-        {
-            if(instance == null)
-            {
-                instance = new ElectionViewModel();
-            }
-
-            return instance;
         }
 
         internal void GenerateCharacters()

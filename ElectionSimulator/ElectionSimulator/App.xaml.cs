@@ -17,7 +17,7 @@ namespace ElectionSimulator
 
         public App()
         {
-            ElectionVM = ElectionViewModel.GetInstance();
+            ElectionVM = new ElectionViewModel();
         }
     }
 }
