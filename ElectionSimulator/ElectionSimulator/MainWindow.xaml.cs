@@ -177,6 +177,13 @@ namespace ElectionSimulator
                     Grid.SetColumn(percent, 1);
                     j++;
                 }
+
+                if (poll.Type == Poll.PollType.End)
+                {
+                    PlaySimulationButton.IsEnabled = false;
+                    PauseSimulationButton.IsEnabled = false;
+                    NextTurnButton.IsEnabled = false;
+                }
             }
 
 

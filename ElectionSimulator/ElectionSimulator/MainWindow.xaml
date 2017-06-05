@@ -99,9 +99,9 @@
             <Button Grid.Column="1" Content="Charger"></Button>
             <Button Grid.Column="2" Content="Sauvegarder"></Button>
             <Slider Grid.Column="3" Value="{Binding RefreshRate}" Minimum="100" Maximum="5000"></Slider>
-            <Button Grid.Column="4" Content="Lancer" Click="PlaySimulation"></Button>
-            <Button Grid.Column="5" Content="Mettre en pause" Click="PauseSimulation"></Button>
-            <Button Grid.Column="6" Content="Tour suivant" Click="NextTurn"></Button>
+            <Button Grid.Column="4" Content="Lancer" Click="PlaySimulation" Name="PlaySimulationButton"></Button>
+            <Button Grid.Column="5" Content="Mettre en pause" Click="PauseSimulation" Name="PauseSimulationButton"></Button>
+            <Button Grid.Column="6" Content="Tour suivant" Click="NextTurn" Name="NextTurnButton"></Button>
         </Grid>
     </Grid>
 </Window>
