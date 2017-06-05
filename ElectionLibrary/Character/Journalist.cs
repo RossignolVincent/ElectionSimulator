@@ -9,9 +9,8 @@ namespace ElectionLibrary.Character
 {
     public class Journalist : ElectionCharacter
     {
-        public Journalist(string name, AbstractBehavior behavior, Position position) : base(name, behavior, position)
+        public Journalist(string name, Position position) : base(name, new JournalistBehavior(), position)
         {
-            this.Behavior = behavior;
             this.State = new InStreetState();
         }
 

@@ -12,9 +12,8 @@ namespace ElectionLibrary.Character
 {
     public class Activist : PoliticalCharacter
     {
-        public Activist(string name, Position position, PoliticalParty politicalParty) : base(name, null, position, politicalParty)
+        public Activist(string name, Position position, PoliticalParty politicalParty) : base(name, new ActivistBehavior(), position, politicalParty)
         {
-            this.Behavior = new ActivistBehavior();
         }
 
         public override void Tired()

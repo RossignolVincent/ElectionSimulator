@@ -108,7 +108,17 @@ namespace ElectionLibrary.Factory
             if (position == null)
                 throw new ArgumentException();
 
-            return new Journalist("", new JournalistBehavior(), position);
+            return new Journalist("", position);
+        }
+
+        public Leader CreateLeader(Position position, PoliticalParty party)
+        {
+            if (position == null || party == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return new Leader("", position, party);
         }
 
         /********************************************************************

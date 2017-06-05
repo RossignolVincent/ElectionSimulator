@@ -222,9 +222,8 @@ namespace ElectionSimulator
 
         public BitmapImage getCharacterTexture(ElectionCharacter character)
         {
-            if(character is Activist)
+            if (character is Activist activist)
             {
-                Activist activist = (Activist) character;
                 switch (activist.PoliticalParty.Name)
                 {
                     case "En Marche":
@@ -236,10 +235,9 @@ namespace ElectionSimulator
                     case "Les Républicains":
                         return new BitmapImage(Activists[3]);
                 }
-
-            } /*else if(character is Leader)
+            }
+            else if (character is Leader leader)
             {
-                Leader leader = (Leader)character;
                 switch (leader.PoliticalParty.Name)
                 {
                     case "En Marche":
@@ -251,7 +249,7 @@ namespace ElectionSimulator
                     case "Les Républicains":
                         return new BitmapImage(Leaders[3]);
                 }
-            }*/
+            }
             else if (character is Journalist)
             {
                 if (journalistImages.TryGetValue((Journalist)character, out BitmapImage characterSource))

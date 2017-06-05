@@ -120,12 +120,12 @@ namespace ElectionSimulator
                 Characters.Add(journalist);
             }
 
-            /*foreach(PoliticalParty party in Parties)
+            foreach(PoliticalParty party in Parties)
             {
-                HQ hq = findHQ(party);
+                HQ hq = FindHQ(party);
                 Leader leader = (Leader)factory.CreateLeader(hq.Position, party);
                 Characters.Add(leader);
-            }*/
+            }
         }
 
         private Position GetRandomStreetPosition(List<Street> streets)
