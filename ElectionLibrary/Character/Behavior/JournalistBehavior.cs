@@ -9,14 +9,27 @@ namespace ElectionLibrary.Character.Behavior
 {
     public class JournalistBehavior : AbstractBehavior
     {
-        public override void NextTurn(AbstractArea area)
+        public override Position Move(ElectionCharacter character, AbstractArea area)
         {
-            throw new NotImplementedException();
-        }
+            AbstractArea bestMove = area;
+            List<AbstractArea> streetList = new List<AbstractArea>();
 
-        public override int Influence(int moral, int nbTurn)
-        {
-            throw new NotImplementedException();
+            foreach (ElectionAccess access in area.Accesses)
+            {
+                if (access.EndArea is Street)
+                {
+                    streetList.Add((AbstractArea)access.EndArea);
+                }
+            }
+
+            if (bestMove == area)
+            {
+                Random random = new Random();
+                int newStreet = random.Next(streetList.Count);
+                bestMove = (AbstractArea)streetList[newStreet];
+            }
+
+            return bestMove.Position;
         }
     }
 }

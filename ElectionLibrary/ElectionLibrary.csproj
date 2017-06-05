@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
     <Compile Include="Algorithm\Node.cs" />
+    <Compile Include="Character\Leader.cs" />
     <Compile Include="Character\Journalist.cs" />
     <Compile Include="Character\Activist.cs" />
     <Compile Include="Character\Behavior\JournalistBehavior.cs" />

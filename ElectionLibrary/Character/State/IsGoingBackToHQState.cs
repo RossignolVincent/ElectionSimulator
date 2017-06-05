@@ -9,8 +9,10 @@ namespace ElectionLibrary.Character.State
         {
         }
 
-        public override Position Handle(PoliticalCharacter politician, AbstractArea area)
+        public override Position Handle(ElectionCharacter character, AbstractArea area)
         {
+            PoliticalCharacter politician = (PoliticalCharacter)character;
+
             if(politician.PathToHQ == null)
             {
                 politician.SetPathToHQ();

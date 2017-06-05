@@ -3,6 +3,7 @@ using AbstractLibrary.Character;
 using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System.Collections.Generic;
+using ElectionLibrary.Character.State;
 
 namespace ElectionLibrary.Character
 { 
@@ -11,6 +12,7 @@ namespace ElectionLibrary.Character
         public static int INIT_MORAL = 25;
 
         public AbstractBehavior Behavior { get; set; }
+        public PoliticalCharacterState State { get; set; }
 
         public Position position { get; set; }
 

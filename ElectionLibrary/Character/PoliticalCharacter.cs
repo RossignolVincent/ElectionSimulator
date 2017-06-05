@@ -12,7 +12,6 @@ namespace ElectionLibrary.Character
     public abstract class PoliticalCharacter : ElectionCharacter
     {
 		public PoliticalParty PoliticalParty { get; }
-		public PoliticalCharacterState State { get; set; }
         public Queue<AbstractElectionArea> VisitedElectionAreas { get; }
         public Stack<Position> PathToHQ { get; set; }
         private List<List<AbstractArea>> areas;
@@ -126,15 +125,5 @@ namespace ElectionLibrary.Character
         {
             Moral = INIT_MORAL;
         }
-
-		public override void Tired()
-		{
-			Moral--;
-
-			if (Moral <= 0)
-			{
-                State = new IsGoingBackToHQState();
-			}
-		}
     }
 }

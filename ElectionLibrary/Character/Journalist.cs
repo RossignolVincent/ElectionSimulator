@@ -3,6 +3,7 @@ using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
 using AbstractLibrary.Character;
+using ElectionLibrary.Character.State;
 
 namespace ElectionLibrary.Character
 {
@@ -10,29 +11,13 @@ namespace ElectionLibrary.Character
     {
         public Journalist(string name, AbstractBehavior behavior, Position position) : base(name, behavior, position)
         {
+            this.Behavior = behavior;
+            this.State = new InStreetState();
         }
 
         public override Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas)
         {
-            AbstractArea bestMove = area;
-            List<AbstractArea> streetList= new List<AbstractArea>();
-
-            foreach (ElectionAccess access in area.Accesses)
-            {
-                if (access.EndArea is Street)
-                {
-                    streetList.Add((AbstractArea) access.EndArea);
-                }
-            }
-
-            if (bestMove == area)
-            {
-                Random random = new Random();
-                int newStreet = random.Next(streetList.Count);
-                bestMove = (AbstractArea)streetList[newStreet];
-            }
-
-            return bestMove.Position;
+            return State.Handle(this, area);
         }
     
         public override void Rest()

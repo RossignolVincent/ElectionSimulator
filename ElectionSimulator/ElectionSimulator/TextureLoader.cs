@@ -123,7 +123,7 @@ namespace ElectionSimulator
             new Uri("resource/public-places/public-place2.png", UriKind.Relative)
         });
 
-        public new Dictionary<Journalist, BitmapImage> journalistImages;
+        public Dictionary<Journalist, BitmapImage> journalistImages;
 
         public ElectionViewModel electionViewModel;
 
