@@ -8,15 +8,15 @@ using ElectionLibrary.Event;
 
 namespace ElectionLibrary.Character
 {
-    public class Journalist : ElectionCharacter, IObservable<Article>
+    public class Journalist : ElectionCharacter, IObservable<ElectionEvent>
     {
-        private readonly List<IObserver<Article>> medias;
+        private readonly List<IObserver<ElectionEvent>> medias;
         private System.Random random;
 
         public Journalist(string name, Position position) : base(name, new JournalistBehavior(), position)
         {
             this.State = new InStreetState();
-            medias = new List<IObserver<Article>>();
+            medias = new List<IObserver<ElectionEvent>>();
             random = new System.Random();
         }
 
@@ -80,19 +80,19 @@ namespace ElectionLibrary.Character
             Notify(article);
         }
 
-        public void Attach(IObserver<Article> observer)
+        public void Attach(IObserver<ElectionEvent> observer)
         {
             medias.Add(observer);
         }
 
-        public void Detach(IObserver<Article> observer)
+        public void Detach(IObserver<ElectionEvent> observer)
         {
             medias.Remove(observer);
         }
 
-        public void Notify(Article article)
+        public void Notify(ElectionEvent article)
         {
-            foreach(IObserver<Article> observer in medias)
+            foreach(IObserver<ElectionEvent> observer in medias)
             {
                 observer.Update(article);
             }

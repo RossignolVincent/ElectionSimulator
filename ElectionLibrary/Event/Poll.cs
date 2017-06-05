@@ -31,7 +31,7 @@ namespace ElectionLibrary.Event
 
             Opinion result = new Opinion(opinions[0].GetParties());
 
-            foreach (PoliticalParty party in result.opinionList.Keys.ToList())
+            foreach (PoliticalParty party in result.GetParties())
             {
                 result.opinionList[party] = 0;
             }
@@ -45,7 +45,7 @@ namespace ElectionLibrary.Event
                 }
             }
 
-            foreach (PoliticalParty party in result.opinionList.Keys.ToList())
+            foreach (PoliticalParty party in result.GetParties())
             {
                 result.opinionList[party] = result.opinionList[party] / countOpininons;
             }

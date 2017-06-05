@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Threading;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
-using ElectionLibrary.Character.Behavior;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using ElectionLibrary.Factory;
-using ElectionLibrary;
 using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
 using System.ComponentModel;
+using AbstractLibrary.Pattern;
 
 namespace ElectionSimulator
 {
-    public class ElectionViewModel : BaseViewModel
+    public class ElectionViewModel : BaseViewModel, IObservable<ElectionEvent>
     {
         private static ElectionViewModel instance;
 
@@ -49,7 +42,7 @@ namespace ElectionSimulator
             }
         }
 
-        public Boolean Running { get; set; }
+        public bool Running { get; set; }
 
         public int DimensionX;
 
@@ -69,6 +62,8 @@ namespace ElectionSimulator
 
         public ElectionEvent Event { get; set; }
 
+        public List<IObserver<ElectionEvent>> medias;
+
         public Media media;
 
         private ElectionViewModel()
@@ -81,6 +76,7 @@ namespace ElectionSimulator
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
             Event = null;
+            medias = new List<IObserver<ElectionEvent>>();
         }
 
         internal void OnWindowClosing(object sender, CancelEventArgs e)
@@ -123,6 +119,7 @@ namespace ElectionSimulator
             }
 
             media = Media.GetInstance(Characters);
+            Attach(media);
         }
 
         private Position GetRandomStreetPosition(List<Street> streets)
@@ -136,11 +133,9 @@ namespace ElectionSimulator
             {
                 foreach (AbstractArea area in areaList)
                 {
-                    if(area is HQ)
+                    if (area is HQ hq && hq.Party == party)
                     {
-                        HQ hq = (HQ)area;
-                        if (hq.Party == party)
-                            return hq;
+                       return hq;
                     }
                 }
             }
@@ -331,7 +326,6 @@ namespace ElectionSimulator
                 currentArea.RemoveCharacter(character);
                 newArea.AddCharacter(character);
             }
-
         }
 
         private List<Building> GetBuildings()
@@ -376,6 +370,7 @@ namespace ElectionSimulator
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+
             int isThereANewPoll = TextureLoader.random.Next(0, 100);
             if(isThereANewPoll == 1)
             {
@@ -385,6 +380,9 @@ namespace ElectionSimulator
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+
+            // Notify Media
+            Notify(Event);
         }
 
         private List<Building> GetPollBuildings()
@@ -450,6 +448,24 @@ namespace ElectionSimulator
         internal void AddEmpty(int i)
         {
             Areas[i].Add(factory.CreateEmptyArea(new Position(Areas[i].Count, i)));
+        }
+
+        public void Attach(IObserver<ElectionEvent> observer)
+        {
+            medias.Add(observer);
+        }
+
+        public void Detach(IObserver<ElectionEvent> observer)
+        {
+            medias.Remove(observer);
+        }
+
+        public void Notify(ElectionEvent electionEvent)
+        {
+            foreach(IObserver<ElectionEvent> observer in medias)
+            {
+                observer.Update(electionEvent);
+            }
         }
     }
 }
