@@ -31,7 +31,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
-                    <Label Visibility="Hidden" Name="EventLabel">Résultat du scrutin :</Label>
+                    <Label Visibility="Hidden" Name="EventLabel"></Label>
                     <Grid Grid.Row="1" Name="Event"></Grid>
                 </Grid>
                 <Grid Name="Details" Grid.Row="1" Background="#A8B2CD">

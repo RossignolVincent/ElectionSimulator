@@ -173,5 +173,11 @@
     <Resource Include="resource\empties\empty3.png" />
     <Resource Include="resource\empties\empty4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\characters\leaders\leader-em.png" />
+    <Resource Include="resource\characters\leaders\leader-lr.png" />
+    <Resource Include="resource\characters\leaders\leader-fi.png" />
+    <Resource Include="resource\characters\leaders\leader-fn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

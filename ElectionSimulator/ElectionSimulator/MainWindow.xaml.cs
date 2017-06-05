@@ -31,7 +31,6 @@ namespace ElectionSimulator
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
         TextureLoader tl = new TextureLoader(App.ElectionVM);
-        Dictionary<Journalist, BitmapImage> journalistImages;
 
         List<Label> DetailsLabels = new List<Label>();
 
@@ -41,7 +40,7 @@ namespace ElectionSimulator
             DataContext = App.ElectionVM;
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
-            journalistImages = new Dictionary<Journalist, BitmapImage>();
+            Closing += App.ElectionVM.OnWindowClosing;
             initDetailsLabels();
             
         }
@@ -113,20 +112,7 @@ namespace ElectionSimulator
             {
                 Image characterImage = new Image();
                 BitmapImage characterSource;
-                if (character is Journalist)
-                {
-                    if (journalistImages.TryGetValue((Journalist) character, out characterSource))
-                    {
-                        characterImage.Source = characterSource;
-                    } else
-                    {
-                        characterSource = tl.getCharacterTexture(character);
-                        journalistImages.Add((Journalist)character, characterSource);
-                    }
-                } else
-                {
-                    characterSource = tl.getCharacterTexture(character); 
-                }
+                characterSource = tl.getCharacterTexture(character); 
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
                 Grid.SetColumn(characterImage, character.position.X);
@@ -153,35 +139,47 @@ namespace ElectionSimulator
             Event.RowDefinitions.Clear();
             Event.Children.Clear();
 
-            EventLabel.Visibility = Visibility.Visible;
-
-            Poll poll = (Poll)App.ElectionVM.Event;
-
-            for (int i = 0; i < poll.Result.opinionList.Count; i++)
+            if (App.ElectionVM.Event is Poll poll)
             {
-                Event.RowDefinitions.Add(new RowDefinition());
+                if (poll.Type == Poll.PollType.End)
+                {
+                    EventLabel.Content = "Résultat du scrutin :";
+                }
+                else if (poll.Type == Poll.PollType.Poll)
+                {
+                    EventLabel.Content = "Résultat du sondage :";
+                }
+
+                EventLabel.Visibility = Visibility.Visible;
+
+                for (int i = 0; i < poll.Result.opinionList.Count; i++)
+                {
+                    Event.RowDefinitions.Add(new RowDefinition());
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    Event.ColumnDefinitions.Add(new ColumnDefinition());
+                }
+
+                int j = 0;
+                foreach (PoliticalParty party in poll.Result.opinionList.Keys)
+                {
+                    Label partyName = new Label();
+                    partyName.Content = party.Name;
+                    Label percent = new Label();
+                    percent.Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %";
+                    Event.Children.Add(partyName);
+                    Event.Children.Add(percent);
+                    Grid.SetRow(partyName, j);
+                    Grid.SetRow(percent, j);
+                    Grid.SetColumn(partyName, 0);
+                    Grid.SetColumn(percent, 1);
+                    j++;
+                }
             }
 
-            for (int i = 0; i < 2; i++)
-            {
-                Event.ColumnDefinitions.Add(new ColumnDefinition());
-            }
 
-            int j = 0;
-            foreach (PoliticalParty party in poll.Result.opinionList.Keys)
-            {
-                Label partyName = new Label();
-                partyName.Content = party.Name;
-                Label percent = new Label();
-                percent.Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %";
-                Event.Children.Add(partyName);
-                Event.Children.Add(percent);
-                Grid.SetRow(partyName, j);
-                Grid.SetRow(percent, j);
-                Grid.SetColumn(partyName, 0);
-                Grid.SetColumn(percent, 1);
-                j++;
-            }
         }
 
         private void ShowDetails(object sender, System.Windows.Input.MouseButtonEventArgs e)

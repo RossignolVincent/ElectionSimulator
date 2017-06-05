@@ -106,6 +106,13 @@ namespace ElectionSimulator
             new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
         });
 
+        List<Uri> Leaders = new List<Uri>(new Uri[] {
+            new Uri("resource/characters/leaders/leader-em.png", UriKind.Relative),
+            new Uri("resource/characters/leaders/leader-fn.png", UriKind.Relative),
+            new Uri("resource/characters/leaders/leader-fi.png", UriKind.Relative),
+            new Uri("resource/characters/leaders/leader-lr.png", UriKind.Relative),
+        });
+
         List<Uri> Journalists = new List<Uri>(new Uri[] {
             new Uri("resource/characters/journalists/journalist1.png", UriKind.Relative),
             new Uri("resource/characters/journalists/journalist2.png", UriKind.Relative)
@@ -116,10 +123,13 @@ namespace ElectionSimulator
             new Uri("resource/public-places/public-place2.png", UriKind.Relative)
         });
 
+        public new Dictionary<Journalist, BitmapImage> journalistImages;
+
         public ElectionViewModel electionViewModel;
 
         public TextureLoader(ElectionViewModel electionViewModel)
         {
+            journalistImages = new Dictionary<Journalist, BitmapImage>();
             this.electionViewModel = electionViewModel;
         }
 
@@ -227,9 +237,33 @@ namespace ElectionSimulator
                         return new BitmapImage(Activists[3]);
                 }
 
-            } else if (character is Journalist)
+            } /*else if(character is Leader)
             {
-                return new BitmapImage(Journalists[random.Next(Journalists.Count)]);
+                Leader leader = (Leader)character;
+                switch (leader.PoliticalParty.Name)
+                {
+                    case "En Marche":
+                        return new BitmapImage(Leaders[0]);
+                    case "Front National":
+                        return new BitmapImage(Leaders[1]);
+                    case "France Insoumise":
+                        return new BitmapImage(Leaders[2]);
+                    case "Les Républicains":
+                        return new BitmapImage(Leaders[3]);
+                }
+            }*/
+            else if (character is Journalist)
+            {
+                if (journalistImages.TryGetValue((Journalist)character, out BitmapImage characterSource))
+                {
+                    return characterSource;
+                }
+                else
+                {
+                    characterSource = new BitmapImage(Journalists[random.Next(Journalists.Count)]);
+                    journalistImages.Add((Journalist)character, characterSource);
+                    return characterSource;
+                }
             }
             return null;
         }

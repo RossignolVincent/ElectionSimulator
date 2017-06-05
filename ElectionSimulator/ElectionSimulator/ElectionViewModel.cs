@@ -13,6 +13,7 @@ using ElectionLibrary.Factory;
 using ElectionLibrary;
 using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
+using System.ComponentModel;
 
 namespace ElectionSimulator
 {
@@ -56,7 +57,9 @@ namespace ElectionSimulator
 
         public int RefreshRate { get; set; }
 
-        public ElectionFactory factory = new ElectionFactory(); 
+        public int NumberTurn { get; set; }
+
+        public ElectionFactory factory = new ElectionFactory();
 
         public List<List<AbstractArea>> Areas { get; set; }
 
@@ -78,13 +81,18 @@ namespace ElectionSimulator
             Event = null;
         }
 
+        internal void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            Stop();
+        }
+
         internal void GenerateCharacters()
         {
             List<Street> streets = GetStreets();
 
             foreach (PoliticalParty party in Parties)
             {
-                HQ hq = findHQ(party);
+                HQ hq = FindHQ(party);
                 
                 for(int i = 0; i < 4; i++)
                 {
@@ -96,17 +104,24 @@ namespace ElectionSimulator
 
             foreach(PoliticalParty party in Parties)
             {
-                Journalist journalist = (Journalist)factory.CreateJournalist(getRandomStreetPosition(streets));
+                Journalist journalist = (Journalist)factory.CreateJournalist(GetRandomStreetPosition(streets));
                 Characters.Add(journalist);
             }
+
+            /*foreach(PoliticalParty party in Parties)
+            {
+                HQ hq = findHQ(party);
+                Leader leader = (Leader)factory.CreateLeader(hq.Position, party);
+                Characters.Add(leader);
+            }*/
         }
 
-        private Position getRandomStreetPosition(List<Street> streets)
+        private Position GetRandomStreetPosition(List<Street> streets)
         {
             return streets[TextureLoader.random.Next(streets.Count)].Position;
         }
 
-        private HQ findHQ(PoliticalParty party)
+        private HQ FindHQ(PoliticalParty party)
         {
             foreach (List<AbstractArea> areaList in Areas)
             {
@@ -225,7 +240,8 @@ namespace ElectionSimulator
 
         internal void NextTurn()
         {
-            Status = "Simulation en cours !";
+            Status = "Simulation en cours ! Tour "+NumberTurn;
+            NumberTurn++;
             GenerateEvents();
 
             foreach (ElectionCharacter character in Characters)
@@ -273,15 +289,47 @@ namespace ElectionSimulator
 
         private void GenerateEvents()
         {
-            int randomNumber = TextureLoader.random.Next(0, 100);
-            if(randomNumber == 1) // So funny
+            if(NumberTurn == 1000)
             {
+                Stop();
                 List<Building> buildings = GetBuildings();
                 List<Opinion> opinions = GetOpinions(buildings);
-                Poll poll = new Poll();
+                Poll poll = new Poll(Poll.PollType.End);
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+            int isThereANewPoll = TextureLoader.random.Next(0, 100);
+            if(isThereANewPoll == 1)
+            {
+                List<Building> buildings = GetPollBuildings();
+                List<Opinion> opinions = GetOpinions(buildings);
+                Poll poll = new Poll(Poll.PollType.Poll);
+                poll.GenerateResult(opinions);
+                Event = poll;
+            }
+        }
+
+        private List<Building> GetPollBuildings()
+        {
+            List<Building> buildings = new List<Building>();
+            foreach (List<AbstractArea> areaList in Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    if (area is Building)
+                        buildings.Add((Building)area);
+                }
+            }
+
+            List<Building> selectedBuildings = new List<Building>();
+            for(int i = 0; i < buildings.Count / 20; i++)
+            {
+                int pickedBuilding = TextureLoader.random.Next(buildings.Count);
+                selectedBuildings.Add(buildings[pickedBuilding]);
+                buildings.RemoveAt(pickedBuilding);
+            }
+
+            return selectedBuildings;
         }
 
         private List<Opinion> GetOpinions(List<Building> buildings)
@@ -297,7 +345,7 @@ namespace ElectionSimulator
         internal void Play()
         {
             Running = true;
-            Status = "Simulation en cours !";
+            Status = "Simulation en cours ! Tour " + NumberTurn;
             while (Running)
             {
                 Thread.Sleep(RefreshRate);
@@ -308,7 +356,7 @@ namespace ElectionSimulator
         internal void Stop()
         {
             Running = false;
-            Status = "Simulation en pause ...";
+            Status = "Simulation en pause ... Tour " + NumberTurn;
         }
 
         internal void AddStreet(int i)

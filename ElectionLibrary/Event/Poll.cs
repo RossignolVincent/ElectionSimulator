@@ -12,8 +12,17 @@ namespace ElectionLibrary.Event
     {
         public Opinion Result { get; set; }
 
-        public Poll()
+        public enum PollType
         {
+            Poll,
+            End
+        }
+
+        public PollType Type { get; set; }
+
+        public Poll(PollType type)
+        {
+            Type = type;
         }
 
         public void GenerateResult(List<Opinion> opinions)
