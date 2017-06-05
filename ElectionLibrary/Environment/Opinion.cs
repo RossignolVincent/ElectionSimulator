@@ -44,12 +44,24 @@ namespace ElectionLibrary.Environment
                 throw new InvalidOperationException();
             }
 
-            double calcul = 0;
+            double opinionValue = 0;
 
             if (opinionList[party] < 100) {
                 // Get the maximum percentage of opinion to add to the party : if current opinion of the building is 25%, max is 7.5%, if 50%, max is 5%, etc 
                 double maxPercentage = (100 - opinionList[party]) / 10;
+                int pickedValue = int.MinValue;
 
+                for(int i=0; i<aura; i++)
+                {
+                    int newPickedValue = random.Next((int)-maxPercentage / 2 * 100, (int)maxPercentage * 100);
+                    if(newPickedValue > pickedValue)
+                    {
+                        pickedValue = newPickedValue;
+                    }
+                }
+                
+                opinionValue = (double)pickedValue / 100;
+                
                 // Get the percentage of moral the character has : if 20/25, then percentage is 80% (and moralPercentage is 80)
                 double moralPercentage = ((double)moral / ElectionCharacter.INIT_MORAL) * 100;
 
@@ -59,32 +71,27 @@ namespace ElectionLibrary.Environment
                 {
                     // If the picked number is greater than the moralPercentage, the maximum percentage is multiplied by the moralPercentage divided by 100
                     // If moralPercentage is 80, then maxPercentage is multiplied by 0.8
-                    calcul = maxPercentage * (moralPercentage / 100);
+                    if(opinionValue > 0)
+                    {
+                        opinionValue *= (moralPercentage / 100);
+                    }
+                    else
+                    {
+                        double valueToRemove = -opinionValue * ((100 - moralPercentage) / 100);
+                        opinionValue -= valueToRemove;
+                    }
                 }
-                else
-                {
-                    calcul = maxPercentage;
-                }
-
-                // Finally, add the half of the aura to the maximum percentage, if it will not exceed 100%
-                //double leftToReach100 = 100 - (opinionList[party] + maxPercentage);
-                //calcul = maxPercentage + ((leftToReach100 < aura/2) ? leftToReach100 : aura/2);
 
                 //Console.WriteLine(maxPercentage + " : " + calcul);
 
-                if (calcul < 0)
-                {
-                    throw new ArithmeticException();
-                }
-
-                UpdateNewOpinion(party, calcul);
+                UpdateNewOpinion(party, opinionValue);
             }
             else
             {
                 Console.WriteLine(party + " => " + opinionList[party]);
             }
 
-            return calcul;
+            return opinionValue;
         }
 
         private void UpdateNewOpinion(PoliticalParty party, double opinionToAdd)
@@ -95,26 +102,42 @@ namespace ElectionLibrary.Environment
             // Compute new opinion for the others parties
             List<PoliticalParty> concurrents = GetRepresentativeConcurrentsList(party);
 
-            if(concurrents.Count == 0)
+            if (concurrents.Count > 0 && opinionToAdd != 0)
             {
-                return;
+                UpdateConcurrentsOpinion(concurrents, opinionToAdd);
             }
-            
-            double remainingOpinionToRemove = opinionToAdd;
+        }
+
+        private void UpdateConcurrentsOpinion(List<PoliticalParty> concurrents, double diffOpinion)
+        {
+            double remainingOpinionToRemove = Math.Abs(diffOpinion);
+            bool isPositiveOpinion = (diffOpinion > 0); 
 
             while (remainingOpinionToRemove > 0)
             {
                 PoliticalParty concurrent = concurrents[random.Next(concurrents.Count)];
                 double opinionToRemove = (remainingOpinionToRemove < 1) ? remainingOpinionToRemove : random.Next((int)remainingOpinionToRemove + 1);
 
-                // Check current opinion for the concurrent. Do not remove more than it.
-                if(opinionToRemove > opinionList[concurrent])
+                if(isPositiveOpinion)
                 {
-                    opinionToRemove = opinionList[concurrent];
+                    // Check current opinion for the concurrent. Do not remove more than it
+                    if (opinionToRemove > opinionList[concurrent])
+                    {
+                        opinionToRemove = opinionList[concurrent];
+                    }
+                    opinionList[concurrent] -= opinionToRemove;
                 }
-
-                opinionList[concurrent]     -= opinionToRemove;
-                remainingOpinionToRemove    -= opinionToRemove;
+                else
+                {
+                    // Check current opinion for the concurrent. Do not add more that it remains to reach 100%
+                    if (opinionToRemove > 100 - opinionList[concurrent])
+                    {
+                        opinionToRemove = 100 - opinionList[concurrent];
+                    }
+                    opinionList[concurrent] += opinionToRemove;
+                }
+                
+                remainingOpinionToRemove -= opinionToRemove;
             }
         }
 
