@@ -28,7 +28,14 @@ namespace ElectionLibrary.Character
                 {
                     moral = 0;
                 }
-                moral = value;
+                else if(value > INIT_MORAL)
+                {
+                    moral = INIT_MORAL;
+                }
+                else
+                {
+                    moral = value;
+                }
             }
         }
 
