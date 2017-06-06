@@ -41,11 +41,11 @@ namespace ElectionSimulator
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
             Closing += App.ElectionVM.OnWindowClosing;
-            initDetailsLabels();
+            InitDetailsLabels();
             
         }
 
-        private void initDetailsLabels()
+        private void InitDetailsLabels()
         {
             DetailsLabels.Add(PositionLabel);
             DetailsLabels.Add(TypeAreaLabel);
@@ -62,7 +62,6 @@ namespace ElectionSimulator
         {
             NewSimulationButton.IsEnabled = false;
             LoadSimulationButton.IsEnabled = false;
-            SaveSimulationButton.IsEnabled = false;
             NewSimulationWindow newSimulationWindow = new NewSimulationWindow();
             newSimulationWindow.ShowDialog();
             if (newSimulationWindow.validated)
@@ -115,11 +114,11 @@ namespace ElectionSimulator
             {
                 Image characterImage = new Image();
                 BitmapImage characterSource;
-                characterSource = tl.getCharacterTexture(character); 
+                characterSource = tl.GetCharacterTexture(character); 
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
-                Grid.SetColumn(characterImage, character.position.X);
-                Grid.SetRow(characterImage, character.position.Y);
+                Grid.SetColumn(characterImage, character.Position.X);
+                Grid.SetRow(characterImage, character.Position.Y);
 
             }
 
@@ -224,12 +223,12 @@ namespace ElectionSimulator
                     col++;
                 }
 
-                printDetails(row, col);
-                setDetailsLabelsVisible();
+                PrintDetails(row, col);
+                SetDetailsLabelsVisible();
             }
         }
 
-        private void setDetailsLabelsVisible()
+        private void SetDetailsLabelsVisible()
         {
             foreach(Label label in DetailsLabels)
             {
@@ -249,11 +248,11 @@ namespace ElectionSimulator
             }
         }
 
-        private void printDetails(int row, int col)
+        private void PrintDetails(int row, int col)
         {
             AbstractArea area = App.ElectionVM.Areas[row][col];
 
-            clearLists();
+            ClearLists();
 
             Position.Content = row + ", " + col;
 
@@ -270,9 +269,8 @@ namespace ElectionSimulator
 
             Opinions.Visibility = Visibility.Hidden;
             List<SimpleOpinion> simpleOpinions = new List<SimpleOpinion>();
-            if(area is AbstractElectionArea)
+            if (area is AbstractElectionArea electionArea)
             {
-                AbstractElectionArea electionArea = (AbstractElectionArea) area;
                 foreach (KeyValuePair<PoliticalParty, double> opinion in electionArea.opinion.opinionList)
                 {
                     simpleOpinions.Add(new SimpleOpinion(opinion.Key.Name, opinion.Value));
@@ -282,7 +280,7 @@ namespace ElectionSimulator
             }
         }
 
-        private void clearLists()
+        private void ClearLists()
         {
             Characters.ItemsSource = null;
             Characters.Items.Clear();
