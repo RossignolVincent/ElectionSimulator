@@ -117,8 +117,8 @@ namespace ElectionSimulator
                 characterSource = tl.GetCharacterTexture(character); 
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
-                Grid.SetColumn(characterImage, character.position.X);
-                Grid.SetRow(characterImage, character.position.Y);
+                Grid.SetColumn(characterImage, character.Position.X);
+                Grid.SetRow(characterImage, character.Position.Y);
 
             }
 

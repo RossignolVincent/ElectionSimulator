@@ -14,7 +14,7 @@ namespace ElectionLibrary.Character
         public AbstractBehavior Behavior { get; set; }
         public PoliticalCharacterState State { get; set; }
 
-        public Position position { get; set; }
+        public Position Position { get; set; }
 
         public int Aura { get; set; }
 
@@ -44,7 +44,7 @@ namespace ElectionLibrary.Character
         protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.Behavior = behavior;
-            this.position = position;
+            this.Position = position;
             this.moral = INIT_MORAL;
             this.Aura = 2;
             this.Role = GetType().Name;
@@ -70,7 +70,7 @@ namespace ElectionLibrary.Character
 
         public void MoveTo(Position position)
         {
-            this.position = position;
+            this.Position = position;
         }
 
         public void AddRandomAura()
