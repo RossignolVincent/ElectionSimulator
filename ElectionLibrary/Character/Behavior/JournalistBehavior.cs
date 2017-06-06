@@ -7,6 +7,7 @@ using ElectionLibrary.Environment;
 
 namespace ElectionLibrary.Character.Behavior
 {
+    [Serializable]
     public class JournalistBehavior : AbstractBehavior
     {
         public override void NextTurn(AbstractArea area)

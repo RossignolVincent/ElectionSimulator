@@ -2,6 +2,7 @@
 using System;
 namespace ElectionLibrary.Parties
 {
+    [Serializable]
     public abstract class PoliticalParty
     {
         public string Name { get; set; }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public class Position
     {
         public int X { get; set; }

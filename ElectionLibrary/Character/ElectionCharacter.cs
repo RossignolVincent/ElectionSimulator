@@ -5,7 +5,8 @@ using ElectionLibrary.Environment;
 using System.Collections.Generic;
 
 namespace ElectionLibrary.Character
-{ 
+{
+    [Serializable]
     public abstract class ElectionCharacter : AbstractCharacter 
     {
         protected static int INIT_MORAL = 25;

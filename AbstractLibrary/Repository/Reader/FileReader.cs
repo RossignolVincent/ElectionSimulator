@@ -21,9 +21,9 @@ namespace AbstractLibrary.Repository.Reader
             return this.ReadAll();
         }
 
-        public string ReadAll()
+        public byte[] ReadAll()
         {
-            return File.ReadAllText(Path);
+            return File.ReadAllBytes(Path);
         }
 
         public IEnumerable<object> ReadLineByLine()

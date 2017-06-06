@@ -4,6 +4,7 @@ using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public abstract class AbstractElectionArea : AbstractArea
     {
         public Opinion opinion { get; }

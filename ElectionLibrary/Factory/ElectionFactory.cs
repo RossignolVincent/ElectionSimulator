@@ -9,6 +9,7 @@ using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Factory
 {
+    [Serializable]
     public class ElectionFactory : AbstractFactory
     {
         public override AbstractEnvironment CreateEnvironment()

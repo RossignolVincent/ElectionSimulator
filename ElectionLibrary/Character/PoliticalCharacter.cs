@@ -8,6 +8,7 @@ using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Character
 {
+    [Serializable]
     public abstract class PoliticalCharacter : ElectionCharacter
     {
 		public PoliticalParty PoliticalParty { get; }

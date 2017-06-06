@@ -4,6 +4,7 @@ using AbstractLibrary.Environment;
 
 namespace AbstractLibrary.Character
 {
+    [Serializable]
     public abstract class AbstractCharacter : IDomain
     {
         public string Name { get; set; }

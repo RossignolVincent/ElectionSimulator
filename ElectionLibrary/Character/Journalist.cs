@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace ElectionLibrary.Character
 {
+    [Serializable]
     public class Journalist : ElectionCharacter
     {
         public Journalist(string name, AbstractBehavior behavior, Position position) : base(name, behavior, position)

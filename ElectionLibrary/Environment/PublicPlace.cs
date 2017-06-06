@@ -5,6 +5,7 @@ using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public class PublicPlace : AbstractElectionArea, IObservable
     {
         public readonly List<IObserver> Buildings;

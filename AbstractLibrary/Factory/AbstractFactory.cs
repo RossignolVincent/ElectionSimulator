@@ -5,6 +5,7 @@ using AbstractLibrary.Object;
 
 namespace AbstractLibrary.Factory
 {
+    [Serializable]
     public abstract class AbstractFactory
     {
         public string Title { get; }

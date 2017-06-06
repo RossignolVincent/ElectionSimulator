@@ -21,21 +21,18 @@ namespace AbstractLibrary.Repository
         public override void Write(object data)
         {
             String json = this.Serializer.Serialize(data);
-            Console.WriteLine(json);
             base.Write(json);
         }
 
         public override void Append(object data)
         {
             String json = this.Serializer.Serialize(data);
-            Console.WriteLine(json);
             base.Append(json);
         }
 
         public override object Read()
         {
             String json = base.Read().ToString();
-            Console.WriteLine(json);
             return this.Serializer.Deserialize(json);
         }
     }

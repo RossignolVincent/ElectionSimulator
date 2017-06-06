@@ -60,11 +60,13 @@
     <Compile Include="Pattern\IObserver.cs" />
     <Compile Include="Repository\Appender\FileAppender.cs" />
     <Compile Include="Repository\Appender\IAppender.cs" />
+    <Compile Include="Repository\BinaryFileRepository.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\JSONFileRepository.cs" />
     <Compile Include="Repository\Reader\FileReader.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\Reader\IReader.cs" />
+    <Compile Include="Serializer\BinarySerializer.cs" />
     <Compile Include="Serializer\ISerializer.cs" />
     <Compile Include="Serializer\JSONSerializer.cs" />
   </ItemGroup>

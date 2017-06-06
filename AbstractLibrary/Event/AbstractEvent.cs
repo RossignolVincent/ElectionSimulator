@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AbstractLibrary.Event
 {
+    [Serializable]
     public abstract class AbstractEvent
     {
         public AbstractEvent()

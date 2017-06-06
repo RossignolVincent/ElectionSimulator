@@ -5,6 +5,7 @@ using AbstractLibrary.Environment;
 using AbstractLibrary.Repository;
 using AbstractLibrary.Repository.Appender;
 using AbstractLibrary.Repository.Reader;
+using AbstractLibrary.Serializer;
 using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Event;
@@ -34,7 +35,7 @@ namespace ElectionSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const String SAVE_PATH = "save.json";
+        private const String SAVE_PATH = "save.bin";
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
         public static Random random = new Random();
@@ -61,6 +62,7 @@ namespace ElectionSimulator
             new Uri("resource/hqs/hq-fi.png", UriKind.Relative),
             new Uri("resource/hqs/hq-lr.png", UriKind.Relative)
         });
+
 
         List<Uri> Activists = new List<Uri>(new Uri[] {
             new Uri("resource/characters/activists/activist-em.png", UriKind.Relative),
@@ -114,15 +116,21 @@ namespace ElectionSimulator
         {
             FileAppender appender = new FileAppender(SAVE_PATH);
             FileReader reader = new FileReader(SAVE_PATH);
-            JSONFileRepository repository = new JSONFileRepository(appender, reader);
-            List<AbstractCharacterEntity> characters = App.ElectionVM.Characters.ConvertAll(x => (AbstractCharacterEntity) new AbstractCharacterAdapter().ToEntity(x));
-            repository.Write(characters);
+            BinaryFileRepository repository = new BinaryFileRepository(appender, reader);
+            repository.Write(App.ElectionVM);
             Console.WriteLine("Saved");
         }
 
         private void LoadSimulation(object sender, RoutedEventArgs e)
         {
+            FileAppender appender = new FileAppender(SAVE_PATH);
+            FileReader reader = new FileReader(SAVE_PATH);
+            BinaryFileRepository repository = new BinaryFileRepository(appender, reader);
             Console.WriteLine("Loaded");
+            BinarySerializer serializer = new BinarySerializer();
+            App.ElectionVM = (ElectionViewModel)serializer.Deserialize((byte[])repository.Read());
+            LoadFirstTextures(Board);
+            RefreshBoard();
         }
 
         private void Draw_tick(object sender, EventArgs e)

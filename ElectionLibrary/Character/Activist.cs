@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Character
 {
+    [Serializable]
     public class Activist : PoliticalCharacter
     {
         public Activist(string name, Position position, PoliticalParty politicalParty) : base(name, null, position, politicalParty)

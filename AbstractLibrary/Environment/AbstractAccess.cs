@@ -1,6 +1,7 @@
 ﻿using System;
 namespace AbstractLibrary.Environment
 {
+    [Serializable]
     public abstract class AbstractAccess : IDomain
     {
         public AbstractArea FirstArea { get; set;  }

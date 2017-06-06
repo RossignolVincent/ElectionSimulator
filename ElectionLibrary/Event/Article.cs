@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Event
 {
+    [Serializable]
     class Article : ElectionEvent
     {
         public Article()

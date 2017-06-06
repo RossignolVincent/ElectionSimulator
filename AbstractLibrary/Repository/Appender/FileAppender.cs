@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using AbstractLibrary.Serializer;
 
 namespace AbstractLibrary.Repository.Appender
 {
@@ -38,8 +39,9 @@ namespace AbstractLibrary.Repository.Appender
 
         public void Write(object data)
         {
-            String text = data != null ? data.ToString() : "";
-            File.WriteAllText(Path, text);
+            var serializer = new BinarySerializer();
+            byte[] bytes = serializer.Serialize(data);
+            File.WriteAllBytes(Path, bytes);
         }
     }
 }

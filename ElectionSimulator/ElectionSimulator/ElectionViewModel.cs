@@ -16,6 +16,7 @@ using ElectionLibrary.Event;
 
 namespace ElectionSimulator
 {
+    [Serializable]
     public class ElectionViewModel : BaseViewModel
     {
         private string applicationTitle;

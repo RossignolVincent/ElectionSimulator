@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Event
 {
+    [Serializable]
     public abstract class ElectionEvent : AbstractEvent
     {
 

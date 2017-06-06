@@ -15,7 +15,6 @@ namespace AbstractLibrary.Adapter
             return Builder<AbstractCharacterEntity>.CreateNew()
                     .With(x => x.Name = obj.Name)
                     .With(x => x.Position = (AbstractAreaEntity) new AbstractAreaAdapter().FromDomain(obj.Position))
-                    .With(x => x.Id = sha512.ComputeHash(x.ToString()))
                     .Build();
         }
 

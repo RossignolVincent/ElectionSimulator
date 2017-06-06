@@ -2,6 +2,7 @@
 using System;
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public class HQ : AbstractArea
     {
         public PoliticalParty Party { get; set; }

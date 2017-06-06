@@ -6,6 +6,7 @@ using AbstractLibrary.Object;
 
 namespace AbstractLibrary.Environment
 {
+    [Serializable]
     public abstract class AbstractEnvironment : IDomain
     {
         public List<AbstractArea> Areas { get; }
