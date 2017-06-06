@@ -1,7 +1,4 @@
-﻿using AbstractLibrary.Adapter;
-using AbstractLibrary.Character;
-using AbstractLibrary.Entity;
-using AbstractLibrary.Environment;
+﻿using AbstractLibrary.Environment;
 using AbstractLibrary.Repository;
 using AbstractLibrary.Repository.Appender;
 using AbstractLibrary.Repository.Reader;
@@ -27,6 +24,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Globalization;
+using AbstractLibrary.Object;
 
 namespace ElectionSimulator
 {
@@ -38,38 +37,10 @@ namespace ElectionSimulator
         private const String SAVE_PATH = "save.bin";
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
-        public static Random random = new Random();
-        List<List<Image>> map = new List<List<Image>>();
 
-        List<Uri> Buildings = new List<Uri>(new Uri[] {
-            new Uri("resource/buildings/building1.png", UriKind.Relative),
-            new Uri("resource/buildings/building2.png", UriKind.Relative),
-            new Uri("resource/buildings/building3.png", UriKind.Relative)
-        });
+        TextureLoader tl = new TextureLoader(App.ElectionVM);
 
-        List<Uri> Streets = new List<Uri>(new Uri[] {
-            new Uri("resource/streets/street-h.png", UriKind.Relative)
-        });
-
-        List<Uri> Empties = new List<Uri>(new Uri[] {
-            new Uri("resource/empties/empty1.png", UriKind.Relative),
-            new Uri("resource/empties/empty2.png", UriKind.Relative)
-        });
-
-        List<Uri> HQs = new List<Uri>(new Uri[] {
-            new Uri("resource/hqs/hq-em.png", UriKind.Relative),
-            new Uri("resource/hqs/hq-fn.png", UriKind.Relative),
-            new Uri("resource/hqs/hq-fi.png", UriKind.Relative),
-            new Uri("resource/hqs/hq-lr.png", UriKind.Relative)
-        });
-
-
-        List<Uri> Activists = new List<Uri>(new Uri[] {
-            new Uri("resource/characters/activists/activist-em.png", UriKind.Relative),
-            new Uri("resource/characters/activists/activist-fn.png", UriKind.Relative),
-            new Uri("resource/characters/activists/activist-fi.png", UriKind.Relative),
-            new Uri("resource/characters/activists/activist-lr.png", UriKind.Relative),
-        });
+        List<Label> DetailsLabels = new List<Label>();
 
 
         public MainWindow()
@@ -78,6 +49,15 @@ namespace ElectionSimulator
             DataContext = App.ElectionVM;
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
+            Closing += App.ElectionVM.OnWindowClosing;
+            InitDetailsLabels();
+            
+        }
+
+        private void InitDetailsLabels()
+        {
+            DetailsLabels.Add(PositionLabel);
+            DetailsLabels.Add(TypeAreaLabel);
         }
 
         private void InitBoard()
@@ -89,6 +69,8 @@ namespace ElectionSimulator
 
         private void StartNewSimulation(object sender, RoutedEventArgs e)
         {
+            NewSimulationButton.IsEnabled = false;
+            LoadSimulationButton.IsEnabled = false;
             NewSimulationWindow newSimulationWindow = new NewSimulationWindow();
             newSimulationWindow.ShowDialog();
             if (newSimulationWindow.validated)
@@ -96,7 +78,7 @@ namespace ElectionSimulator
                 App.ElectionVM.Parties = newSimulationWindow.Parties;
                 ElectionInitializer electionInitializer = new ElectionInitializer(newSimulationWindow.MapFile, newSimulationWindow.Parties);
                 App.ElectionVM.GenerateAccessAndHQs();
-                LoadFirstTextures(Board);
+                tl.LoadFirstTextures(Board);
                 App.ElectionVM.DimensionX = Board.ColumnDefinitions.Count;
                 App.ElectionVM.DimensionY = Board.RowDefinitions.Count;
                 App.ElectionVM.GenerateCharacters();
@@ -129,7 +111,7 @@ namespace ElectionSimulator
             Console.WriteLine("Loaded");
             BinarySerializer serializer = new BinarySerializer();
             App.ElectionVM = (ElectionViewModel)serializer.Deserialize((byte[])repository.Read());
-            LoadFirstTextures(Board);
+            tl.LoadFirstTextures(Board);
             RefreshBoard();
         }
 
@@ -156,20 +138,40 @@ namespace ElectionSimulator
         {
             InitBoard();
 
-            LoadAllTextures(Board);
+            tl.LoadAllTextures(Board);
 
             foreach (ElectionCharacter character in App.ElectionVM.Characters)
             {
-                // Add test for type of character
                 Image characterImage = new Image();
-                BitmapImage characterSource = getActivistTexture(character);
+                BitmapImage characterSource;
+                characterSource = tl.GetCharacterTexture(character); 
                 characterImage.Source = characterSource;
                 Board.Children.Add(characterImage);
-                Grid.SetColumn(characterImage, character.position.X);
-                Grid.SetRow(characterImage, character.position.Y);
+                Grid.SetColumn(characterImage, character.Position.X);
+                Grid.SetRow(characterImage, character.Position.Y);
+
             }
 
-            if(App.ElectionVM.Event != null)
+            foreach (List<ElectionLibrary.Environment.AbstractArea> areaList in App.ElectionVM.Areas)
+            {
+                foreach (ElectionLibrary.Environment.AbstractArea area in areaList)
+                {
+                    foreach (AbstractObject obj in area.Objects)
+                    {
+                        Image objectImage = new Image();
+                        BitmapImage objectSource;
+                        objectSource = tl.GetObjectTexture(obj);
+                        objectImage.Source = objectSource;
+                        Board.Children.Add(objectImage);
+                        Grid.SetColumn(objectImage, area.Position.X);
+                        Grid.SetRow(objectImage, area.Position.Y);
+                    }        
+                }
+            }
+
+
+
+            if (App.ElectionVM.Event != null)
             {
                 if(App.ElectionVM.Event is Poll)
                 {
@@ -188,151 +190,152 @@ namespace ElectionSimulator
             Event.RowDefinitions.Clear();
             Event.Children.Clear();
 
-            Poll poll = (Poll)App.ElectionVM.Event;
-
-            for (int i = 0; i < poll.Result.opinionList.Count; i++)
+            if (App.ElectionVM.Event is Poll poll)
             {
-                Event.RowDefinitions.Add(new RowDefinition());
-            }
-
-            for (int i = 0; i < 2; i++)
-            {
-                Event.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            int j = 0;
-            foreach (PoliticalParty party in poll.Result.opinionList.Keys)
-            {
-                Label partyName = new Label();
-                partyName.Content = party.Name;
-                Label percent = new Label();
-                percent.Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %";
-                Event.Children.Add(partyName);
-                Event.Children.Add(percent);
-                Grid.SetRow(partyName, j);
-                Grid.SetRow(percent, j);
-                Grid.SetColumn(partyName, 0);
-                Grid.SetColumn(percent, 1);
-                j++;
-            }
-        }
-
-        public void LoadFirstTextures(Grid board)
-        {
-            for (int i = 0; i < App.ElectionVM.Areas[0].Count; i++)
-            {
-                board.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (int i = 0; i < App.ElectionVM.Areas.Count; i++)
-            {
-                board.RowDefinitions.Add(new RowDefinition());
-            }
-
-            for (int y = 0; y < App.ElectionVM.Areas[0].Count; y++)
-            {
-                map.Add(new List<Image>());
-                for (int x = 0; x < App.ElectionVM.Areas.Count; x++)
+                if (poll.Type == Poll.PollType.End)
                 {
-                    Image image = LoadOneTexture(App.ElectionVM.Areas[y][x]);
-                    board.Children.Add(image);
-                    Grid.SetColumn(image, x);
-                    Grid.SetRow(image, y);
-                    map[y].Add(image);
+                    EventLabel.Content = "Résultat du scrutin :";
+                    PlaySimulationButton.IsEnabled = false;
+                    PauseSimulationButton.IsEnabled = false;
+                    NextTurnButton.IsEnabled = false;
+                    ResultWindow resultWindow = new ResultWindow(poll);
+                    resultWindow.ShowDialog();
                 }
-            }
-        }
-
-        public void LoadAllTextures(Grid board)
-        {
-            for (int i = 0; i < App.ElectionVM.Areas[0].Count; i++)
-            {
-                board.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (int i = 0; i < App.ElectionVM.Areas.Count; i++)
-            {
-                board.RowDefinitions.Add(new RowDefinition());
-            }
-
-            for (int y = 0; y < App.ElectionVM.Areas[0].Count; y++)
-            {
-                for (int x = 0; x < App.ElectionVM.Areas.Count; x++)
+                else if (poll.Type == Poll.PollType.Poll)
                 {
-                    Image image = map[y][x];
-                    board.Children.Add(image);
-                    Grid.SetColumn(image, x);
-                    Grid.SetRow(image, y);
+                    EventLabel.Content = "Résultat du sondage :";
                 }
+
+                EventLabel.Visibility = Visibility.Visible;
+
+                for (int i = 0; i < poll.Result.opinionList.Count; i++)
+                {
+                    Event.RowDefinitions.Add(new RowDefinition());
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    Event.ColumnDefinitions.Add(new ColumnDefinition());
+                }
+
+                int j = 0;
+                foreach (PoliticalParty party in poll.Result.opinionList.Keys)
+                {
+                    Label partyName = new Label()
+                    {
+                        Content = party.Name
+                    };
+                    Label percent = new Label()
+                    {
+                        Content = string.Format("{0:0.00}", poll.Result.opinionList[party]) + " %"
+                    };
+                    Event.Children.Add(partyName);
+                    Event.Children.Add(percent);
+                    Grid.SetRow(partyName, j);
+                    Grid.SetRow(percent, j);
+                    Grid.SetColumn(partyName, 0);
+                    Grid.SetColumn(percent, 1);
+                    j++;
+                }
+
             }
+
+
         }
 
-        private Image LoadOneTexture(ElectionLibrary.Environment.AbstractArea a)
+        private void ShowDetails(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Image image = new Image();
-
-            if (a is Street)
-                image.Source = getStreetTexture();
-            else if (a is Building)
-                image.Source = getBuildingTexture();
-            else if (a is EmptyArea)
-                image.Source = getEmptyTexture();
-            else if (a is HQ)
+            if (e.ClickCount == 2) // for double-click, remove this condition if only want single click
             {
-                HQ hq = (HQ)a;
-                image.Source = getHQTexture(hq.Party);
+                var point = Mouse.GetPosition(Board);
+
+                int row = 0;
+                int col = 0;
+                double accumulatedHeight = 0.0;
+                double accumulatedWidth = 0.0;
+
+                // calc row mouse was over
+                foreach (var rowDefinition in Board.RowDefinitions)
+                {
+                    accumulatedHeight += rowDefinition.ActualHeight;
+                    if (accumulatedHeight >= point.Y)
+                        break;
+                    row++;
+                }
+
+                // calc col mouse was over
+                foreach (var columnDefinition in Board.ColumnDefinitions)
+                {
+                    accumulatedWidth += columnDefinition.ActualWidth;
+                    if (accumulatedWidth >= point.X)
+                        break;
+                    col++;
+                }
+
+                PrintDetails(row, col);
+                SetDetailsLabelsVisible();
             }
-                
-            return image;
         }
 
-        private ImageSource getHQTexture(PoliticalParty party)
+
+        private void SetDetailsLabelsVisible()
         {
-            switch (party.Name)
+            foreach(Label label in DetailsLabels)
             {
-                case "En Marche":
-                    return new BitmapImage(HQs[0]);
-                case "Front National":
-                    return new BitmapImage(HQs[1]);
-                case "France Insoumise":
-                    return new BitmapImage(HQs[2]);
-                case "Les Républicains":
-                    return new BitmapImage(HQs[3]);
+                label.Visibility = Visibility.Visible;
             }
-            return null;
         }
 
-        private BitmapImage getActivistTexture(ElectionCharacter character)
+        struct SimpleOpinion
         {
-            Activist activist = (Activist)character;
-            switch (activist.PoliticalParty.Name)
+            public String Name { get; set; }
+            public double Value { get; set; }
+
+            public SimpleOpinion (String name, double value)
             {
-                case "En Marche":
-                    return new BitmapImage(Activists[0]);
-                case "Front National":
-                    return new BitmapImage(Activists[1]);
-                case "France Insoumise":
-                    return new BitmapImage(Activists[2]);
-                case "Les Républicains":
-                    return new BitmapImage(Activists[3]);
+                Name = name;
+                Value = value;
             }
-            return null;
         }
 
-        private ImageSource getEmptyTexture()
+        private void PrintDetails(int row, int col)
         {
-            return new BitmapImage(Empties[random.Next(Empties.Count)]);
+            ElectionLibrary.Environment.AbstractArea area = App.ElectionVM.Areas[row][col];
+
+            ClearLists();
+
+            Position.Content = row + ", " + col;
+
+            if(area is HQ)
+            {
+                TypeArea.Content = area.GetType().Name+" "+ ((HQ)area).Party.Name;
+            } else
+            {
+                TypeArea.Content = area.GetType().Name;
+            }
+            
+            Characters.ItemsSource = area.Characters;
+            Characters.Visibility = Visibility.Visible;
+
+            Opinions.Visibility = Visibility.Hidden;
+            List<SimpleOpinion> simpleOpinions = new List<SimpleOpinion>();
+            if (area is AbstractElectionArea electionArea)
+            {
+                foreach (KeyValuePair<PoliticalParty, double> opinion in electionArea.opinion.opinionList)
+                {
+                    simpleOpinions.Add(new SimpleOpinion(opinion.Key.Name, opinion.Value));
+                }
+                Opinions.ItemsSource = simpleOpinions;
+                Opinions.Visibility = Visibility.Visible;
+            }
         }
 
-        private ImageSource getStreetTexture()
+        private void ClearLists()
         {
-            return new BitmapImage(Streets[random.Next(Streets.Count)]);
+            Characters.ItemsSource = null;
+            Characters.Items.Clear();
+            Opinions.ItemsSource = null;
+            Opinions.Items.Clear();
         }
-
-        private ImageSource getBuildingTexture()
-        {
-            return new BitmapImage(Buildings[random.Next(Buildings.Count)]);
-        }
-
     }
 }

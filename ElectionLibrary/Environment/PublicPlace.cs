@@ -1,45 +1,43 @@
-﻿﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AbstractLibrary.Pattern;
 using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
-    [Serializable]
-    public class PublicPlace : AbstractElectionArea, IObservable
+    [System.Serializable]
+    public class PublicPlace : AbstractElectionArea, IObservable<PoliticalCharacter>
     {
-        public readonly List<IObserver> Buildings;
+        public readonly List<IObserver<PoliticalCharacter>> Buildings;
 
         private PoliticalCharacter LastPolitician { get; set; }
 
         public PublicPlace(Opinion opinion, string name, Position position) : base(opinion, name, position)
         {
-            Buildings = new List<IObserver>();
+            Buildings = new List<IObserver<PoliticalCharacter>>();
         }
 
-        public void Attach(IObserver observer)
+        public void Attach(IObserver<PoliticalCharacter> observer)
         {
             Buildings.Add(observer);
         }
 
-        public void Detach(IObserver observer)
+        public void Detach(IObserver<PoliticalCharacter> observer)
         {
             Buildings.Remove(observer);
         }
 
-        public void Notify()
+        public void Notify(PoliticalCharacter politician)
         {
-            foreach(Building building in Buildings)
+            foreach(IObserver<PoliticalCharacter> observer in Buildings)
             {
-                building.Update(LastPolitician);
+                observer.Update(politician);
             }
         }
 
         public override void ChangeOpinion(PoliticalCharacter politician)
         {
             opinion.InfluenceOpinion(politician.PoliticalParty, politician.Aura, politician.Moral, 1);
-            LastPolitician = politician;
-            Notify();
+            Notify(politician);
         }
     }
 }

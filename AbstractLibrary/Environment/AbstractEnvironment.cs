@@ -64,7 +64,7 @@ namespace AbstractLibrary.Environment
 
         public void MoveCharacter(AbstractCharacter character, AbstractArea source, AbstractArea target)
         {
-            character.Position = target;
+            //character.Position = target;
             source.RemoveCharacter(character);
             target.AddCharacter(character);
         }

@@ -10,46 +10,10 @@ namespace ElectionLibrary.Character.State
         {
         }
 
-        public override Position Handle(PoliticalCharacter politician, AbstractArea area)
+        public override Position Handle(ElectionCharacter character, AbstractArea area)
         {
             // If the politician is in a Street area, try to go in a PublicPlace, or in a Building if there is no politician in there
-
-			AbstractArea bestMove = area;
-
-			foreach (ElectionAccess access in area.Accesses)
-			{
-				if (access.EndArea is PublicPlace
-					&& !politician.HasBeenVisited((AbstractElectionArea) access.EndArea)
-                    && access.EndArea.Characters.Count == 0)
-				{
-					bestMove = (AbstractArea) access.EndArea;
-					break;
-				}
-				else if (access.EndArea is Building
-                         && !politician.HasBeenVisited((AbstractElectionArea) access.EndArea)
-                         && access.EndArea.Characters.Count == 0)
-				{
-					bestMove = (AbstractArea) access.EndArea;
-				}
-			}
-
-            // No Building available to go in, go to a Street area
-            if(bestMove == area)
-            {
-                bestMove = GetRandomStreet(area);
-            }
-            else
-            {
-                politician.VisitedElectionAreas.Enqueue((AbstractElectionArea) bestMove);
-                if(politician.VisitedElectionAreas.Count > 15)
-                {
-                    politician.VisitedElectionAreas.Dequeue();
-                }
-
-                politician.State = new InElectionAreaState();
-            }
-
-			return bestMove.position;
+            return character.Behavior.Move(character, area);
         }
     }
 }

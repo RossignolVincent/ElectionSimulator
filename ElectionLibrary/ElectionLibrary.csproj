@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
     <Compile Include="Algorithm\Node.cs" />
+    <Compile Include="Character\Leader.cs" />
     <Compile Include="Character\Journalist.cs" />
     <Compile Include="Character\Activist.cs" />
     <Compile Include="Character\Behavior\JournalistBehavior.cs" />
@@ -56,8 +57,10 @@
     <Compile Include="Environment\Position.cs" />
     <Compile Include="Event\Article.cs" />
     <Compile Include="Event\ElectionEvent.cs" />
+    <Compile Include="Event\Media.cs" />
     <Compile Include="Event\Poll.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
+    <Compile Include="Object\Poster.cs" />
     <Compile Include="Parties\Concrete\EM.cs" />
     <Compile Include="Parties\Concrete\FI.cs" />
     <Compile Include="Parties\Concrete\FN.cs" />

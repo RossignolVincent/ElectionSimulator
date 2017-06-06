@@ -37,16 +37,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\AbstractAccessAdapter.cs" />
-    <Compile Include="Adapter\AbstractAdapter.cs" />
-    <Compile Include="Adapter\AbstractAreaAdapter.cs" />
-    <Compile Include="Adapter\AbstractCharacterAdapter.cs" />
-    <Compile Include="Adapter\AbstractObjectsAdapter.cs" />
-    <Compile Include="Entity\AbstractAccessEntity.cs" />
-    <Compile Include="Entity\AbstractAreaEntity.cs" />
-    <Compile Include="Entity\AbstractCharacterEntity.cs" />
-    <Compile Include="Entity\AbstractEntity.cs" />
-    <Compile Include="Entity\AbstractObjectEntity.cs" />
     <Compile Include="Environment\IDomain.cs" />
     <Compile Include="Event\AbstractEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

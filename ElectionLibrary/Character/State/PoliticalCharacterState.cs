@@ -7,7 +7,7 @@ namespace ElectionLibrary.Character.State
     [Serializable]
     public abstract class PoliticalCharacterState
     {
-        public abstract Position Handle(PoliticalCharacter politician, AbstractArea area);
+        public abstract Position Handle(ElectionCharacter character, AbstractArea area);
 
         protected AbstractArea GetRandomStreet(AbstractArea area)
 		{

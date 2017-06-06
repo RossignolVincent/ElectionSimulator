@@ -10,9 +10,10 @@ namespace ElectionLibrary.Character.State
         {
         }
 
-        public override Position Handle(PoliticalCharacter politician, AbstractArea area)
+        public override Position Handle(ElectionCharacter character, AbstractArea area)
         {
             // If the politician is in an ElectionArea, influence opinion, go out and move to a Street Area
+            PoliticalCharacter politician = (PoliticalCharacter)character;
 
             AbstractArea street = null;
 
@@ -33,7 +34,7 @@ namespace ElectionLibrary.Character.State
 
             // Get tired
             politician.Tired();
-            return street.position;
+            return street.Position;
         }
     }
 }

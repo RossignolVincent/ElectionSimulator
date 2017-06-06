@@ -8,7 +8,6 @@ namespace AbstractLibrary.Object
     public abstract class AbstractObject : IDomain
     {
 		public string Name { get; set; }
-		public AbstractArea Position { get; set; }
 
         protected AbstractObject(string name)
         {

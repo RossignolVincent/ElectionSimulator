@@ -8,7 +8,6 @@ namespace AbstractLibrary.Character
     public abstract class AbstractCharacter : IDomain
     {
         public string Name { get; set; }
-        public AbstractArea Position { get; set; }
 
         protected AbstractCharacter(string name)
         {

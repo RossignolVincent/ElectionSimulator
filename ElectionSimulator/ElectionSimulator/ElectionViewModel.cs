@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Threading;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
-using ElectionLibrary.Character.Behavior;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using ElectionLibrary.Factory;
-using ElectionLibrary;
 using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
+using System.ComponentModel;
+using AbstractLibrary.Pattern;
+using ElectionLibrary.Object;
 
 namespace ElectionSimulator
 {
-    [Serializable]
-    public class ElectionViewModel : BaseViewModel
+    [System.Serializable]
+    public class ElectionViewModel : BaseViewModel, IObservable<ElectionEvent>
     {
         private string applicationTitle;
-
         public string ApplicationTitle
         {
             get
@@ -34,7 +28,21 @@ namespace ElectionSimulator
             }
         }
 
-        public Boolean Running { get; set; }
+        private string status;
+        public string Status
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
+        public bool Running { get; set; }
 
         public int DimensionX;
 
@@ -42,7 +50,9 @@ namespace ElectionSimulator
 
         public int RefreshRate { get; set; }
 
-        public ElectionFactory factory = new ElectionFactory(); 
+        public int NumberTurn { get; set; }
+
+        public ElectionFactory factory = new ElectionFactory();
 
         public List<List<AbstractArea>> Areas { get; set; }
 
@@ -51,9 +61,14 @@ namespace ElectionSimulator
         public List<PoliticalParty> Parties { get; set; }
 
         public ElectionEvent Event { get; set; }
+        
+        public List<IObserver<ElectionEvent>> medias;
 
+        public Media media;
+        
         public ElectionViewModel()
         {
+            ApplicationTitle = "Election Simulator";
             DimensionX = 20;
             DimensionY = 20;
             RefreshRate = 500;
@@ -61,35 +76,56 @@ namespace ElectionSimulator
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
             Event = null;
+            medias = new List<IObserver<ElectionEvent>>();
+        }
+
+        internal void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            Stop();
         }
 
         internal void GenerateCharacters()
         {
-            foreach(PoliticalParty party in Parties)
+            List<Street> streets = GetStreets();
+
+            foreach (PoliticalParty party in Parties)
             {
-                HQ hq = findHQ(party);
+                HQ hq = FindHQ(party);
                 
+                // Add 4 activists for each Party
                 for(int i = 0; i < 4; i++)
                 {
-                    Activist activist = (Activist)factory.CreateActivist(hq.position, party);
-                    activist.Name = "Activist-" + activist.PoliticalParty.ToString() + "_" + i;
+                    Activist activist = (Activist)factory.CreateActivist(hq.Position, party);
                     Characters.Add(activist);
                     hq.AddCharacter(activist);
                 }
+
+                // Add one Leader for each Party
+                Characters.Add(factory.CreateLeader(hq.Position, party));
+
+                // Add one Journalist  for each Party
+                Journalist journalist = (Journalist)factory.CreateJournalist(GetRandomStreetPosition(streets));
+                Characters.Add(journalist);
             }
+
+            media = Media.GetInstance(Characters);
+            Attach(media);
         }
 
-        private HQ findHQ(PoliticalParty party)
+        private Position GetRandomStreetPosition(List<Street> streets)
+        {
+            return streets[TextureLoader.random.Next(streets.Count)].Position;
+        }
+
+        private HQ FindHQ(PoliticalParty party)
         {
             foreach (List<AbstractArea> areaList in Areas)
             {
                 foreach (AbstractArea area in areaList)
                 {
-                    if(area is HQ)
+                    if (area is HQ hq && hq.Party == party)
                     {
-                        HQ hq = (HQ)area;
-                        if (hq.Party == party)
-                            return hq;
+                       return hq;
                     }
                 }
             }
@@ -100,6 +136,7 @@ namespace ElectionSimulator
         internal void GenerateAccessAndHQs()
         {
             GenerateHQs();
+            GeneratePublicPlaces();
             GenerateAccess();
         }
 
@@ -109,11 +146,95 @@ namespace ElectionSimulator
 
             foreach (PoliticalParty party in Parties)
             {
-                Position HQPosition = buildings[MainWindow.random.Next(buildings.Count)].position;
+                Position HQPosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
+                hq.Objects.Add(new Poster("", HQPosition));
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;
             }
+        }
+
+        private void GeneratePublicPlaces()
+        {
+            List<Building> buildings = GetBuildings();
+
+            int numberPublicPlaces = buildings.Count / 20;
+
+            for(int i = 0; i < numberPublicPlaces; i++)
+            {
+                Position publicPlacePosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
+                PublicPlace publicPlace = (PublicPlace)factory.CreatePublicPlace(new Opinion(Parties), publicPlacePosition);
+                Areas[publicPlacePosition.Y][publicPlacePosition.X] = publicPlace;
+
+                List<Building> neighbours = GetCloseBuilding(publicPlace);
+                foreach(Building building in neighbours)
+                {
+                    publicPlace.Attach(building);
+                }
+            }
+        }
+
+        private List<Building> GetCloseBuilding(PublicPlace publicPlace)
+        {
+            List<Building> result = new List<Building>();
+            int x = publicPlace.Position.X;
+            int y = publicPlace.Position.Y;
+            
+            // Area up
+            if (y > 0 && Areas[y - 1][x] is Building)
+            {
+                result.Add((Building)Areas[y - 1][x]);
+            }
+
+            // Area down
+            if (y + 1 < Areas.Count && Areas[y + 1][x] is Building)
+            {
+                result.Add((Building)Areas[y + 1][x]);
+            }
+
+            if (x > 0)
+            {
+                // Area left up
+                if (y > 0 && Areas[y - 1][x - 1] is Building)
+                {
+                    result.Add((Building) Areas[y - 1][x - 1]);
+                }
+
+                // Area left
+                if (Areas[y][x - 1] is Building)
+                {
+                    result.Add((Building)Areas[y][x - 1]);
+                }
+
+                // Area left down
+                if (y + 1 < Areas.Count && Areas[y + 1][x - 1] is Building)
+                {
+                    result.Add((Building)Areas[y + 1][x - 1]);
+                }
+            }
+
+            if (x + 1 < Areas[y].Count)
+            {
+                // Area right up
+                if (y > 0 && Areas[y - 1][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y - 1][x + 1]);
+                }
+
+                // Area right
+                if (Areas[y][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y][x + 1]);
+                }
+
+                // Area right down
+                if (y + 1 < Areas.Count && Areas[y + 1][x + 1] is Building)
+                {
+                    result.Add((Building)Areas[y + 1][x + 1]);
+                }
+            }
+
+            return result;
         }
 
         internal void GenerateAccess()
@@ -183,18 +304,19 @@ namespace ElectionSimulator
 
         internal void NextTurn()
         {
+            Status = "Simulation en cours ! Tour "+NumberTurn;
+            NumberTurn++;
             GenerateEvents();
 
             foreach (ElectionCharacter character in Characters)
             {
-                AbstractArea currentArea = Areas[character.position.Y][character.position.X];
+                AbstractArea currentArea = Areas[character.Position.Y][character.Position.X];
                 character.NextTurn(currentArea, Areas);
-                AbstractArea newArea = Areas[character.position.Y][character.position.X];
+                AbstractArea newArea = Areas[character.Position.Y][character.Position.X];
 
                 currentArea.RemoveCharacter(character);
                 newArea.AddCharacter(character);
             }
-
         }
 
         private List<Building> GetBuildings()
@@ -211,19 +333,70 @@ namespace ElectionSimulator
 
             return buildings;
         }
+
+        private List<Street> GetStreets()
+        {
+            List<Street> streets = new List<Street>();
+            foreach (List<AbstractArea> areaList in Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    if (area is Street)
+                        streets.Add((Street)area);
+                }
+            }
+
+            return streets;
+        }
        
 
         private void GenerateEvents()
         {
-            int randomNumber = MainWindow.random.Next(0, 100);
-            if(randomNumber == 1) // So funny
+            if(NumberTurn == 1000)
             {
+                Stop();
                 List<Building> buildings = GetBuildings();
                 List<Opinion> opinions = GetOpinions(buildings);
-                Poll poll = new Poll();
+                Poll poll = new Poll(Poll.PollType.End);
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+
+            int isThereANewPoll = TextureLoader.random.Next(0, 100);
+            if(isThereANewPoll == 1)
+            {
+                List<Building> buildings = GetPollBuildings();
+                List<Opinion> opinions = GetOpinions(buildings);
+                Poll poll = new Poll(Poll.PollType.Poll);
+                poll.GenerateResult(opinions);
+                Event = poll;
+            }
+
+            // Notify Media
+            Notify(Event);
+        }
+
+        private List<Building> GetPollBuildings()
+        {
+            List<Building> buildings = new List<Building>();
+            foreach (List<AbstractArea> areaList in Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    if (area is Building)
+                        buildings.Add((Building)area);
+                }
+            }
+
+            List<Building> selectedBuildings = new List<Building>();
+            for(int i = 0; i < buildings.Count / 20; i++)
+            {
+                int pickedBuilding = TextureLoader.random.Next(buildings.Count);
+                selectedBuildings.Add(buildings[pickedBuilding]);
+                buildings.RemoveAt(pickedBuilding);
+            }
+
+            return selectedBuildings;
         }
 
         private List<Opinion> GetOpinions(List<Building> buildings)
@@ -239,6 +412,7 @@ namespace ElectionSimulator
         internal void Play()
         {
             Running = true;
+            Status = "Simulation en cours ! Tour " + NumberTurn;
             while (Running)
             {
                 Thread.Sleep(RefreshRate);
@@ -251,6 +425,7 @@ namespace ElectionSimulator
         internal void Stop()
         {
             Running = false;
+            Status = "Simulation en pause ... Tour " + NumberTurn;
         }
 
         internal void AddStreet(int i)
@@ -266,6 +441,24 @@ namespace ElectionSimulator
         internal void AddEmpty(int i)
         {
             Areas[i].Add(factory.CreateEmptyArea(new Position(Areas[i].Count, i)));
+        }
+
+        public void Attach(IObserver<ElectionEvent> observer)
+        {
+            medias.Add(observer);
+        }
+
+        public void Detach(IObserver<ElectionEvent> observer)
+        {
+            medias.Remove(observer);
+        }
+
+        public void Notify(ElectionEvent electionEvent)
+        {
+            foreach(IObserver<ElectionEvent> observer in medias)
+            {
+                observer.Update(electionEvent);
+            }
         }
     }
 }
