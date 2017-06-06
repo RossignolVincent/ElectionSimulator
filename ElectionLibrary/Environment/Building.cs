@@ -1,21 +1,17 @@
-﻿﻿using System;
-using AbstractLibrary.Pattern;
+﻿using AbstractLibrary.Pattern;
 using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
-    public class Building : AbstractElectionArea, IObserver
+    public class Building : AbstractElectionArea, IObserver<PoliticalCharacter>
     {
         public Building(Opinion opinion, string name, Position position) : base(opinion, name, position)
         {
         }
 
-        public void Update(object o)
+        public void Update(PoliticalCharacter politician)
         {
-            if(o != null && o is PoliticalCharacter)
-            {
-                ChangeOpinion((PoliticalCharacter) o);
-            }
+            ChangeOpinion(politician);
         }
 
         public override void ChangeOpinion(PoliticalCharacter politician)

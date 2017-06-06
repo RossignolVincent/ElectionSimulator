@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Threading;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
-using ElectionLibrary.Character.Behavior;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using ElectionLibrary.Factory;
-using ElectionLibrary;
 using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
 using System.ComponentModel;
+using AbstractLibrary.Pattern;
 
 namespace ElectionSimulator
 {
-    public class ElectionViewModel : BaseViewModel
+    public class ElectionViewModel : BaseViewModel, IObservable<ElectionEvent>
     {
         private string applicationTitle;
-
         public string ApplicationTitle
         {
             get
@@ -35,7 +27,6 @@ namespace ElectionSimulator
         }
 
         private string status;
-
         public string Status
         {
             get
@@ -49,7 +40,7 @@ namespace ElectionSimulator
             }
         }
 
-        public Boolean Running { get; set; }
+        public bool Running { get; set; }
 
         public int DimensionX;
 
@@ -68,7 +59,11 @@ namespace ElectionSimulator
         public List<PoliticalParty> Parties { get; set; }
 
         public ElectionEvent Event { get; set; }
+        
+        public List<IObserver<ElectionEvent>> medias;
 
+        public Media media;
+        
         public ElectionViewModel()
         {
             ApplicationTitle = "Election Simulator";
@@ -79,6 +74,7 @@ namespace ElectionSimulator
             Characters = new List<ElectionCharacter>();
             Parties = new List<PoliticalParty>();
             Event = null;
+            medias = new List<IObserver<ElectionEvent>>();
         }
 
         internal void OnWindowClosing(object sender, CancelEventArgs e)
@@ -94,26 +90,24 @@ namespace ElectionSimulator
             {
                 HQ hq = FindHQ(party);
                 
+                // Add 4 activists for each Party
                 for(int i = 0; i < 4; i++)
                 {
                     Activist activist = (Activist)factory.CreateActivist(hq.Position, party);
                     Characters.Add(activist);
                     hq.AddCharacter(activist);
                 }
-            }
 
-            foreach(PoliticalParty party in Parties)
-            {
+                // Add one Leader for each Party
+                Characters.Add(factory.CreateLeader(hq.Position, party));
+
+                // Add one Journalist  for each Party
                 Journalist journalist = (Journalist)factory.CreateJournalist(GetRandomStreetPosition(streets));
                 Characters.Add(journalist);
             }
 
-            foreach(PoliticalParty party in Parties)
-            {
-                HQ hq = FindHQ(party);
-                Leader leader = (Leader)factory.CreateLeader(hq.Position, party);
-                Characters.Add(leader);
-            }
+            media = Media.GetInstance(Characters);
+            Attach(media);
         }
 
         private Position GetRandomStreetPosition(List<Street> streets)
@@ -127,10 +121,9 @@ namespace ElectionSimulator
             {
                 foreach (AbstractArea area in areaList)
                 {
-                    if (area is HQ hq)
+                    if (area is HQ hq && hq.Party == party)
                     {
-                        if (hq.Party == party)
-                            return hq;
+                       return hq;
                     }
                 }
             }
@@ -321,7 +314,6 @@ namespace ElectionSimulator
                 currentArea.RemoveCharacter(character);
                 newArea.AddCharacter(character);
             }
-
         }
 
         private List<Building> GetBuildings()
@@ -366,6 +358,7 @@ namespace ElectionSimulator
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+
             int isThereANewPoll = TextureLoader.random.Next(0, 100);
             if(isThereANewPoll == 1)
             {
@@ -375,6 +368,9 @@ namespace ElectionSimulator
                 poll.GenerateResult(opinions);
                 Event = poll;
             }
+
+            // Notify Media
+            Notify(Event);
         }
 
         private List<Building> GetPollBuildings()
@@ -440,6 +436,24 @@ namespace ElectionSimulator
         internal void AddEmpty(int i)
         {
             Areas[i].Add(factory.CreateEmptyArea(new Position(Areas[i].Count, i)));
+        }
+
+        public void Attach(IObserver<ElectionEvent> observer)
+        {
+            medias.Add(observer);
+        }
+
+        public void Detach(IObserver<ElectionEvent> observer)
+        {
+            medias.Remove(observer);
+        }
+
+        public void Notify(ElectionEvent electionEvent)
+        {
+            foreach(IObserver<ElectionEvent> observer in medias)
+            {
+                observer.Update(electionEvent);
+            }
         }
     }
 }

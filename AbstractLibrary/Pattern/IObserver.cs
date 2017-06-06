@@ -1,7 +1,7 @@
 ﻿namespace AbstractLibrary.Pattern
 {
-    public interface IObserver
+    public interface IObserver<T>
     {
-        void Update(object obj);
+        void Update(T obj);
     }
 }
