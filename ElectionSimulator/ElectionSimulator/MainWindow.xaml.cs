@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Globalization;
+using AbstractLibrary.Object;
 
 namespace ElectionSimulator
 {
@@ -122,7 +123,26 @@ namespace ElectionSimulator
 
             }
 
-            if(App.ElectionVM.Event != null)
+            foreach (List<AbstractArea> areaList in App.ElectionVM.Areas)
+            {
+                foreach (AbstractArea area in areaList)
+                {
+                    foreach (AbstractObject obj in area.Objects)
+                    {
+                        Image objectImage = new Image();
+                        BitmapImage objectSource;
+                        objectSource = tl.GetObjectTexture(obj);
+                        objectImage.Source = objectSource;
+                        Board.Children.Add(objectImage);
+                        Grid.SetColumn(objectImage, area.Position.X);
+                        Grid.SetRow(objectImage, area.Position.Y);
+                    }        
+                }
+            }
+
+
+
+            if (App.ElectionVM.Event != null)
             {
                 if(App.ElectionVM.Event is Poll)
                 {

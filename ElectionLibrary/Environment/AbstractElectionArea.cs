@@ -14,6 +14,6 @@ namespace ElectionLibrary.Environment
             this.opinion = opinion;
         }
 
-        public abstract void ChangeOpinion(PoliticalCharacter politician)
+        public abstract void ChangeOpinion(PoliticalCharacter politician);
     }
 }

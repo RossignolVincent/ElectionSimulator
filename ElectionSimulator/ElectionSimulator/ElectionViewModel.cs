@@ -7,6 +7,7 @@ using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
 using System.ComponentModel;
 using AbstractLibrary.Pattern;
+using ElectionLibrary.Object;
 
 namespace ElectionSimulator
 {
@@ -146,6 +147,7 @@ namespace ElectionSimulator
             {
                 Position HQPosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
+                hq.Objects.Add(new Poster("", HQPosition));
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;
             }

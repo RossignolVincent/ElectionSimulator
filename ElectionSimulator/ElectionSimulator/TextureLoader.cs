@@ -1,6 +1,8 @@
-﻿using ElectionLibrary.Character;
+﻿using AbstractLibrary.Object;
+using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Event;
+using ElectionLibrary.Object;
 using ElectionLibrary.Parties;
 using System;
 using System.Collections.Generic;
@@ -111,6 +113,10 @@ namespace ElectionSimulator
             new Uri("resource/characters/leaders/leader-fn.png", UriKind.Relative),
             new Uri("resource/characters/leaders/leader-fi.png", UriKind.Relative),
             new Uri("resource/characters/leaders/leader-lr.png", UriKind.Relative),
+        });
+
+        List<Uri> Objects = new List<Uri>(new Uri[] {
+            new Uri("resource/objects/poster.png", UriKind.Relative),
         });
 
         List<Uri> Journalists = new List<Uri>(new Uri[] {
@@ -260,6 +266,17 @@ namespace ElectionSimulator
                     return characterSource;
                 }
             }
+            return null;
+        }
+
+        internal BitmapImage GetObjectTexture(AbstractObject obj)
+        {
+            if(obj is Poster)
+            {
+                Console.Write("in");
+                return new BitmapImage(Objects[0]);
+            }
+
             return null;
         }
 
