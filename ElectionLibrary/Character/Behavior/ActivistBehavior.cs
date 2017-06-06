@@ -35,7 +35,7 @@ namespace ElectionLibrary.Character.Behavior
             // No Building available to go in, go to a Street area
             if (bestMove == area)
             {
-                bestMove = GetRandomStreet(area);
+                bestMove = GetNextStreet(area, character);
             }
             else
             {
