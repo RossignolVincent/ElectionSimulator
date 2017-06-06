@@ -45,6 +45,14 @@ namespace AbstractLibrary.Environment
 			}
 		}
 
+        public void AddObjects(List<AbstractObject> listObject)
+        {
+            foreach (AbstractObject obj in listObject)
+            {
+                Objects.Add(obj);
+            }
+        }
+
 
         /**********************************************************************
          *                          CHARACTER

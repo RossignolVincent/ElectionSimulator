@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using ElectionLibrary.Character;
+using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Environment
 {
@@ -13,6 +14,6 @@ namespace ElectionLibrary.Environment
             this.opinion = opinion;
         }
 
-        public abstract void ChangeOpinion(PoliticalCharacter politician);
+        public abstract void ChangeOpinion(PoliticalCharacter politician)
     }
 }

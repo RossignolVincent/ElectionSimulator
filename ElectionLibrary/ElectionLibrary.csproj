@@ -60,6 +60,7 @@
     <Compile Include="Event\Media.cs" />
     <Compile Include="Event\Poll.cs" />
     <Compile Include="Factory\ElectionFactory.cs" />
+    <Compile Include="Object\Poster.cs" />
     <Compile Include="Parties\Concrete\EM.cs" />
     <Compile Include="Parties\Concrete\FI.cs" />
     <Compile Include="Parties\Concrete\FN.cs" />

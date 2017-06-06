@@ -4,6 +4,7 @@ using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System.Collections.Generic;
 using ElectionLibrary.Character.State;
+using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Character
 { 
@@ -19,6 +20,8 @@ namespace ElectionLibrary.Character
         public int Aura { get; set; }
 
         public string Role { get; }
+
+        public List<AbstractObject> Objects { get; set; }
 
         private int moral;
         public int Moral 
@@ -107,5 +110,28 @@ namespace ElectionLibrary.Character
         public abstract void Rest();
 
         public abstract void Tired();
+
+        public int ObjectsNumber()
+        {
+            return Objects.Count;
+        }
+
+        public void UseObject(AbstractObject useThisObject)
+        {
+            Objects.Remove(useThisObject);
+        }
+
+        public void AddAnObject(AbstractObject newObject)
+        {
+            Objects.Add(newObject);
+        }
+
+        public void AddObjects(List<AbstractObject> listObject)
+        {
+            foreach (AbstractObject newObject in listObject)
+            {
+                Objects.Add(newObject);
+            }
+        }
     }
 }
