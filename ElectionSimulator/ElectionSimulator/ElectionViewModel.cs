@@ -127,9 +127,8 @@ namespace ElectionSimulator
             {
                 foreach (AbstractArea area in areaList)
                 {
-                    if(area is HQ)
+                    if (area is HQ hq)
                     {
-                        HQ hq = (HQ)area;
                         if (hq.Party == party)
                             return hq;
                     }

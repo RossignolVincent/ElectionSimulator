@@ -36,7 +36,7 @@ namespace ElectionSimulator
                 return new Accesses() { left = boolean, right = boolean, top = boolean, bottom = boolean };
             }
 
-            public int getCount()
+            public int GetCount()
             {
                 int count = 0;
                 if (left)
@@ -164,18 +164,15 @@ namespace ElectionSimulator
             Image image = new Image();
 
             if (a is Street)
-                image.Source = getStreetTexture(a);
+                image.Source = GetStreetTexture(a);
             else if (a is Building)
-                image.Source = getBuildingTexture();
+                image.Source = GetBuildingTexture();
             else if (a is EmptyArea)
-                image.Source = getEmptyTexture();
+                image.Source = GetEmptyTexture();
             else if (a is PublicPlace)
-                image.Source = getPublicPlaceTexture();
-            else if (a is HQ)
-            {
-                HQ hq = (HQ)a;
-                image.Source = getHQTexture(hq.Party);
-            }
+                image.Source = GetPublicPlaceTexture();
+            else if (a is HQ hq)
+                image.Source = GetHQTexture(hq.Party);
 
             return image;
         }
@@ -204,7 +201,7 @@ namespace ElectionSimulator
             }
         }
 
-        private ImageSource getHQTexture(PoliticalParty party)
+        private ImageSource GetHQTexture(PoliticalParty party)
         {
             switch (party.Name)
             {
@@ -220,7 +217,7 @@ namespace ElectionSimulator
             return null;
         }
 
-        public BitmapImage getCharacterTexture(ElectionCharacter character)
+        public BitmapImage GetCharacterTexture(ElectionCharacter character)
         {
             if (character is Activist activist)
             {
@@ -266,28 +263,28 @@ namespace ElectionSimulator
             return null;
         }
 
-        private ImageSource getEmptyTexture()
+        private ImageSource GetEmptyTexture()
         {
             return new BitmapImage(Empties[random.Next(Empties.Count)]);
         }
 
 
-        private ImageSource getPublicPlaceTexture()
+        private ImageSource GetPublicPlaceTexture()
         {
             return new BitmapImage(PublicPlaces[random.Next(PublicPlaces.Count)]);
         }
 
-        private ImageSource getStreetTexture(AbstractArea a)
+        private ImageSource GetStreetTexture(AbstractArea a)
         {
-            Accesses accesses = generateAccesses(a);
-            switch (accesses.getCount())
+            Accesses accesses = GenerateAccesses(a);
+            switch (accesses.GetCount())
             {
                 case 4:
                     return new BitmapImage(Streets[0]);
                 case 3:
-                    return getTricrosses(accesses);
+                    return GetTricrosses(accesses);
                 case 2:
-                    return getTurn(accesses);
+                    return GetTurn(accesses);
                 case 1:
                     if (accesses.left == true || accesses.right == true)
                         return new BitmapImage(Streets[1]);
@@ -296,7 +293,7 @@ namespace ElectionSimulator
             return null;
         }
 
-        private ImageSource getTurn(Accesses accesses)
+        private ImageSource GetTurn(Accesses accesses)
         {
             if (accesses.bottom == true && accesses.left == true)
                 return new BitmapImage(Turns[0]);
@@ -313,7 +310,7 @@ namespace ElectionSimulator
             return null;
         }
 
-        private ImageSource getTricrosses(Accesses accesses)
+        private ImageSource GetTricrosses(Accesses accesses)
         {
             if (accesses.top == false)
                 return new BitmapImage(Tricrosses[0]);
@@ -326,7 +323,7 @@ namespace ElectionSimulator
             return null;
         }
 
-        private Accesses generateAccesses(AbstractArea a)
+        private Accesses GenerateAccesses(AbstractArea a)
         {
             Accesses accesses = new Accesses();
             foreach (ElectionAccess access in a.Accesses)
@@ -348,7 +345,7 @@ namespace ElectionSimulator
             return accesses;
         }
 
-        private ImageSource getBuildingTexture()
+        private ImageSource GetBuildingTexture()
         {
             return new BitmapImage(Buildings[random.Next(Buildings.Count)]);
         }
