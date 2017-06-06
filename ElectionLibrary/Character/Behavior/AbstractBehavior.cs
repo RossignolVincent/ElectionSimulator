@@ -17,9 +17,13 @@ namespace ElectionLibrary.Character.Behavior
 
             foreach(Street street in streets)
             {
-                if(street != character.LastStreet)
+                if(!character.LastStreets.Contains(street))
                 {
-                    character.LastStreet = street;
+                    character.LastStreets.Enqueue(street);
+                    if(character.LastStreets.Count > 2)
+                    {
+                        character.LastStreets.Dequeue();
+                    }
                     return street;
                 }
             }

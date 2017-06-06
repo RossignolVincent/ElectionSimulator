@@ -33,20 +33,6 @@ namespace ElectionLibrary.Character
             return State.Handle(this, area);
         }
 
-		public bool HasBeenVisited(AbstractElectionArea area)
-		{
-			foreach (AbstractElectionArea visitedArea in VisitedElectionAreas)
-			{
-				if (area.Position.X == visitedArea.Position.X
-					&& area.Position.Y == visitedArea.Position.Y)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
         public void SetPathToHQ()
         {
 			AStar aStar = new AStar(Position, PoliticalParty.HQ.Position, areas);

@@ -19,14 +19,14 @@ namespace ElectionLibrary.Character.Behavior
             foreach (ElectionAccess access in area.Accesses)
             {
                 if (access.EndArea is PublicPlace
-                    && !politician.HasBeenVisited((AbstractElectionArea)access.EndArea)
+                    && !politician.VisitedElectionAreas.Contains((AbstractElectionArea)access.EndArea)
                     && access.EndArea.Characters.Count == 0)
                 {
                     bestMove = (AbstractArea)access.EndArea;
                     break;
                 }
                 else if (access.EndArea is Building
-                         && !politician.HasBeenVisited((AbstractElectionArea)access.EndArea)
+                         && !politician.VisitedElectionAreas.Contains((AbstractElectionArea)access.EndArea)
                          && access.EndArea.Characters.Count == 0)
                 {
                     bestMove = (AbstractArea)access.EndArea;

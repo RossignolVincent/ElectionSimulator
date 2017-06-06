@@ -9,8 +9,9 @@ using AbstractLibrary.Serializer;
 
 namespace AbstractLibrary.Repository
 {
-    public class JSONFileRepository : FileRepository
+    public class JSONFileRepository //: FileRepository
     {
+        /*
         public JSONSerializer Serializer { get; }
 
         public JSONFileRepository(FileAppender Appender, FileReader Reader) : base(Appender, Reader)
@@ -35,5 +36,6 @@ namespace AbstractLibrary.Repository
             String json = base.Read().ToString();
             return this.Serializer.Deserialize(json);
         }
+        */
     }
 }

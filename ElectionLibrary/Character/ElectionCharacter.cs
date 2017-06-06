@@ -16,7 +16,7 @@ namespace ElectionLibrary.Character
         public AbstractBehavior Behavior { get; set; }
 		public PoliticalCharacterState State { get; set; }
 		public Position Position { get; set; }
-        public Street LastStreet { get; set; }
+        public Queue<Street> LastStreets { get; set; }
 
         public int Aura { get; set; }
         public string Role { get; }
@@ -51,7 +51,7 @@ namespace ElectionLibrary.Character
             this.moral = INIT_MORAL;
             this.Aura = 2;
             this.Role = GetType().Name;
-            LastStreet = null;
+            LastStreets = new Queue<Street>();
         }
 
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)
