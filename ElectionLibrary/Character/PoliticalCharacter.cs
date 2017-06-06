@@ -48,7 +48,7 @@ namespace ElectionLibrary.Character
 
         public void SetPathToHQ()
         {
-			AStar aStar = new AStar(position, PoliticalParty.HQ.Position, areas);
+			AStar aStar = new AStar(Position, PoliticalParty.HQ.Position, areas);
 			aStar.Compute();
 			PathToHQ = aStar.GetPath();
         }

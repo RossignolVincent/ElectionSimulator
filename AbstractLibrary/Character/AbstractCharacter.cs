@@ -7,7 +7,6 @@ namespace AbstractLibrary.Character
     public abstract class AbstractCharacter
     {
         public string Name { get; private set; }
-        public AbstractArea Position { get; set; }
 
         protected AbstractCharacter(string name)
         {

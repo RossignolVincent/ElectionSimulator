@@ -1,9 +1,10 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using AbstractLibrary.Character;
 using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System.Collections.Generic;
 using ElectionLibrary.Character.State;
+using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Character
 { 
@@ -12,12 +13,14 @@ namespace ElectionLibrary.Character
         public static int INIT_MORAL = 25;
 
         public AbstractBehavior Behavior { get; set; }
-        public PoliticalCharacterState State { get; set; }
-		public Position position { get; set; }
+		public PoliticalCharacterState State { get; set; }
+		public Position Position { get; set; }
         public Street LastStreet { get; set; }
 
         public int Aura { get; set; }
         public string Role { get; }
+
+        public List<AbstractObject> Objects { get; set; }
 
         private int moral;
         public int Moral 
@@ -43,11 +46,11 @@ namespace ElectionLibrary.Character
         protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.Behavior = behavior;
-            this.position = position;
+            this.Position = position;
             this.moral = INIT_MORAL;
             this.Aura = 2;
             this.Role = GetType().Name;
-            LastVisitedStreets = new Queue<AbstractElectionArea>();
+            LastStreet = null;
         }
 
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)
@@ -70,7 +73,7 @@ namespace ElectionLibrary.Character
 
         public void MoveTo(Position position)
         {
-            this.position = position;
+            this.Position = position;
         }
 
         public void AddRandomAura()
@@ -107,5 +110,28 @@ namespace ElectionLibrary.Character
         public abstract void Rest();
 
         public abstract void Tired();
+
+        public int ObjectsNumber()
+        {
+            return Objects.Count;
+        }
+
+        public void UseObject(AbstractObject useThisObject)
+        {
+            Objects.Remove(useThisObject);
+        }
+
+        public void AddAnObject(AbstractObject newObject)
+        {
+            Objects.Add(newObject);
+        }
+
+        public void AddObjects(List<AbstractObject> listObject)
+        {
+            foreach (AbstractObject newObject in listObject)
+            {
+                Objects.Add(newObject);
+            }
+        }
     }
 }

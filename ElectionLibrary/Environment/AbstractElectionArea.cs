@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using ElectionLibrary.Character;
+using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Environment
 {

@@ -186,5 +186,9 @@
     <Resource Include="resource\characters\leaders\leader-fi.png" />
     <Resource Include="resource\characters\leaders\leader-fn.png" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="resource\objects\poster.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
