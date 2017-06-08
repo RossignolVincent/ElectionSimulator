@@ -273,7 +273,6 @@ namespace ElectionSimulator
         {
             if(obj is Poster)
             {
-                Console.Write("in");
                 return new BitmapImage(Objects[0]);
             }
 

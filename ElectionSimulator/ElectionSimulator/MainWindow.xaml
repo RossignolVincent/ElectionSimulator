@@ -25,7 +25,7 @@
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Row="0" Background="#E5847A">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -34,7 +34,7 @@
                     <Label Visibility="Hidden" Name="EventLabel"></Label>
                     <Grid Grid.Row="1" Name="Event"></Grid>
                 </Grid>
-                <Grid Name="Details" Grid.Row="1" Background="#A8B2CD">
+                <Grid Name="Details" Grid.Row="1" Background="#A8B2CD" DataContext="{Binding AreaSelected}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>

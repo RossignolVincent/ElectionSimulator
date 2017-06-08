@@ -8,6 +8,7 @@ using ElectionLibrary.Event;
 using System.ComponentModel;
 using AbstractLibrary.Pattern;
 using ElectionLibrary.Object;
+using System.Windows.Input;
 
 namespace ElectionSimulator
 {
@@ -41,6 +42,25 @@ namespace ElectionSimulator
             }
         }
 
+        public ICommand DetailsDelegate { get; internal set; }
+
+        public AbstractArea areaSelected;
+
+        public AbstractArea AreaSelected
+        {
+            get
+            {
+                return areaSelected;
+            }
+            set
+            {
+                System.Console.WriteLine("set");
+                areaSelected = value;
+                OnPropertyChanged("AreaSelected");
+                DetailsDelegate.Execute(null);
+            }
+        }
+
         public bool Running { get; set; }
 
         public int DimensionX;
@@ -60,7 +80,7 @@ namespace ElectionSimulator
         public List<PoliticalParty> Parties { get; set; }
 
         public ElectionEvent Event { get; set; }
-        
+
         public List<IObserver<ElectionEvent>> medias;
 
         public Media media;

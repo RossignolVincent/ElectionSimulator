@@ -38,7 +38,9 @@ namespace ElectionSimulator
         public MainWindow()
         {
             InitializeComponent();
+            ICommand detailsDelegate = new DelegateCommand(m => PrintDetails());
             DataContext = App.ElectionVM;
+            App.ElectionVM.DetailsDelegate = detailsDelegate;
             dt.Tick += Draw_tick;
             dt.Interval = new TimeSpan(0, 0, 0, 0, App.ElectionVM.RefreshRate);
             Closing += App.ElectionVM.OnWindowClosing;
@@ -102,6 +104,7 @@ namespace ElectionSimulator
         private void NextTurn(object sender, RoutedEventArgs e)
         {
             App.ElectionVM.NextTurn();
+            App.ElectionVM.AreaSelected = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
             RefreshBoard();
         }
 
@@ -243,7 +246,8 @@ namespace ElectionSimulator
                     col++;
                 }
 
-                PrintDetails(row, col);
+                App.ElectionVM.AreaSelected = App.ElectionVM.Areas[row][col];
+                PrintDetails();
                 SetDetailsLabelsVisible();
             }
         }
@@ -268,13 +272,15 @@ namespace ElectionSimulator
             }
         }
 
-        private void PrintDetails(int row, int col)
+        private void PrintDetails()
         {
-            AbstractArea area = App.ElectionVM.Areas[row][col];
+            AbstractArea area = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
+
+            Console.WriteLine("in");
 
             ClearLists();
 
-            Position.Content = row + ", " + col;
+            Position.Content = area.Position.Y + ", " + area.Position.X;
 
             if(area is HQ)
             {
