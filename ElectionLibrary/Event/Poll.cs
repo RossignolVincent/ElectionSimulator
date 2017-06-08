@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Event
 {
+    [Serializable]
     public class Poll : ElectionEvent
     {
         public Opinion Result { get; set; }

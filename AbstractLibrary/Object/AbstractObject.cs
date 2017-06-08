@@ -1,12 +1,12 @@
 ﻿using System;
-using AbstractLibrary.Factory;
 using AbstractLibrary.Environment;
 
 namespace AbstractLibrary.Object
 {
-    public abstract class AbstractObject
+    [Serializable]
+    public abstract class AbstractObject : IDomain
     {
-		public string Name { get; private set; }
+		public string Name { get; set; }
 
         protected AbstractObject(string name)
         {

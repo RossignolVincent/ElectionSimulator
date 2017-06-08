@@ -3,6 +3,7 @@ using ElectionLibrary.Character;
 
 namespace ElectionLibrary.Environment
 {
+    [System.Serializable]
     public class Building : AbstractElectionArea, IObserver<PoliticalCharacter>
     {
         public Building(Opinion opinion, string name, Position position) : base(opinion, name, position)

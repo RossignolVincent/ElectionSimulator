@@ -10,6 +10,7 @@ using ElectionLibrary.Character.Behavior;
 
 namespace ElectionLibrary.Factory
 {
+    [Serializable]
     public class ElectionFactory : AbstractFactory
     {
         public override AbstractEnvironment CreateEnvironment()

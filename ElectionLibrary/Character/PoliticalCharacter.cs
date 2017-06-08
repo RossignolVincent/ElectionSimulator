@@ -9,6 +9,7 @@ using AbstractLibrary.Character;
 
 namespace ElectionLibrary.Character
 {
+    [Serializable]
     public abstract class PoliticalCharacter : ElectionCharacter
     {
 		public PoliticalParty PoliticalParty { get; }
@@ -31,20 +32,6 @@ namespace ElectionLibrary.Character
 
             return State.Handle(this, area);
         }
-
-		public bool HasBeenVisited(AbstractElectionArea area)
-		{
-			foreach (AbstractElectionArea visitedArea in VisitedElectionAreas)
-			{
-				if (area.Position.X == visitedArea.Position.X
-					&& area.Position.Y == visitedArea.Position.Y)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
 
         public void SetPathToHQ()
         {

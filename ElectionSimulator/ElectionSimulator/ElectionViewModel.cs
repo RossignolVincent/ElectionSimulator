@@ -12,6 +12,7 @@ using System.Windows.Input;
 
 namespace ElectionSimulator
 {
+    [System.Serializable]
     public class ElectionViewModel : BaseViewModel, IObservable<ElectionEvent>
     {
         private string applicationTitle;
@@ -438,6 +439,8 @@ namespace ElectionSimulator
                 NextTurn();
             }
         }
+
+
 
         internal void Stop()
         {

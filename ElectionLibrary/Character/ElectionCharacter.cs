@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using AbstractLibrary.Character;
 using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
@@ -7,18 +7,18 @@ using ElectionLibrary.Character.State;
 using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Character
-{ 
+{
+    [Serializable]
     public abstract class ElectionCharacter : AbstractCharacter 
     {
         public static int INIT_MORAL = 25;
 
         public AbstractBehavior Behavior { get; set; }
-        public PoliticalCharacterState State { get; set; }
-
-        public Position Position { get; set; }
+		public PoliticalCharacterState State { get; set; }
+		public Position Position { get; set; }
+        public Queue<Street> LastStreets { get; set; }
 
         public int Aura { get; set; }
-
         public string Role { get; }
 
         public List<AbstractObject> Objects { get; set; }
@@ -51,6 +51,7 @@ namespace ElectionLibrary.Character
             this.moral = INIT_MORAL;
             this.Aura = 2;
             this.Role = GetType().Name;
+            LastStreets = new Queue<Street>();
         }
 
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)

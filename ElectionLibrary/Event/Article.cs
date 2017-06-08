@@ -1,7 +1,9 @@
 ﻿using ElectionLibrary.Parties;
+using System;
 
 namespace ElectionLibrary.Event
 {
+    [Serializable]
     public class Article : ElectionEvent
     {
         public PoliticalParty Party { get; set; }

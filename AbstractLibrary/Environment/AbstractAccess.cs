@@ -1,10 +1,11 @@
 ﻿using System;
 namespace AbstractLibrary.Environment
 {
-    public abstract class AbstractAccess
+    [Serializable]
+    public abstract class AbstractAccess : IDomain
     {
-        public AbstractArea FirstArea { get; }
-        public AbstractArea EndArea { get; }
+        public AbstractArea FirstArea { get; set;  }
+        public AbstractArea EndArea { get; set; }
 
         protected AbstractAccess(AbstractArea firstArea, AbstractArea endArea)
         {

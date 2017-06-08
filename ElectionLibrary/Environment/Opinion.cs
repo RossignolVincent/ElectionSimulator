@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public class Opinion
     {
         public Dictionary<PoliticalParty, double> opinionList;

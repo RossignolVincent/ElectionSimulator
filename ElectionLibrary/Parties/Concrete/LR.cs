@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectionLibrary.Parties.Concrete
 {
+    [Serializable]
     public class LR : PoliticalParty
     {
         public LR(HQ hq) : base(hq)

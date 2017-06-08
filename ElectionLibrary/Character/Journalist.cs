@@ -8,6 +8,7 @@ using ElectionLibrary.Event;
 
 namespace ElectionLibrary.Character
 {
+    [System.Serializable]
     public class Journalist : ElectionCharacter, IObservable<ElectionEvent>
     {
         private readonly List<IObserver<ElectionEvent>> medias;

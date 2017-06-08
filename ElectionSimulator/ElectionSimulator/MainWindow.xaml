@@ -94,10 +94,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
+            
             <Button Grid.Column="0" Content="Nouveau" Click="StartNewSimulation" Name="NewSimulationButton"></Button>
-            <Button Grid.Column="1" Content="Charger" Name="LoadSimulationButton"></Button>
-            <Button Grid.Column="2" Content="Sauvegarder" Name="SaveSimulationButton"></Button>
+            <Button Grid.Column="1" Content="Charger" Name="LoadSimulationButton" Click="LoadSimulation"></Button>
+            <Button Grid.Column="2" Content="Sauvegarder" Name="SaveSimulationButton" Click="SaveSimulation"></Button>
             <Slider Grid.Column="3" Value="{Binding RefreshRate}" Minimum="100" Maximum="5000"></Slider>
             <Button Grid.Column="4" Content="Lancer" Click="PlaySimulation" Name="PlaySimulationButton"></Button>
             <Button Grid.Column="5" Content="Mettre en pause" Click="PauseSimulation" Name="PauseSimulationButton"></Button>

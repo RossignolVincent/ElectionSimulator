@@ -5,6 +5,7 @@ using AbstractLibrary.Object;
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public abstract class AbstractElectionArea : AbstractArea
     {
         public Opinion opinion { get; }

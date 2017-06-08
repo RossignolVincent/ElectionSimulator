@@ -5,12 +5,13 @@ using AbstractLibrary.Object;
 
 namespace AbstractLibrary.Environment
 {
-    public abstract class AbstractArea
+    [Serializable]
+    public abstract class AbstractArea : IDomain
     {
-		public string Name { get; private set; }
-		public List<AbstractAccess> Accesses { get; }
-        public List<AbstractObject> Objects { get; }
-        public List<AbstractCharacter> Characters { get; }
+		public string Name { get; set; }
+		public List<AbstractAccess> Accesses { get; set; }
+        public List<AbstractObject> Objects { get; set; }
+        public List<AbstractCharacter> Characters { get; set; }
 
         protected AbstractArea(string name)
         {

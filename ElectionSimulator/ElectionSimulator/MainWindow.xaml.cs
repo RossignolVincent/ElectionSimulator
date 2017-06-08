@@ -1,4 +1,9 @@
-﻿using ElectionLibrary.Character;
+﻿using AbstractLibrary.Environment;
+using AbstractLibrary.Repository;
+using AbstractLibrary.Repository.Appender;
+using AbstractLibrary.Repository.Reader;
+using AbstractLibrary.Serializer;
+using ElectionLibrary.Character;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Event;
 using ElectionLibrary.Parties;
@@ -29,11 +34,14 @@ namespace ElectionSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const String SAVE_PATH = "save.bin";
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
+
         TextureLoader tl = new TextureLoader(App.ElectionVM);
 
         List<Label> DetailsLabels = new List<Label>();
+
 
         public MainWindow()
         {
@@ -88,6 +96,27 @@ namespace ElectionSimulator
             t.Start();
         }
 
+        private void SaveSimulation(object sender, RoutedEventArgs e)
+        {
+            FileAppender appender = new FileAppender(SAVE_PATH);
+            FileReader reader = new FileReader(SAVE_PATH);
+            BinaryFileRepository repository = new BinaryFileRepository(appender, reader);
+            repository.Write(App.ElectionVM);
+            Console.WriteLine("Saved");
+        }
+
+        private void LoadSimulation(object sender, RoutedEventArgs e)
+        {
+            FileAppender appender = new FileAppender(SAVE_PATH);
+            FileReader reader = new FileReader(SAVE_PATH);
+            BinaryFileRepository repository = new BinaryFileRepository(appender, reader);
+            Console.WriteLine("Loaded");
+            BinarySerializer serializer = new BinarySerializer();
+            App.ElectionVM = (ElectionViewModel)serializer.Deserialize((byte[])repository.Read());
+            tl.LoadFirstTextures(Board);
+            RefreshBoard();
+        }
+
         private void Draw_tick(object sender, EventArgs e)
         {
             if (sw.IsRunning)
@@ -126,9 +155,9 @@ namespace ElectionSimulator
 
             }
 
-            foreach (List<AbstractArea> areaList in App.ElectionVM.Areas)
+            foreach (List<ElectionLibrary.Environment.AbstractArea> areaList in App.ElectionVM.Areas)
             {
-                foreach (AbstractArea area in areaList)
+                foreach (ElectionLibrary.Environment.AbstractArea area in areaList)
                 {
                     foreach (AbstractObject obj in area.Objects)
                     {
@@ -252,6 +281,7 @@ namespace ElectionSimulator
             }
         }
 
+
         private void SetDetailsLabelsVisible()
         {
             foreach(Label label in DetailsLabels)
@@ -274,9 +304,7 @@ namespace ElectionSimulator
 
         private void PrintDetails()
         {
-            AbstractArea area = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
-
-            Console.WriteLine("in");
+            ElectionLibrary.Environment.AbstractArea area = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
 
             ClearLists();
 

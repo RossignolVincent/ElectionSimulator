@@ -2,6 +2,7 @@
 
 namespace ElectionLibrary.Environment
 {
+    [Serializable]
     public abstract class AbstractArea : AbstractLibrary.Environment.AbstractArea
     {
         public Position Position { get;}

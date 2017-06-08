@@ -4,26 +4,46 @@ using System.Collections.Generic;
 
 namespace ElectionLibrary.Character.Behavior
 {
+    [Serializable]
     public abstract class AbstractBehavior
     {
-        private Random random = new Random();
+        private readonly Random random = new Random();
 
         public abstract Position Move(ElectionCharacter character, AbstractArea area);
 
-        protected AbstractArea GetRandomStreet(AbstractArea area)
+        protected AbstractArea GetNextStreet(AbstractArea area, ElectionCharacter character)
         {
-            List<AbstractArea> streets = new List<AbstractArea>();
+            List<Street> streets = GetStreets(area);
 
-            foreach (ElectionAccess access in area.Accesses)
+            foreach(Street street in streets)
             {
-                if (access.EndArea is Street)
+                if(!character.LastStreets.Contains(street))
                 {
-                    streets.Add((AbstractArea)access.EndArea);
+                    character.LastStreets.Enqueue(street);
+                    if(character.LastStreets.Count > 2)
+                    {
+                        character.LastStreets.Dequeue();
+                    }
+                    return street;
                 }
             }
 
-            int newStreet = random.Next(streets.Count);
-            return streets[newStreet];
+            return streets[0];
+        }
+
+        private List<Street> GetStreets(AbstractArea area)
+        {
+            Random rnd = new Random();
+            List<Street> streets = new List<Street>();
+			foreach (ElectionAccess access in area.Accesses)
+			{
+				if (access.EndArea is Street street)
+				{
+                    streets.Add(street);
+				}
+			}
+
+            return streets;
         }
     }
 }
