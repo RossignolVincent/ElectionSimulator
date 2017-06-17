@@ -67,7 +67,7 @@ namespace ElectionLibrary.Character.Behavior
             }
             else
             {
-                politician.NbTurnToRest -= 10;
+                politician.NbTurnToRest = 0;
                 return politician.Position;
             }
         }
@@ -104,7 +104,13 @@ namespace ElectionLibrary.Character.Behavior
             List<Poster> result;
             List<Poster> hqPosters = character.PoliticalParty.HQ.GetPosters();
             Random random = new Random();
-            int pickedNumber = random.Next(hqPosters.Count);
+            int pickedNumber = random.Next(hqPosters.Count/2);
+
+            // Activist could take maximum 4 posters from HQ
+            if(pickedNumber > 4)
+            {
+                pickedNumber = 4;
+            }
 
             result = hqPosters.GetRange(0, pickedNumber);
 
@@ -114,6 +120,47 @@ namespace ElectionLibrary.Character.Behavior
             }
 
             return result;
+        }
+
+        protected new AbstractArea GetNextStreet(AbstractArea area, AbstractElectionCharacter character)
+        {
+            List<Street> streets = GetStreets(area);
+            List<Street> newStreets = new List<Street>();
+
+            foreach (Street street in streets)
+            {
+                if (!character.LastStreets.Contains(street))
+                {
+                    newStreets.Add(street);
+                }
+            }
+
+            // If there is at least one new streets, choose the one without poster of his party (when it is possible)
+            if(newStreets.Count > 0)
+            {
+                Street choosenStreet = ChooseStreetWithoutPosterParty(newStreets, (PoliticalCharacter)character);
+                character.LastStreets.Enqueue(choosenStreet);
+                if (character.LastStreets.Count > 2)
+                {
+                    character.LastStreets.Dequeue();
+                }
+                return choosenStreet;
+            }
+
+            return streets[0];
+        }
+
+        private Street ChooseStreetWithoutPosterParty(List<Street> streets, PoliticalCharacter politician) 
+        {
+            foreach(Street street in streets)
+            {
+                if(!street.IsThereAlreadyPosterOfParty(politician.PoliticalParty))
+                {
+                    return street;
+                }
+            }
+
+            return streets[0];
         }
     }
 }

@@ -37,7 +37,7 @@ namespace ElectionLibrary.Character
                 if (obj is Poster poster && poster.Party != PoliticalParty)
                 {
                     Random random = new Random();
-                    int pickedNumber = random.Next(4);
+                    int pickedNumber = random.Next(2);
 
                     if (pickedNumber == 0)
                     {
@@ -72,21 +72,6 @@ namespace ElectionLibrary.Character
             {
                 State = new IsGoingBackToHQState();
             }
-        }
-
-        public List<Poster> GetPosters()
-        {
-            List<Poster> posters = new List<Poster>();
-
-            foreach(AbstractElectionObject obj in Objects)
-            {
-                if(obj is Poster poster)
-                {
-                    posters.Add(poster);
-                }
-            }
-
-            return posters;
         }
     }
 }

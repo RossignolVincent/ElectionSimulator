@@ -168,8 +168,8 @@ namespace ElectionSimulator
                 Position HQPosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
 
-                // Generate 20 posters in the HQ
-                for(int i=0; i<20; i++)
+                // Generate 10 posters in the HQ
+                for(int i=0; i<10; i++)
                 {
                     hq.AddObject(factory.CreatePoster(HQPosition, party));
                 }
@@ -351,8 +351,12 @@ namespace ElectionSimulator
         {
             foreach(PoliticalParty party in Parties)
             {
-                HQ hq = party.HQ;
-                hq.AddObject(factory.CreatePoster(hq.Position, party));
+                int pickedNumber = TextureLoader.random.Next(3);
+                if(pickedNumber == 0)
+                {
+                    HQ hq = party.HQ;
+                    hq.AddObject(factory.CreatePoster(hq.Position, party));
+                }
             }
         }
 

@@ -35,7 +35,7 @@ namespace ElectionLibrary.Character.Behavior
             return streets[0];
         }
 
-        private List<Street> GetStreets(AbstractArea area)
+        protected List<Street> GetStreets(AbstractArea area)
         {
             Random rnd = new Random();
             List<Street> streets = new List<Street>();
