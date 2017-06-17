@@ -16,6 +16,7 @@ namespace ElectionLibrary.Character
         public Queue<AbstractElectionArea> VisitedElectionAreas { get; }
         public Stack<Position> PathToHQ { get; set; }
         private List<List<AbstractArea>> areas;
+        public int NbTurnToRest { get; set; }
 
         protected PoliticalCharacter(string name, AbstractBehavior behavior, Position position, PoliticalParty politicalParty) : base(name, behavior, position)
         {
@@ -23,6 +24,7 @@ namespace ElectionLibrary.Character
             VisitedElectionAreas = new Queue<AbstractElectionArea>();
             State = new InHQState();
             PathToHQ = null;
+            NbTurnToRest = 0;
         }
 
         public override Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas)

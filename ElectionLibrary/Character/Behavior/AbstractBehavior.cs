@@ -11,6 +11,10 @@ namespace ElectionLibrary.Character.Behavior
 
         public abstract Position Move(ElectionCharacter character, AbstractArea area);
 
+        public abstract Position DoSomethingInHQ(ElectionCharacter character, AbstractArea area);
+
+        public abstract Position Meeting(ElectionCharacter character, AbstractArea area);
+
         protected AbstractArea GetNextStreet(AbstractArea area, ElectionCharacter character)
         {
             List<Street> streets = GetStreets(area);

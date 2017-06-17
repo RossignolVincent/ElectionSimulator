@@ -10,5 +10,15 @@ namespace ElectionLibrary.Character.Behavior
         {
             return GetNextStreet(area, character).Position;
         }
+
+        public override Position DoSomethingInHQ(ElectionCharacter character, AbstractArea area)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Position Meeting(ElectionCharacter character, AbstractArea area)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace ElectionLibrary.Character.State
             {
                 politician.State = new InHQState();
                 politician.PathToHQ = null;
+                politician.NbTurnToRest = 10;
             }
 
             return nextPosition;

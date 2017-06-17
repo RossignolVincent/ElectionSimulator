@@ -12,11 +12,7 @@ namespace ElectionLibrary.Character.State
 
         public override Position Handle(ElectionCharacter character, AbstractArea area)
         {
-            PoliticalCharacter politician = (PoliticalCharacter)character;
-
-            politician.Rest();
-            politician.State = new InStreetState();
-            return GetRandomStreet(area).Position;
+            return character.Behavior.DoSomethingInHQ(character, area);
         }
     }
 }

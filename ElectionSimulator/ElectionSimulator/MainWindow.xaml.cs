@@ -133,7 +133,10 @@ namespace ElectionSimulator
         private void NextTurn(object sender, RoutedEventArgs e)
         {
             App.ElectionVM.NextTurn();
-            App.ElectionVM.AreaSelected = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
+            if (App.ElectionVM.AreaSelected != null)
+            {
+                App.ElectionVM.AreaSelected = App.ElectionVM.Areas[App.ElectionVM.AreaSelected.Position.Y][App.ElectionVM.AreaSelected.Position.X];
+            }
             RefreshBoard();
         }
 

@@ -47,5 +47,49 @@ namespace ElectionLibrary.Character.Behavior
 
             return bestMove.Position;
         }
+
+        public override Position DoSomethingInHQ(ElectionCharacter character, AbstractArea area)
+        {
+            PoliticalCharacter politician = (PoliticalCharacter)character;
+
+            if(politician.NbTurnToRest == 0)
+            {
+                politician.Rest();
+                politician.State = new InStreetState();
+                return GetNextStreet(area, character).Position;
+            }
+            else
+            {
+                politician.NbTurnToRest--;
+                return politician.Position;
+            }
+        }
+
+        public override Position Meeting(ElectionCharacter character, AbstractArea area)
+        {
+            // If the politician is in an ElectionArea, influence opinion, go out and move to a Street Area
+            PoliticalCharacter politician = (PoliticalCharacter)character;
+
+            AbstractArea street = null;
+
+            // Influence the opinion of the Election area
+            ((AbstractElectionArea)area).ChangeOpinion(politician);
+
+            // Get the next area
+            if (area.Accesses.Count == 1)
+            {
+                street = (AbstractArea)area.Accesses[0].EndArea;
+            }
+            else
+            {
+                street = GetNextStreet(area, character);
+            }
+
+            politician.State = new InStreetState();
+
+            // Get tired
+            politician.Tired();
+            return street.Position;
+        }
     }
 }
