@@ -1,10 +1,9 @@
 ﻿using System;
-using AbstractLibrary.Environment;
 
 namespace AbstractLibrary.Object
 {
     [Serializable]
-    public abstract class AbstractObject : IDomain
+    public abstract class AbstractObject
     {
 		public string Name { get; set; }
 

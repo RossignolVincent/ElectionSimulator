@@ -4,12 +4,12 @@ using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System.Collections.Generic;
 using ElectionLibrary.Character.State;
-using AbstractLibrary.Object;
+using ElectionLibrary.Object;
 
 namespace ElectionLibrary.Character
 {
     [Serializable]
-    public abstract class ElectionCharacter : AbstractCharacter 
+    public abstract class AbstractElectionCharacter : AbstractCharacter 
     {
         public static int INIT_MORAL = 25;
 
@@ -21,7 +21,7 @@ namespace ElectionLibrary.Character
         public int Aura { get; set; }
         public string Role { get; }
 
-        public List<AbstractObject> Objects { get; set; }
+        public List<AbstractElectionObject> Objects { get; set; }
 
         private int moral;
         public int Moral 
@@ -44,7 +44,7 @@ namespace ElectionLibrary.Character
             }
         }
 
-        protected ElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
+        protected AbstractElectionCharacter(string name, AbstractBehavior behavior, Position position) : base(name)
         {
             this.Behavior = behavior;
             this.Position = position;
@@ -52,20 +52,21 @@ namespace ElectionLibrary.Character
             this.Aura = 2;
             this.Role = GetType().Name;
             LastStreets = new Queue<Street>();
+            Objects = new List<AbstractElectionObject>();
         }
 
         public void NextTurn(AbstractArea area, List<List<AbstractArea>> areas)
         {
-            // OBJECT HERE
-            if(area.Objects.Count > 0)
+            if(area is Street street)
             {
-
-            }
-
-            // CHARACTERS INTERACTION
-            if (area.Characters.Count > 1)
-            {
-                ComputeCharactersInteraction(area.Characters);
+                // OBJECTS INTERACTION
+                ComputeObjectsInteraction(street);
+                
+                // CHARACTERS INTERACTION
+                if (area.Characters.Count > 1)
+                {
+                    ComputeCharactersInteraction(area.Characters);
+                }
             }
 
             // MOVE
@@ -104,6 +105,8 @@ namespace ElectionLibrary.Character
             }
         }
 
+        protected abstract void ComputeObjectsInteraction(Street area);
+
         protected abstract void ComputeCharactersInteraction(List<AbstractCharacter> characters);
 
         public abstract Position MoveDecision(AbstractArea area, List<List<AbstractArea>> areas);
@@ -117,22 +120,45 @@ namespace ElectionLibrary.Character
             return Objects.Count;
         }
 
-        public void UseObject(AbstractObject useThisObject)
+        public void UseObject(AbstractElectionObject useThisObject)
         {
             Objects.Remove(useThisObject);
         }
 
-        public void AddAnObject(AbstractObject newObject)
+        public void AddAnObject(AbstractElectionObject newObject)
         {
             Objects.Add(newObject);
         }
 
-        public void AddObjects(List<AbstractObject> listObject)
+        public void AddObjects(List<AbstractElectionObject> listObject)
         {
-            foreach (AbstractObject newObject in listObject)
+            foreach (AbstractElectionObject newObject in listObject)
             {
                 Objects.Add(newObject);
             }
+        }
+
+        public void AddObjects(List<Poster> listObject)
+        {
+            foreach (Poster newObject in listObject)
+            {
+                Objects.Add(newObject);
+            }
+        }
+
+        public List<Poster> GetPosters()
+        {
+            List<Poster> posters = new List<Poster>();
+
+            foreach (AbstractElectionObject obj in Objects)
+            {
+                if (obj is Poster poster)
+                {
+                    posters.Add(poster);
+                }
+            }
+
+            return posters;
         }
     }
 }

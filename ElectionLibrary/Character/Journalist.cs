@@ -9,7 +9,7 @@ using ElectionLibrary.Event;
 namespace ElectionLibrary.Character
 {
     [System.Serializable]
-    public class Journalist : ElectionCharacter, IObservable<ElectionEvent>
+    public class Journalist : AbstractElectionCharacter, IObservable<ElectionEvent>
     {
         private readonly List<IObserver<ElectionEvent>> medias;
         private System.Random random;
@@ -38,7 +38,7 @@ namespace ElectionLibrary.Character
         {
             List<PoliticalCharacter> politicians = new List<PoliticalCharacter>();
 
-            foreach (ElectionCharacter character in characters)
+            foreach (AbstractElectionCharacter character in characters)
             {
                 if (character != this && character is PoliticalCharacter)
                 {
@@ -52,6 +52,10 @@ namespace ElectionLibrary.Character
                 int pickedNumber = random.Next(politicians.Count);
                 Interview(politicians[pickedNumber]);
             }
+        }
+        
+        protected override void ComputeObjectsInteraction(Street area)
+        {
         }
 
         public void Interview(PoliticalCharacter politician)

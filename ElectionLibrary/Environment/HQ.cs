@@ -1,5 +1,6 @@
 ﻿using ElectionLibrary.Parties;
 using System;
+
 namespace ElectionLibrary.Environment
 {
     [Serializable]

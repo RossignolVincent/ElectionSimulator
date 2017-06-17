@@ -7,7 +7,6 @@ using ElectionLibrary.Parties;
 using ElectionLibrary.Event;
 using System.ComponentModel;
 using AbstractLibrary.Pattern;
-using ElectionLibrary.Object;
 using System.Windows.Input;
 
 namespace ElectionSimulator
@@ -76,7 +75,7 @@ namespace ElectionSimulator
 
         public List<List<AbstractArea>> Areas { get; set; }
 
-        public List<ElectionCharacter> Characters { get; set; }
+        public List<AbstractElectionCharacter> Characters { get; set; }
 
         public List<PoliticalParty> Parties { get; set; }
 
@@ -93,7 +92,7 @@ namespace ElectionSimulator
             DimensionY = 20;
             RefreshRate = 500;
             Areas = new List<List<AbstractArea>>();
-            Characters = new List<ElectionCharacter>();
+            Characters = new List<AbstractElectionCharacter>();
             Parties = new List<PoliticalParty>();
             Event = null;
             medias = new List<IObserver<ElectionEvent>>();
@@ -123,7 +122,7 @@ namespace ElectionSimulator
                 // Add one Leader for each Party
                 Characters.Add(factory.CreateLeader(hq.Position, party));
 
-                // Add one Journalist  for each Party
+                // Add one Journalist for each Party
                 Journalist journalist = (Journalist)factory.CreateJournalist(GetRandomStreetPosition(streets));
                 Characters.Add(journalist);
             }
@@ -168,7 +167,13 @@ namespace ElectionSimulator
             {
                 Position HQPosition = buildings[TextureLoader.random.Next(buildings.Count)].Position;
                 HQ hq = (HQ) factory.CreateHQ(HQPosition, party);
-                hq.Objects.Add(new Poster("", HQPosition));
+
+                // Generate 20 posters in the HQ
+                for(int i=0; i<20; i++)
+                {
+                    hq.AddObject(factory.CreatePoster(HQPosition, party));
+                }
+
                 Areas[HQPosition.Y][HQPosition.X] = hq;
                 party.HQ = hq;
             }
@@ -328,7 +333,10 @@ namespace ElectionSimulator
             NumberTurn++;
             GenerateEvents();
 
-            foreach (ElectionCharacter character in Characters)
+            // Generate Posters in each HQ
+            GenerateNewPosters();
+
+            foreach (AbstractElectionCharacter character in Characters)
             {
                 AbstractArea currentArea = Areas[character.Position.Y][character.Position.X];
                 character.NextTurn(currentArea, Areas);
@@ -336,6 +344,15 @@ namespace ElectionSimulator
 
                 currentArea.RemoveCharacter(character);
                 newArea.AddCharacter(character);
+            }
+        }
+
+        private void GenerateNewPosters()
+        {
+            foreach(PoliticalParty party in Parties)
+            {
+                HQ hq = party.HQ;
+                hq.AddObject(factory.CreatePoster(hq.Position, party));
             }
         }
 

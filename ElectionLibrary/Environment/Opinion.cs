@@ -64,7 +64,7 @@ namespace ElectionLibrary.Environment
                 opinionValue = (double)pickedValue / 100;
                 
                 // Get the percentage of moral the character has : if 20/25, then percentage is 80% (and moralPercentage is 80)
-                double moralPercentage = ((double)moral / ElectionCharacter.INIT_MORAL) * 100;
+                double moralPercentage = ((double)moral / AbstractElectionCharacter.INIT_MORAL) * 100;
 
                 // Add a little random in the game. Pick a number betwen 0 and 100
                 double pickedNumber = random.Next(0, 100);

@@ -10,7 +10,7 @@ namespace ElectionLibrary.Character.State
         {
         }
 
-        public override Position Handle(ElectionCharacter character, AbstractArea area)
+        public override Position Handle(AbstractElectionCharacter character, AbstractArea area)
         {
             return character.Behavior.Meeting(character, area);
         }

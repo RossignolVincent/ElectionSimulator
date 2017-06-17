@@ -6,7 +6,7 @@ using AbstractLibrary.Object;
 using ElectionLibrary.Environment;
 using ElectionLibrary.Character;
 using ElectionLibrary.Parties;
-using ElectionLibrary.Character.Behavior;
+using ElectionLibrary.Object;
 
 namespace ElectionLibrary.Factory
 {
@@ -19,12 +19,6 @@ namespace ElectionLibrary.Factory
             throw new NotImplementedException();
         }
 
-        public override AbstractObject CreateObject()
-        {
-            Console.Write("Create Object");
-            throw new NotImplementedException();
-        }
-
         /********************************************************************
          *                              AREA                                *
          ********************************************************************/
@@ -34,7 +28,7 @@ namespace ElectionLibrary.Factory
 			return null;
 		}
 
-        public ElectionLibrary.Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
+        public Environment.AbstractArea CreateBuilding(Opinion opinion, Position position)
         {
             if(opinion == null || position == null)
             {
@@ -93,7 +87,7 @@ namespace ElectionLibrary.Factory
             return null;
 		}
 
-        public ElectionCharacter CreateActivist(Position position, PoliticalParty party)
+        public AbstractElectionCharacter CreateActivist(Position position, PoliticalParty party)
         {
             if(position == null || party == null)
             {
@@ -104,7 +98,7 @@ namespace ElectionLibrary.Factory
         }
 
 
-        public ElectionCharacter CreateJournalist(Position position)
+        public AbstractElectionCharacter CreateJournalist(Position position)
         {
             if (position == null)
                 throw new ArgumentException();
@@ -112,7 +106,7 @@ namespace ElectionLibrary.Factory
             return new Journalist("", position);
         }
 
-        public ElectionCharacter CreateLeader(Position position, PoliticalParty party)
+        public AbstractElectionCharacter CreateLeader(Position position, PoliticalParty party)
         {
             if (position == null || party == null)
             {
@@ -140,5 +134,25 @@ namespace ElectionLibrary.Factory
 
             return new ElectionAccess(startArea, endArea);
         }
-	}
+
+        /********************************************************************
+         *                              ACCESSES                            *
+         ********************************************************************/
+
+        public override AbstractObject CreateObject()
+        {
+            Console.Write("Create Object");
+            throw new NotImplementedException();
+        }
+
+        public AbstractElectionObject CreatePoster(Position position, PoliticalParty party)
+        {
+            if(position == null || party == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return new Poster("", position, party);
+        }
+    }
 }

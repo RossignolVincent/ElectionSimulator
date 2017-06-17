@@ -9,13 +9,13 @@ namespace ElectionLibrary.Character.Behavior
     {
         private readonly Random random = new Random();
 
-        public abstract Position Move(ElectionCharacter character, AbstractArea area);
+        public abstract Position Move(AbstractElectionCharacter character, AbstractArea area);
 
-        public abstract Position DoSomethingInHQ(ElectionCharacter character, AbstractArea area);
+        public abstract Position DoSomethingInHQ(AbstractElectionCharacter character, AbstractArea area);
 
-        public abstract Position Meeting(ElectionCharacter character, AbstractArea area);
+        public abstract Position Meeting(AbstractElectionCharacter character, AbstractArea area);
 
-        protected AbstractArea GetNextStreet(AbstractArea area, ElectionCharacter character)
+        protected AbstractArea GetNextStreet(AbstractArea area, AbstractElectionCharacter character)
         {
             List<Street> streets = GetStreets(area);
 

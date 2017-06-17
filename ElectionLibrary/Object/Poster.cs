@@ -1,14 +1,15 @@
-﻿using AbstractLibrary.Object;
-using ElectionLibrary.Environment;
+﻿using ElectionLibrary.Environment;
+using ElectionLibrary.Parties;
 
 namespace ElectionLibrary.Object
 {
-    public class Poster : AbstractObject
+    public class Poster : AbstractElectionObject
     {
-        public Position Position { get; set; }
+        public PoliticalParty Party { get; set; }
 
-        public Poster(string name, Position position) : base(name)
+        public Poster(string name, Position position, PoliticalParty party) : base(name, position)
         {
+            Party = party;
         }
     }
 }

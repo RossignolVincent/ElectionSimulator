@@ -11,11 +11,11 @@ namespace ElectionLibrary.Event
     {
         private static Media media;
 
-        private readonly List<ElectionCharacter> characters;
+        private readonly List<AbstractElectionCharacter> characters;
         private System.Random random;
         private Opinion lastPollResult;
 
-        public Media(List<ElectionCharacter> characters)
+        public Media(List<AbstractElectionCharacter> characters)
         {
             this.characters = characters;
             random = new System.Random();
@@ -24,7 +24,7 @@ namespace ElectionLibrary.Event
             RegisterAllJournalistsToMedia();
         }
 
-        public static Media GetInstance(List<ElectionCharacter> characters)
+        public static Media GetInstance(List<AbstractElectionCharacter> characters)
         {
             if(media == null)
             {
@@ -36,7 +36,7 @@ namespace ElectionLibrary.Event
 
         private void RegisterAllJournalistsToMedia()
         {
-            foreach(ElectionCharacter character in characters)
+            foreach(AbstractElectionCharacter character in characters)
             {
                 if(character is Journalist journalist)
                 {
@@ -47,7 +47,7 @@ namespace ElectionLibrary.Event
 
         public void Update(ElectionEvent electionEvent)
         {
-            foreach (ElectionCharacter character in characters)
+            foreach (AbstractElectionCharacter character in characters)
             {
                 if(character is Journalist)
                 {

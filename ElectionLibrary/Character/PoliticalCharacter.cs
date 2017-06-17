@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using ElectionLibrary.Character.Behavior;
+﻿using ElectionLibrary.Character.Behavior;
 using ElectionLibrary.Environment;
 using System;
 using System.Collections.Generic;
@@ -6,11 +6,12 @@ using ElectionLibrary.Algorithm;
 using ElectionLibrary.Character.State;
 using ElectionLibrary.Parties;
 using AbstractLibrary.Character;
+using ElectionLibrary.Object;
 
 namespace ElectionLibrary.Character
 {
     [Serializable]
-    public abstract class PoliticalCharacter : ElectionCharacter
+    public abstract class PoliticalCharacter : AbstractElectionCharacter
     {
 		public PoliticalParty PoliticalParty { get; }
         public Queue<AbstractElectionArea> VisitedElectionAreas { get; }
@@ -48,7 +49,7 @@ namespace ElectionLibrary.Character
             List<Journalist> journalists = new List<Journalist>();
             Random random = new Random();
 
-            foreach (ElectionCharacter character in characters)
+            foreach (AbstractElectionCharacter character in characters)
             {
                 if (character != this)
                 {
