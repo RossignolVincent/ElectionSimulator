@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using AbstractLibrary.Object;
+using ElectionLibrary.Object;
 
 namespace ElectionSimulator
 {
@@ -152,16 +153,16 @@ namespace ElectionSimulator
             {
                 foreach (ElectionLibrary.Environment.AbstractArea area in areaList)
                 {
-                    foreach (AbstractObject obj in area.Objects)
+                    if (area.Objects.Count > 0)
                     {
                         Image objectImage = new Image();
                         BitmapImage objectSource;
-                        objectSource = tl.GetObjectTexture(obj);
+                        objectSource = tl.GetObjectTexture(area.Objects[0]);
                         objectImage.Source = objectSource;
                         Board.Children.Add(objectImage);
                         Grid.SetColumn(objectImage, area.Position.X);
                         Grid.SetRow(objectImage, area.Position.Y);
-                    }        
+                    }
                 }
             }
 
